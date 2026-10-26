@@ -1,6 +1,6 @@
 import {finite,fmt,escapeHTML as esc,segments,mean,correlation} from './data-utils.js';
 export const tile=(p,cls='')=>`<svg class="${cls}" viewBox="0 0 1 1" aria-hidden="true"><use href="assets/tiles.svg#tile-${p.id}" width="1" height="1"/></svg>`;
-const point=(a,r)=>[210+Math.sin(a)*r,210-Math.cos(a)*r];
+const point=(a,r)=>[218+Math.sin(a)*r,218-Math.cos(a)*r];
 const pt=(a,r)=>point(a,r).map(v=>v.toFixed(2)).join(',');
 export function radial(person,data,{native=true,selectedMetric=null}={}){
  selectedMetric=Number.isInteger(selectedMetric)&&selectedMetric>=0&&selectedMetric<data.metrics.length?selectedMetric:null;
@@ -13,23 +13,23 @@ export function radial(person,data,{native=true,selectedMetric=null}={}){
   const angle=selectedMetric*Math.PI/4,edge=Math.PI/8;
   const at=a=>[218+Math.sin(a)*320,218-Math.cos(a)*320].map(n=>n.toFixed(2)).join(',');
   const clipId=`radial-focus-${person.id}-${selectedMetric}`;
-  return `<svg class="radial-svg is-metric-focused" data-selected-metric="${selectedMetric}" data-metric-color="${metric.color}" viewBox="0 0 436 436" role="img" aria-label="${label}"><title>${label}</title><defs><clipPath id="${clipId}"><path d="M218,218 L${at(angle-edge)} L${at(angle+edge)} Z"/><circle cx="218" cy="218" r="44"/><rect x="368" y="367" width="58" height="45"/></clipPath></defs><use href="${source}" width="436" height="436" opacity=".16"/><use class="radial-focus-overlay" href="${source}" width="436" height="436" clip-path="url(#${clipId})"/></svg>`;
+  return `<svg class="radial-svg is-metric-focused" data-selected-metric="${selectedMetric}" data-metric-color="${metric.color}" viewBox="0 0 436 436" role="img" aria-label="${label}"><title>${label}</title><defs><clipPath id="${clipId}"><path d="M218,218 L${at(angle-edge)} L${at(angle+edge)} Z"/><circle cx="218" cy="218" r="44"/><rect x="368" y="367" width="58" height="45"/></clipPath></defs><use href="${source}" width="436" height="436" opacity=".16"/><g class="radial-reference-rings" fill="none" stroke="#c9d0c5" stroke-width=".7">${[44,70.8,97.6,124.4,151.2,178].map(r=>`<circle cx="218" cy="218" r="${r}"/>`).join('')}</g><use class="radial-focus-overlay" href="${source}" width="436" height="436" clip-path="url(#${clipId})"/><g class="radial-reference-scale">${[0,5,10].map(value=>{const radius=44+value*13.4,x=218+Math.sin(Math.PI/8)*radius,y=218-Math.cos(Math.PI/8)*radius;return `<rect x="${x-8.5}" y="${y-11}" width="17" height="15" fill="#fcfbf7"/><text x="${x}" y="${y+4}" text-anchor="middle" font-family="Arial" font-size="11.5" fill="#66716f">${value}</text>`;}).join('')}</g></svg>`;
  }
- let out=`<svg class="radial-svg${metric?' is-metric-focused':''}" ${metric?`data-selected-metric="${selectedMetric}" data-metric-color="${metric.color}"`:''} viewBox="0 0 420 420" role="img" aria-label="${label}"><title>${label}</title>`;
- for(const value of [0,2.5,5,7.5,10])out+=`<circle cx="210" cy="210" r="${38+value*12.6}" fill="none" stroke="#dce1d8" stroke-width=".65"/>`;
+ let out=`<svg class="radial-svg${metric?' is-metric-focused':''}" ${metric?`data-selected-metric="${selectedMetric}" data-metric-color="${metric.color}"`:''} viewBox="0 0 436 436" role="img" aria-label="${label}"><title>${label}</title>`;
+ for(const value of [0,2,4,6,8,10])out+=`<circle cx="218" cy="218" r="${44+value*13.4}" fill="none" stroke="#dce1d8" stroke-width=".65"/>`;
  data.metrics.forEach((m,i)=>{
   const a=i*Math.PI/4,dim=selectedMetric!==null&&selectedMetric!==i;
   out+=`<g class="radial-sector" data-radial-metric="${i}" opacity="${dim?.16:1}"><title>${esc(m.name)}：均值 ${fmt(person.stats[i].mean)}，有效 ${person.stats[i].n} 天</title>`;
-  person.daily.forEach((row,j)=>{if(!finite(row[i]))return;const angle=a-.33+(j+.5)/75*.66;out+=`<line x1="${point(angle,38)[0].toFixed(2)}" y1="${point(angle,38)[1].toFixed(2)}" x2="${point(angle,38+row[i]*12.6)[0].toFixed(2)}" y2="${point(angle,38+row[i]*12.6)[1].toFixed(2)}" stroke="${m.color}" stroke-opacity=".46" stroke-width=".85"/>`;});
+  person.daily.forEach((row,j)=>{if(!finite(row[i]))return;const angle=a-.33+(j+.5)/75*.66;out+=`<line x1="${point(angle,44)[0].toFixed(2)}" y1="${point(angle,44)[1].toFixed(2)}" x2="${point(angle,44+row[i]*13.4)[0].toFixed(2)}" y2="${point(angle,44+row[i]*13.4)[1].toFixed(2)}" stroke="${m.color}" stroke-opacity=".46" stroke-width=".85"/>`;});
   const s=person.stats[i];
   if(finite(s.mean)){
-   const p=point(a,38+s.mean*12.6),sd=s.sd||0,lo=point(a,38+Math.max(0,s.mean-sd)*12.6),hi=point(a,38+Math.min(10,s.mean+sd)*12.6);
+   const p=point(a,44+s.mean*13.4),sd=s.sd||0,lo=point(a,44+Math.max(0,s.mean-sd)*13.4),hi=point(a,44+Math.min(10,s.mean+sd)*13.4);
    out+=`<path d="M${lo.join(',')}L${hi.join(',')}" stroke="${m.color}" stroke-width="1.5"/><circle cx="${p[0]}" cy="${p[1]}" r="3.7" fill="${m.color}"/>`;
   }
-  const ref=data.referenceMeans[i];if(finite(ref)){const p=point(a+.15,38+ref*12.6);out+=`<circle cx="${p[0]}" cy="${p[1]}" r="3.8" stroke="${m.color}" fill="#fcfbf7" stroke-width="1.2"/>`;}
-  const p=point(a,190);out+=`<text x="${p[0]}" y="${p[1]+4}" text-anchor="middle" fill="${m.color}" font-size="12" font-family="Arial">0${i+1}</text></g>`;
+  const ref=data.referenceMeans[i];if(finite(ref)){const p=point(a+.15,44+ref*13.4);out+=`<circle cx="${p[0]}" cy="${p[1]}" r="3.8" stroke="${m.color}" fill="#fcfbf7" stroke-width="1.2"/>`;}
+  const p=point(a,191);out+=`<text x="${p[0]}" y="${p[1]+4}" text-anchor="middle" fill="${m.color}" font-size="17" font-family="Arial">0${i+1}</text></g>`;
  });
- out+=`<circle cx="210" cy="210" r="37" fill="#fcfbf7"/><text x="210" y="211" text-anchor="middle" fill="#253234" font-family="Georgia,serif" font-size="28">${person.displayId}</text><text x="210" y="231" text-anchor="middle" fill="#677571" font-size="11">${person.days}天</text><text x="224" y="163" fill="#677571" font-size="8">0</text><text x="247" y="108" fill="#677571" font-size="8">5</text><text x="272" y="51" fill="#677571" font-size="8">10</text><svg x="348" y="354" width="55" height="43" viewBox="0 0 1 1" preserveAspectRatio="none"><use href="assets/tiles.svg#tile-${person.id}" width="1" height="1"/></svg></svg>`;
+ out+=`<circle cx="218" cy="218" r="43.3" fill="#fcfbf7"/><text x="218" y="216" text-anchor="middle" fill="#253234" font-family="Georgia,serif" font-size="37">${person.displayId}</text><text x="218" y="242" text-anchor="middle" fill="#677571" font-size="17">${person.days}天</text>${[0,5,10].map(value=>{const p=point(Math.PI/8,44+value*13.4);return `<rect x="${p[0]-8.5}" y="${p[1]-11}" width="17" height="15" fill="#fcfbf7"/><text x="${p[0]}" y="${p[1]+4}" text-anchor="middle" fill="#677571" font-size="11.5">${value}</text>`;}).join('')}<svg x="368" y="367" width="58" height="45" viewBox="0 0 1 1" preserveAspectRatio="none"><use href="assets/tiles.svg#tile-${person.id}" width="1" height="1"/></svg></svg>`;
  return out;
 }
 export function avatar(person,cls=''){

@@ -1,0 +1,170 @@
+{
+  "allPassed": true,
+  "testedArtifact": "dist/loneliness-atlas.html",
+  "previewMode": "same self-contained HTML served over local HTTP",
+  "fileProtocolTest": "Not run: browser tool security policy disallows file://; no alternative file-protocol action attempted.",
+  "externalAssetDependencies": 0,
+  "checks": [
+    {
+      "test": "fit-all shows complete 515-person grid",
+      "pass": true,
+      "result": {
+        "gridHeight": 456,
+        "gridWidth": 456,
+        "viewportHeight": 488,
+        "viewportWidth": 1112,
+        "zoom": "全图"
+      }
+    },
+    {
+      "test": "profile defaults to single loneliness and provides atlas return",
+      "pass": true,
+      "result": {
+        "metric": "0",
+        "readout": "孤独感 · 有效 75/75 天 · 均值 3.44 分",
+        "returnVisible": true
+      }
+    },
+    {
+      "test": "profile text does not trigger a flip",
+      "pass": true
+    },
+    {
+      "test": "return restores atlas zoom, sort and person",
+      "pass": true,
+      "result": {
+        "current": "当前关注 · 编号 498",
+        "dialogOpen": false,
+        "hash": "#overview",
+        "sort": "high",
+        "top": 228,
+        "zoom": "200%"
+      }
+    },
+    {
+      "test": "comparison full-color mode and sticky toolbar",
+      "pass": true,
+      "result": {
+        "focused": 0,
+        "hash": "#compare?ids=1478%2C1498&metric=2&focus=all",
+        "toolbarPosition": "sticky",
+        "visiblePanel": [
+          "compare-view-overview"
+        ]
+      }
+    },
+    {
+      "test": "daily view preserves shared centered scale and share URL",
+      "pass": true,
+      "result": {
+        "chart": "2人逐日评分，D1至D75，减去全期个人均值，共用负10至正10刻度；缺失日断开连线",
+        "hash": "#compare?ids=1478%2C1498&metric=2&align=centered&view=daily&focus=all",
+        "visiblePanel": [
+          "compare-view-daily"
+        ]
+      }
+    },
+    {
+      "test": "mobile full-width circles and paired numeric summary without overflow",
+      "pass": true,
+      "result": {
+        "circles": [
+          337.2083435058594,
+          337.2083435058594
+        ],
+        "layout": "single",
+        "scrollWidth": 375,
+        "settings": "false",
+        "summaries": 2,
+        "toolbarHeight": 138,
+        "width": 390
+      }
+    },
+    {
+      "test": "mobile paired view remains available",
+      "pass": true,
+      "result": {
+        "circles": [
+          161.6041717529297,
+          161.6041717529297
+        ],
+        "layout": "paired"
+      }
+    },
+    {
+      "test": "mobile settings expands accessibly",
+      "pass": true
+    },
+    {
+      "test": "real pointer drag pans zoomed atlas without opening a profile",
+      "pass": true,
+      "result": {
+        "before": 0,
+        "after": 158.6666717529297
+      }
+    },
+    {
+      "test": "standalone keeps inline sprites and scoped atlas toolbar",
+      "pass": true,
+      "result": {
+        "browserWrapper": true,
+        "externalUses": 0,
+        "guideOutside": true,
+        "tileCount": 515
+      }
+    },
+    {
+      "test": "hover updates a fixed day/date/value readout in the standalone profile",
+      "pass": true,
+      "result": {
+        "activeDay": "12",
+        "dialogClient": 361,
+        "dialogScroll": 361,
+        "readout": "D13 · 2020-03-26 · 孤独感：4.00 分",
+        "viewport": 390
+      }
+    },
+    {
+      "test": "320px cover has no overflow and no footer selection collision",
+      "pass": true,
+      "result": {
+        "scrollWidth": 305,
+        "tiles": 515,
+        "trayHidden": true,
+        "width": 320
+      }
+    },
+    {
+      "test": "320px profile retains all fields without horizontal overflow or back-face clipping",
+      "pass": true,
+      "result": {
+        "client": 447,
+        "dialogScroll": 291,
+        "dialogWidth": 291,
+        "rows": 7,
+        "scroll": 447,
+        "width": 320
+      }
+    },
+    {
+      "test": "longest baseline profile fits the narrow-screen card",
+      "pass": true,
+      "result": {
+        "client": 480,
+        "dialogScroll": 291,
+        "dialogWidth": 291,
+        "scroll": 480
+      }
+    },
+    {
+      "test": "embedded vector poster displays and downloads without external assets",
+      "pass": true,
+      "result": {
+        "downloadEmbedded": true,
+        "embedded": true,
+        "open": true,
+        "width": 3179
+      }
+    }
+  ]
+}

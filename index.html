@@ -34,11 +34,11 @@
         <div class="section-heading"><div><p class="eyebrow">01 / THE COLLECTIVE PORTRAIT</p><h2 id="overview-title">孤独有形，<span>日常有迹。</span></h2></div><p class="section-intro">515 个格子，515 条生活轨迹。<br>颜色记录感受，空白也有自己的位置。</p></div>
         <div class="atlas-layout">
           <div class="atlas-main">
-            <div class="atlas-toolbar"><div class="segmented" aria-label="查看方式"><button data-mode="tiles" aria-pressed="true">人物格子</button><button data-mode="matrix" aria-pressed="false">逐日矩阵</button></div><div class="zoom-controls"><button id="zoom-out" aria-label="缩小格子">−</button><output id="zoom-label">100%</output><button id="zoom-in" aria-label="放大格子">＋</button><button id="zoom-reset" aria-label="还原缩放">重置</button></div></div>
+            <div class="atlas-browser"><div class="atlas-toolbar"><div class="segmented" aria-label="查看方式"><button data-mode="tiles" aria-pressed="true">人物格子</button><button data-mode="matrix" aria-pressed="false">逐日矩阵</button></div><div class="zoom-controls"><button id="zoom-out" aria-label="缩小格子">−</button><output id="zoom-label">100%</output><button id="zoom-in" aria-label="放大格子">＋</button><button id="zoom-reset" aria-label="适配全图">适配全图</button><button id="focus-person" aria-label="聚焦当前人物" disabled>聚焦人物</button></div></div>
             <div class="overview-sorting"><label for="overview-sort">重新排列这 515 个人</label><select id="overview-sort" aria-describedby="overview-sort-note"></select><p id="overview-sort-note" aria-live="polite"></p></div>
-            <div class="mosaic-scroll" id="mosaic-scroll" tabindex="0" aria-label="可缩放的人群图；方向键在格子间移动，回车查看人物"><div id="mosaic" class="mosaic" role="group" aria-label="515个人的75天日记"></div></div>
-            <div class="scale-row"><span>双题孤独均分</span><span>0</span><div class="color-scale"></div><span>10</span><span class="missing-key">缺失</span></div>
-            <p class="micro-note">点选格子查看人物；Shift 点选加入对比。切换排序只改变人物位置，人物格子与逐日矩阵使用同一顺序。</p>
+            <div class="overview-instruction"><span>一大格 = 一人 · 内部 15 × 5 小格 = D01—D75</span><output id="mosaic-current" aria-live="polite">先看全图，点一格走近这个人</output></div><div class="mosaic-scroll" id="mosaic-scroll" tabindex="0" aria-label="可缩放的人群图；放大后可拖动；方向键移动，回车查看人物"><div id="mosaic" class="mosaic" role="group" aria-label="515个人的75天日记"></div></div>
+            <div class="scale-row"><span>双题孤独均分</span><span>0</span><div class="color-scale"></div><span>10</span><span class="missing-key">缺失</span></div></div>
+            <p class="micro-note">点格子查看人物；放大后拖动浏览，键盘方向键也可移动。Shift 点选可加入对比；手机在人物卡里点「加入对比」。排序只改变位置，不改变分数。</p>
             <section class="tile-guide" aria-labelledby="tile-guide-title">
               <div class="tile-guide-heading"><p class="eyebrow">HOW TO READ A TILE</p><h3 id="tile-guide-title">一格，一个人的 75 天。</h3><p>把一段日常缩进一个格子，也保留它的起伏与空白。</p></div>
               <figure class="tile-example"><div id="tile-example"></div><figcaption id="tile-example-caption"></figcaption></figure>
@@ -57,8 +57,8 @@
       <div class="section-heading"><div><p class="eyebrow">02 / INDIVIDUAL STORIES</p><h2 id="archives-title">走近，<span>一个人的日常。</span></h2></div><p class="section-intro">8 个观察维度。<br>点开一张卡片，翻面认识图形背后的人。</p></div>
       <div class="archive-tools"><label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></svg><span class="sr-only">搜索展示编号或原始 ID</span><input id="person-search" type="search" placeholder="找一个人：122 或 1122" autocomplete="off"></label><label class="archive-scope"><span class="sr-only">档案范围</span><select id="archive-scope"><option value="featured">原海报精选 · 27 人</option><option value="all">全部参与者 · 515 人</option></select></label><label class="archive-sort"><span class="sr-only">排序</span><select id="archive-sort" aria-describedby="archive-sort-note"></select></label><output id="archive-count">27 份档案</output></div>
       <p id="archive-sort-note" class="sort-note" aria-live="polite"></p>
-      <div class="metric-legend" id="archive-legend" aria-label="八项指标图例"></div>
-      <details class="radial-guide" open>
+      <details class="cohort-guide"><summary>为什么是这 27 个人？<span>515 → 192 → 27</span></summary><div id="cohort-explanation"></div></details><div class="metric-legend" id="archive-legend" aria-label="八项指标图例"></div>
+      <details class="radial-guide">
         <summary>圆图怎么读？<span>从一天的评分，到一个人的日常</span></summary>
         <div class="radial-guide-body">
           <figure><div id="radial-guide-example"></div><figcaption>真实示例 · 编号 478<br>8 个同色扇区，对应上方 01—08 八项指标。</figcaption></figure>
@@ -77,7 +77,15 @@
     <section data-page="compare" class="section-wrap compare-page" hidden aria-labelledby="compare-title">
       <div class="section-heading"><div><p class="eyebrow">03—04 / EVERYDAY CONTRASTS</p><h2 id="compare-title">相似的感受，<span>不同的日常。</span></h2></div><p class="section-intro">把两个人放在一起，或选出自己的比较。<br>共同的刻度，留住每个人的差异。</p></div>
       <div class="comparison-presets"><button data-preset="1478,1498" class="preset"><span>03 / 同分镜像</span><strong>相同孤独，不同日常 <span>↗</span></strong><small>478 + 498 · 孤独感均值同为 3.44</small></button><button data-preset="1113,1045" class="preset"><span>04 / 个人均值对照</span><strong>不同水平，共同变化 <span>↗</span></strong><small>113 + 45 · 回到各自的日常</small></button></div>
-      <div class="compare-controls"><label>观察维度 <select id="compare-metric"></select></label><div class="segmented"><button data-alignment="raw" aria-pressed="true">原始评分</button><button data-alignment="centered" aria-pressed="false">相对个人均值</button></div><label class="day-range">入组日次 <input id="day-start" type="number" min="1" max="75" value="1" aria-label="开始日次"><span>—</span><input id="day-end" type="number" min="1" max="75" value="75" aria-label="结束日次"></label><button id="apply-range" class="range-apply">应用范围 ↗</button><a class="quiet-button" href="#archives">＋ 自选人物</a><button id="clear-comparison" class="quiet-button">清空选择</button></div>
+      <div class="compare-workbench" id="compare-workbench" data-view="overview">
+        <div class="compare-toolbar-top"><p id="compare-context"></p><button id="compare-settings-toggle" class="quiet-button" type="button" aria-expanded="false" aria-controls="compare-settings">范围与设置 ＋</button></div>
+        <div id="compare-settings"><div class="compare-controls"><label>观察维度 <select id="compare-metric"></select></label><div class="segmented" data-daily-only><button data-alignment="raw" aria-pressed="true">原始评分</button><button data-alignment="centered" aria-pressed="false">相对个人均值</button></div><label class="day-range">入组日次 <input id="day-start" type="number" min="1" max="75" value="1" aria-label="开始日次"><span>—</span><input id="day-end" type="number" min="1" max="75" value="75" aria-label="结束日次"></label><button id="apply-range" class="range-apply">应用范围 ↗</button><a class="quiet-button" href="#archives">＋ 自选人物</a><button id="clear-comparison" class="quiet-button">清空选择</button></div></div>
+        <div class="compare-view-tabs" role="tablist" aria-label="对比视图">
+          <button id="compare-tab-overview" role="tab" data-compare-view="overview" aria-controls="compare-view-overview" aria-selected="true">日常轮廓</button>
+          <button id="compare-tab-daily" role="tab" data-compare-view="daily" aria-controls="compare-view-daily" aria-selected="false" tabindex="-1">逐日变化</button>
+          <button id="compare-tab-score" role="tab" data-compare-view="score" aria-controls="compare-view-score" aria-selected="false" tabindex="-1">同分对照</button>
+        </div>
+      </div>
       <div id="comparison-content"></div>
       <div class="comparison-reading"><span class="reading-index">读图 / 03</span><p id="comparison-note">自选 2—4 人，对照他们的日常轨迹。</p></div>
     </section>
@@ -90,7 +98,7 @@
   </main>
   <footer class="site-footer"><a href="#home">看见孤独 <span>THE SHAPE OF LONELINESS</span></a><p>每个格子之后，都有一段具体的生活。</p><a href="#method">数据与读图说明 ↗</a></footer>
   <aside id="selection-tray" class="selection-tray" hidden aria-label="已选对比人物"><span class="tray-label">我的对照 <strong id="selection-count">0/4</strong></span><div id="selected-people"></div><a id="compare-link" class="primary-link" href="#compare">开始对比 <span>↗</span></a></aside>
-  <dialog id="person-dialog" class="person-dialog" aria-labelledby="person-dialog-title"><div class="dialog-toolbar"><span id="person-dialog-title">PERSONAL ARCHIVE / 人物档案</span><button id="close-person" aria-label="关闭人物档案">✕</button></div><div class="flip-scene"><div class="flip-card" id="flip-card"><section class="card-face card-front" id="card-front" aria-label="图表正面"></section><section class="card-face card-back" id="card-back" aria-label="人物档案背面" aria-hidden="true" inert></section></div></div><div class="dialog-actions"><button id="flip-person" class="flip-button" aria-pressed="false"><span aria-hidden="true">⤾</span> 翻面 · 认识这个人</button><button id="select-person" class="primary-link">＋ 加入对比</button></div><div id="person-detail" class="person-detail"></div></dialog>
+  <dialog id="person-dialog" class="person-dialog" aria-labelledby="person-dialog-title"><div class="dialog-toolbar"><span id="person-dialog-title">PERSONAL ARCHIVE / 人物档案</span><button id="close-person" aria-label="关闭人物档案">✕</button></div><div class="flip-scene"><div class="flip-card" id="flip-card"><section class="card-face card-front" id="card-front" aria-label="图表正面"></section><section class="card-face card-back" id="card-back" aria-label="人物档案背面" aria-hidden="true" inert></section></div></div><div class="dialog-actions"><button id="return-to-atlas" class="quiet-button" hidden>← 返回刚才的格子</button><button id="flip-person" class="flip-button" aria-pressed="false"><span aria-hidden="true">⤾</span> 翻面 · 认识这个人</button><button id="jump-to-days" class="quiet-button" type="button">查看75天 ↓</button><button id="select-person" class="primary-link">＋ 加入对比</button></div><div id="person-detail" class="person-detail"></div></dialog>
   <dialog id="poster-dialog" class="poster-dialog" aria-labelledby="poster-title"><div class="dialog-toolbar"><span id="poster-title">海报原稿</span><div class="zoom-controls"><button id="poster-minus" aria-label="缩小海报">−</button><output id="poster-scale">100%</output><button id="poster-plus" aria-label="放大海报">＋</button><button id="close-poster" aria-label="关闭海报">✕</button></div></div><div class="poster-viewport" id="poster-viewport"><img id="poster-image" alt="可放大的海报矢量原稿"></div><a id="poster-download" download>下载矢量 SVG ↗</a></dialog>
   <div id="tooltip" class="tooltip" role="tooltip" hidden></div><div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 </body>
