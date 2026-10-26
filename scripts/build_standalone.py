@@ -20,7 +20,7 @@ def sprite(name):
  return ET.tostring(root,encoding='unicode')
 
 def build(output):
- names=['index.html','styles.css','data/study.json','data-utils.js','sorting.js','charts.js','hero-motion.js','view-utils.js','app.js']+[f'assets/{name}'for name in ['tiles.svg','radials.svg','poster-1.svg','poster-2.svg','poster-3.svg','poster-4.svg']]
+ names=['index.html','styles.css','data/study.json','data-utils.js','sorting.js','charts.js','hero-motion.js','view-utils.js','coverage.js','coverage-view.js','app.js']+[f'assets/{name}'for name in ['tiles.svg','radials.svg','poster-1.svg','poster-2.svg','poster-3.svg','poster-4.svg']]
  digest=hashlib.sha256()
  for name in names:digest.update((name+'\0').encode());digest.update((ROOT/name).read_bytes())
  html=(ROOT/'index.html').read_text(encoding='utf-8-sig');css=(ROOT/'styles.css').read_text(encoding='utf-8-sig')
@@ -29,7 +29,7 @@ def build(output):
  posters={str(i):'data:image/svg+xml;base64,'+base64.b64encode((ROOT/f'assets/poster-{i}.svg').read_bytes()).decode('ascii')for i in range(1,5)}
  html=re.sub(r'src="assets/poster-([1-4])\.svg"',lambda m:'data-poster-image="'+m[1]+'"',html)
  parts=[]
- for name in ['data-utils.js','sorting.js','charts.js','hero-motion.js','view-utils.js','app.js']:
+ for name in ['data-utils.js','sorting.js','charts.js','hero-motion.js','view-utils.js','coverage.js','coverage-view.js','app.js']:
   code=(ROOT/name).read_text(encoding='utf-8-sig')
   code=re.sub(r'^import\s+.*?;\s*$', '',code,flags=re.M)
   code=re.sub(r'^export\s+', '',code,flags=re.M)

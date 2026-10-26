@@ -11,7 +11,7 @@
   <a class="skip-link" href="#main">跳到主要内容</a>
   <header class="site-header">
     <a class="wordmark" href="#home" aria-label="看见孤独 首页"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M0 0h7v7H0zM9 0h7v7H9zM0 9h7v7H0zM9 9h7v7H9zM18 9h6v7h-6zM9 18h7v6H9z"/></svg><span>看见孤独<span class="wordmark-en">THE SHAPE OF LONELINESS</span></span></a>
-    <nav aria-label="主要导航"><a href="#overview" data-nav="overview"><span>01</span> 人群总览</a><a href="#archives" data-nav="archives"><span>02</span> 人物档案</a><a href="#compare" data-nav="compare"><span>03</span> 日常对照</a></nav>
+    <nav aria-label="主要导航"><a href="#overview" data-nav="overview"><span>01</span> 人群总览</a><a href="#archives" data-nav="archives"><span>02</span> 人物档案</a><a href="#compare" data-nav="compare"><span>03</span> 日常对照</a><a href="#outsiders" data-nav="outsiders"><span>04</span> 局外人</a></nav>
     <a class="header-note" href="#method">关于这项研究 <span aria-hidden="true">↗</span></a>
   </header>
   <main id="main" tabindex="-1">
@@ -50,7 +50,7 @@
             </section>
           </div>
         </div>
-        <div class="reading-strip"><span class="reading-index">读图 / 01</span><p><strong>深浅记录的是感受，不是一个人的全部。</strong> 先看 515 人的差异，再走近每个人自己的变化。</p><a href="#archives">27 份完整档案 <span>→</span></a></div>
+        <div class="reading-strip"><span class="reading-index">读图 / 01</span><p><strong>深浅记录的是感受，不是一个人的全部。</strong> 先看 515 人的差异，再走近每个人自己的变化。</p><a href="#archives">完整档案 <span>→</span></a></div>
       </section>
     </section>
     <section data-page="archives" class="section-wrap archive-page" hidden aria-labelledby="archives-title">
@@ -88,6 +88,13 @@
       </div>
       <div id="comparison-content"></div>
       <div class="comparison-reading"><span class="reading-index">读图 / 03</span><p id="comparison-note">自选 2—4 人，对照他们的日常轨迹。</p></div>
+    </section>
+    <section data-page="outsiders" class="section-wrap coverage-page" hidden aria-labelledby="coverage-title">
+      <div class="section-heading"><div><p class="eyebrow">04 / BEYOND THE OBSERVED</p><h2 id="coverage-title">局外人，<span>未被完整看见的日常。</span></h2></div><p class="section-intro">灰色不是零分，也不是一个人的全部。<br>这一次，从记录的空白开始看。</p></div>
+      <div class="coverage-method"><div><span class="coverage-kicker">先定义，再观察</span><h3>为什么默认选 ≤ 15 天？</h3><p>每人有 D01—D75 共 75 个格子。默认纳入<strong>有效双题日不超过 15 天</strong>的人：覆盖率 ≤ 20%，也就是至少 80% 的格子为灰色。用固定覆盖率而非按人数硬取末尾一组，门槛的含义更直观；15 天是本页的探索性选择，<strong>不是统计学公认界限或原研究排除标准</strong>。可切换更严格的 7 天或更宽松的 30 天，观察结论是否依赖门槛。</p></div><div><span class="coverage-kicker">“局外人”只指数据覆盖</span><h3>少被看见，不等于主动离开。</h3><p>有效日按总览口径计算：当天 loneliness 与 left_out 两题均有效，才有双题分。灰格可能是没有日记，也可能只是缺题。这里数的是<strong>无法计算双题分的格子</strong>，不把它等同于没有参与。现有数据不足以确定漏填、退出或记录结束的原因；也不能据此给人贴上孤独、消极或不合群的标签。</p></div></div>
+      <div class="coverage-controls"><label for="coverage-threshold">定义「记录很少」</label><select id="coverage-threshold" aria-describedby="coverage-status"><option value="7">≤ 7 天 · 更严格</option><option value="15" selected>≤ 15 天 · 默认（20%）</option><option value="30">≤ 30 天 · 更宽松</option></select><button id="coverage-jump" class="quiet-button" type="button">查看人物格子 ↓</button><p id="coverage-status" role="status" aria-live="polite"></p></div>
+      <div id="coverage-content"></div>
+      <div class="reading-strip"><span class="reading-index">读图 / 04</span><p>我们描述的是这份样本的记录覆盖差异，不推断缺失原因，也不把样本特征推广到所有人。</p><a href="#method">数据与读图说明 ↗</a></div>
     </section>
     <section data-page="method" class="section-wrap method-page" hidden aria-labelledby="method-title">
       <p class="eyebrow">A NOTE ON THE DATA</p><h2 id="method-title">让数据说到，<br><span>它能说到的地方。</span></h2>

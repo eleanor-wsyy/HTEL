@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node scripts/serve.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check app.js && node --check charts.js && node --check view-utils.js && node --check hero-motion.js && node --check scripts/serve.mjs",
+    "check": "node --check app.js && node --check charts.js && node --check coverage.js && node --check coverage-view.js && node --check view-utils.js && node --check hero-motion.js && node --check scripts/serve.mjs",
     "build:standalone": "python scripts/build_standalone.py"
   },
   "engines": {

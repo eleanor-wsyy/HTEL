@@ -69,7 +69,7 @@ export function timeline(people,metric,{centered=false,start=1,end=75}={}){
  for(const d of days)s+=`<text x="${x(d)}" y="${H-14}" text-anchor="middle" font-size="10" fill="#66716f">D${String(d).padStart(2,'0')}</text>`;
  people.forEach((p,i)=>{
   const ref=centered?p.stats[metric].mean:0,values=p.daily.slice(start-1,end).map(r=>finite(r[metric])&&finite(ref)?r[metric]-ref:null);
-  for(const line of segments(values))s+=`<path d="${line.map(([j,v],k)=>(k?'L':'M')+x(j+start).toFixed(2)+','+y(v).toFixed(2)).join('')}" fill="none" stroke="${personColors[i]}" stroke-width="1.6" ${i===1?'stroke-dasharray="6 3"':''}/>`;
+  for(const line of segments(values))s+=`<path d="${line.map(([j,v],k)=>(k?'L':'M')+x(j+start).toFixed(2)+','+y(v).toFixed(2)).join('')}" fill="none" stroke="${personColors[i]}" stroke-width="2.8" stroke-linejoin="round" vector-effect="non-scaling-stroke" ${i===1?'stroke-dasharray="6 3"':''}/>`;
   values.forEach((v,j)=>{if(!finite(v))return;s+=`<circle cx="${x(j+start)}" cy="${y(v)}" r="3.4" fill="${personColors[i]}" fill-opacity=".12" stroke="${personColors[i]}" stroke-width=".5" data-tip="${p.displayId} · D${j+start} · ${p.dates[j+start-1]||'日期未报告'} · ${centered?'相对均值 ':''}${fmt(v)}分" tabindex="0" role="img" aria-label="编号${p.displayId}，D${j+start}，${fmt(v)}分"><title>${p.displayId} · D${j+start} · ${fmt(v)}</title></circle>`;});
  });return s+'</svg>';
 }

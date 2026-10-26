@@ -1,0 +1,22 @@
+import {finite,escapeHTML as esc} from './data-utils.js';
+import {tile} from './charts.js';
+import {coverageGroups,coverageBins,coverageFields,coverageComparison,observedDays} from './coverage.js';
+
+const coveragePct=value=>finite(value)?(value*100).toFixed(1)+'%':'—';
+export function coverageMarkup(people,threshold){
+ const {limit,low,rest}=coverageGroups(people,threshold);
+ const stats=`<div class="coverage-stats"><div><strong>${low.length}<small> / ${people.length} 人</small></strong><span>低覆盖组 · 占全部 ${coveragePct(low.length/people.length)}</span></div><div><strong>≤ ${limit}<small> / 75 天</small></strong><span>有效双题日 · 覆盖率 ≤ ${coveragePct(limit/75)}</span></div><div><strong>≥ ${75-limit}<small> 个灰格</small></strong><span>每个人的 75 格中，无法计算双题分的日次</span></div></div>`;
+ const bins=coverageBins(people),max=Math.max(1,...bins.map(b=>b.count));
+ const distribution=`<section class="coverage-section"><div class="coverage-section-head"><h3>先看，记录落在哪里。</h3><p>全部 ${people.length} 人 · 横轴为有效双题天数，柱高为人数。实心框标出当前纳入区间。</p></div><div class="coverage-histogram" role="img" aria-label="有效双题天数分布：${bins.map(b=>`${b.label} 天 ${b.count} 人${b.max<=limit?'，纳入低覆盖组':''}`).join('；')}">${bins.map(b=>`<div class="coverage-bin ${b.max<=limit?'included':''}"><strong>${b.count}<small> 人</small></strong><div class="coverage-bin-track"><i style="height:${b.count/max*100}%"></i></div><span>${b.label}</span><small>${b.max<=limit?'纳入':'天'}</small></div>`).join('')}</div></section>`;
+ const count=(group,key,label)=>group.filter(p=>p.profile[key]===label).length;
+ const women=count(low,'gender','女性'),men=count(low,'gender','男性');
+ const lowIncome=group=>group.filter(p=>['低于 $9,999','$10,000 - $19,999','$20,000 - $39,999'].includes(p.profile.income)).length;
+ const summary=`<div class="coverage-insights"><article><span>01 / 性别</span><h3>人数多，不等于更容易缺失。</h3><p>低覆盖组中女性 ${women} 人（${coveragePct(women/low.length)}），男性 ${men} 人（${coveragePct(men/low.length)}）。其余参与者中，女性占 ${coveragePct(count(rest,'gender','女性')/rest.length)}，男性占 ${coveragePct(count(rest,'gender','男性')/rest.length)}。请结合两组构成阅读，而非只看人数。</p></article><article><span>02 / 年收入</span><h3>比较区间，不猜测工资。</h3><p>三个低于 $40,000 的原始区间合计：低覆盖组 ${lowIncome(low)} / ${low.length} 人（${coveragePct(lowIncome(low)/low.length)}），其余组 ${lowIncome(rest)} / ${rest.length} 人（${coveragePct(lowIncome(rest)/rest.length)}）。来源是美元年收入分档，不是精确工资，也不能说明收入造成记录缺失。</p></article></div>`;
+ const panels=coverageFields.map(field=>{
+  const rows=coverageComparison(low,rest,field);
+  return `<section class="coverage-panel"><h4>${field.name}</h4><div class="coverage-axis" aria-hidden="true"><span>组内占比 0%</span><span>50%</span><span>100%</span></div><ul>${rows.map(r=>`<li><div class="coverage-row-head"><span>${esc(r.label)}</span><span class="coverage-delta">${finite(r.delta)?`${r.delta>0?'+':''}${r.delta.toFixed(1)} 个百分点`:'—'}</span></div><div class="coverage-dotline" aria-hidden="true"><i class="coverage-dot solid" style="left:${(r.share||0)*100}%"></i><i class="coverage-dot hollow" style="left:${(r.reference||0)*100}%"></i></div><div class="coverage-values"><span>● ${r.n}/${low.length} · ${coveragePct(r.share)}</span><span>○ ${r.other}/${rest.length} · ${coveragePct(r.reference)}</span></div></li>`).join('')}</ul></section>`;
+ }).join('');
+ const comparison=`<section class="coverage-section"><div class="coverage-section-head"><h3>他们，与其余人有什么不同？</h3><p>每项均以本组全部人数作分母，未报告也保留。差值 = 低覆盖组占比 − 其余组占比；不是统计显著性或因果证据；人数很少的类别尤其需谨慎。</p></div><p class="coverage-key"><span><b>●</b> 低覆盖组 · ${low.length} 人</span><span><b>○</b> 其余参与者 · ${rest.length} 人</span><span>同一条 0–100% 刻度 · 上下标记位置相近表示占比相近</span></p>${summary}<div class="coverage-panels">${panels}</div></section>`;
+ const gallery=`<section class="coverage-section"><div class="coverage-section-head"><h3 id="coverage-people-title" tabindex="-1">灰格之后，仍然是具体的人。</h3><p>${low.length} 人 · 按有效双题天数从少到多，并列按编号。点击格子打开原有人物档案，再翻面看资料。</p></div><p class="coverage-caveat">格子的颜色直接沿用总览与档案小格：彩色仍是双题孤独分，灰色仍是缺失，不用颜色编码性别或收入。“日记记录日”与“有效双题日”可能不同；有日记但缺少任一题，也会留下灰格。</p><div class="coverage-people">${low.map(p=>`<button class="coverage-person" data-person="${p.id}" aria-label="打开编号 ${p.displayId} 的人物档案，${observedDays(p)} 个有效双题日，${75-observedDays(p)} 个灰格">${tile(p)}<strong>编号 ${p.displayId}</strong><span>${observedDays(p)} / 75 有效双题日</span><small>${p.days} 个日记记录日 · ${75-observedDays(p)} 个灰格</small></button>`).join('')}</div></section>`;
+ return stats+distribution+comparison+gallery;
+}

@@ -22,7 +22,7 @@ test('standalone includes four complete vector posters and avoids duplicate arch
 });
 test('standalone is built from the current sources, not a stale generated copy',{skip:!available},async()=>{
  const {createHash}=await import('node:crypto');const hash=createHash('sha256');
- const names=['index.html','styles.css','data/study.json','data-utils.js','sorting.js','charts.js','hero-motion.js','view-utils.js','app.js',...['tiles.svg','radials.svg','poster-1.svg','poster-2.svg','poster-3.svg','poster-4.svg'].map(n=>'assets/'+n)];
+ const names=['index.html','styles.css','data/study.json','data-utils.js','sorting.js','charts.js','hero-motion.js','view-utils.js','coverage.js','coverage-view.js','app.js',...['tiles.svg','radials.svg','poster-1.svg','poster-2.svg','poster-3.svg','poster-4.svg'].map(n=>'assets/'+n)];
  for(const name of names){hash.update(name+'\0');hash.update(await readFile(new URL('../'+name,import.meta.url)));}
  const html=await readFile(file,'utf8');assert.equal(html.match(/name="atlas-source-sha256" content="([^"]+)"/)[1],hash.digest('hex'));
 });

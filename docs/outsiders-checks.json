@@ -1,0 +1,31 @@
+{
+  "baseCommit": "53bc005",
+  "tests": {
+    "passed": 51,
+    "failed": 0
+  },
+  "checks": {
+    "defaultThreshold": 15,
+    "defaultLowGroup": 49,
+    "defaultReferenceGroup": 466,
+    "threshold7": 32,
+    "threshold30": 91,
+    "demographicPanels": 6,
+    "desktopOverflow": false,
+    "mobileOverflow": false,
+    "mobileCSSViewportWidth": 354,
+    "profile117OpenedOnSameRoute": true,
+    "profileFlipWorks": true,
+    "profileCloseRestoresFocus": "1117",
+    "mobileProfile108NoOverflow": true,
+    "jumpToPeopleFocus": "coverage-people-title",
+    "browserErrors": [],
+    "standaloneThreshold7People": 32,
+    "standaloneEmbeddedTile": "#tile-1117"
+  },
+  "notes": [
+    "Counts use non-missing composite heat entries, not submitted diary dates.",
+    "UI verification of standalone performed via localhost HTTP; no claim of file protocol browser testing.",
+    "Original tile symbols and metric colors are reused without demographic hue assignments."
+  ]
+}
