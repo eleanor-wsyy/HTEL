@@ -2,6 +2,12 @@
 
 从人群总览走进人物日记，再自由选人对比的静态数据叙事网站。无运行时第三方依赖，无追踪器，无远程 API，无构建步骤；所有图表在浏览器本地渲染。
 
+## 预览
+
+![桌面首屏](docs/preview-desktop.png)
+
+手机首屏与翻面档案见 [手机首屏](docs/preview-mobile.png)、[人物档案卡](docs/preview-profile.png)。
+
 ## 本地运行
 
 需要 Node.js 20 或更新版本，无需 `npm install`。
@@ -74,3 +80,9 @@ python scripts/build_data.py --source "原始CSV所在目录" --artwork "原工�
 - 研究：Kuczynski, A. M., Halvorson, M. A., Slater, L. R., & Kanter, J. W. (2022; online 2021). The effect of social interaction quantity and quality on depressed mood and loneliness: A daily diary study. *Journal of Social and Personal Relationships, 39*(3), 734–756. https://doi.org/10.1177/02654075211045717
 
 原始研究数据、海报与参考作品的权利归各自权利人；本项目不对第三方素材附加新的开放许可。
+
+## 验证记录
+
+- 19 项 Node 自动测试通过；JavaScript 语法检查通过。
+- 9 项浏览器功能/响应式检查通过，详见 `docs/browser-checks.json`。
+- 与原海报 27 人数值附表的 216 行指标逐项核对：有效日数、均值、样本标准差均一致，详见 `docs/source-validation.json`。
