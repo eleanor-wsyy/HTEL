@@ -57,3 +57,17 @@ body:has(dialog[open]){overflow:hidden}dialog{color:var(--ink);background:var(--
 .radial-guide-body{display:grid;grid-template-columns:minmax(220px,300px) minmax(0,1fr);gap:24px 32px;padding:24px}.radial-guide figure{margin:0;align-self:center}.radial-guide figure svg{width:100%;height:auto}.radial-guide figcaption{text-align:center;font-size:12px;line-height:1.8;color:var(--muted);margin-top:8px}
 .radial-guide-key{display:grid;gap:18px}.radial-guide-key>div{position:relative;padding-left:40px}.radial-guide h3{font-size:15px;font-weight:500;margin:0 0 5px}.radial-guide p{font-size:13px;line-height:1.85;color:var(--muted);margin:0}.radial-symbol{position:absolute;left:0;top:0;width:26px;height:26px;color:var(--ink);font:26px/26px Georgia;text-align:center}.radial-symbol path,.radial-symbol circle{stroke:currentColor;stroke-width:1.5;fill:none}.radial-symbol .filled{fill:currentColor}.radial-guide-calculation{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px}.radial-guide-calculation p+p{margin-top:10px}.radial-guide-calculation strong{font-weight:500;color:var(--ink)}
 @media(max-width:760px){.radial-guide summary{padding:15px;font-size:15px}.radial-guide summary>span{display:block;margin:5px 0 0 18px}.radial-guide-body{grid-template-columns:minmax(0,1fr);padding:18px 15px;gap:22px}.radial-guide figure{width:240px;max-width:100%;margin:auto}.radial-guide-key>div{padding-left:34px}.radial-guide p{font-size:13px}}
+
+/* Preserve white cards while restoring the compact flip-card gallery. */
+.archive-grid{gap:16px;background:transparent;border:0}
+.archive-card{background:#fff;border:1px solid var(--line)}
+@media(max-width:760px){.archive-grid{gap:12px}}
+.timeline-axis-label{font-size:16px;font-weight:500;color:#202420;margin:16px 0 12px;padding-left:10px;border-left:3px solid var(--ink);line-height:1.7}
+.metric-row>span{display:flex;align-items:center;gap:8px}.metric-square{display:inline-block;width:12px;height:12px;flex:0 0 12px;border-radius:1px}
+.score-section .chart-section-head>span,.score-section .micro-note{font-size:14px;line-height:1.85;color:#242424}.score-section .score-mirror{font-size:14px;color:#202020}.score-section .score-mirror th{font-size:14px;color:#202020;font-weight:500}.score-section .score-mirror td{font-size:14px;color:#202020}.score-section .score-mirror .score-number{font-size:19px}.score-section .score-mirror th,.score-section .score-mirror td{padding:14px 12px}
+@media(max-width:600px){.timeline-axis-label{font-size:14px}.metric-row>span{gap:5px}.metric-square{width:11px;height:11px;flex-basis:11px}.score-section .score-mirror{min-width:650px}.score-section .micro-note,.score-section .chart-section-head>span{font-size:13px}.score-section .score-mirror th,.score-section .score-mirror td{font-size:13px}}
+
+/* Square, head-only original pixel illustrations. */
+.compare-person-head .pixel-head{width:64px;height:64px;flex:0 0 64px;align-self:center}
+.avatar-portrait .pixel-head{width:112px;height:112px;max-height:none}
+@media(max-width:760px){.compare-person-head .pixel-head{width:44px;height:44px;flex-basis:44px}.avatar-portrait .pixel-head{width:72px;height:72px}}

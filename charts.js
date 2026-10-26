@@ -23,11 +23,32 @@ export function radial(person,data,{native=true,selectedMetric=null}={}){
  return out;
 }
 export function avatar(person,cls=''){
- // Deterministic illustration, not an inference about the participant's appearance.
- const colors=['#345c83','#678b74','#a97658','#776b91','#b39a4a'];const shirt=colors[person.id%5];const hair=['#3b3532','#594a3d','#7a6850'][person.id%3];let r='';
- const rect=(x,y,w,h,c)=>{r+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}"/>`;};
- rect(5,1,6,2,hair);rect(4,3,8,6,hair);rect(5,4,6,6,'#e3c6a4');rect(5,4,6,1,hair);rect(4,4,1,4,hair);if(person.id%2)rect(11,5,1,6,hair);rect(6,6,1,1,'#31333a');rect(9,6,1,1,'#31333a');rect(7,9,2,2,'#d3b58e');rect(4,11,8,7,shirt);rect(3,12,1,6,shirt);rect(12,12,1,6,shirt);rect(3,18,1,2,'#e3c6a4');rect(12,18,1,2,'#e3c6a4');rect(5,18,6,2,'#3b4250');rect(5,20,2,7,'#49505b');rect(9,20,2,7,'#49505b');rect(4,27,3,1,'#29313d');rect(9,27,3,1,'#29313d');
- return `<svg class="${cls}" viewBox="0 0 16 30" role="img" aria-label="按编号生成的像素小人示意，非真实肖像" shape-rendering="crispEdges">${r}</svg>`;
+ // Original code-drawn heads. ID chooses a stable illustration, never inferred appearance.
+ const seed=Math.abs(Number(person.id)||0);const variant=seed%6;
+ const skins=['#e8b98c','#c88e65','#f0cfaa','#a96949'];
+ const shades=['#ce956c','#ad704e','#d6ad86','#895039'];
+ const hairColors=['#302b2b','#654532','#a67b43','#595451','#c8c3b8'];
+ const skin=skins[Math.floor(seed/7)%4],shade=shades[Math.floor(seed/7)%4],hair=hairColors[Math.floor(seed/3)%5];
+ let r='';const rect=(x,y,w,h,c)=>{r+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}"/>`;};
+ // Stepped silhouette on a transparent canvas; no torso, clothing or background.
+ rect(7,3,10,2,hair);rect(5,5,14,3,hair);rect(4,8,16,8,hair);
+ if(variant===1||variant===4){rect(3,10,3,10,hair);rect(18,9,3,11,hair);}
+ if(variant===2){rect(9,1,5,2,hair);rect(7,2,10,2,hair);}
+ rect(6,8,12,10,skin);rect(8,18,8,3,skin);rect(5,12,1,4,skin);rect(18,12,1,4,shade);
+ rect(16,10,2,8,shade);rect(14,18,2,2,shade);
+ rect(6,6,12,3,hair);
+ if(variant===0){rect(6,8,3,3,hair);rect(9,8,3,1,hair);rect(16,8,2,4,hair);}
+ if(variant===1){rect(6,8,2,5,hair);rect(8,8,2,2,hair);rect(17,8,2,8,hair);}
+ if(variant===2){rect(6,8,2,2,hair);rect(15,8,3,2,hair);}
+ if(variant===3){rect(6,8,8,2,hair);rect(6,10,3,2,hair);rect(17,8,2,5,hair);}
+ if(variant===4){rect(6,8,11,2,hair);rect(6,10,2,5,hair);rect(17,8,2,9,hair);}
+ if(variant===5){rect(6,8,3,1,hair);rect(15,8,3,3,hair);}
+ rect(9,12,1,2,'#29282b');rect(14,12,1,2,'#29282b');rect(11,16,2,1,shade);
+ if(seed%4===0){
+  rect(7,11,4,1,'#39383b');rect(13,11,4,1,'#39383b');rect(7,14,4,1,'#39383b');rect(13,14,4,1,'#39383b');
+  for(const x of [7,10,13,16])rect(x,12,1,2,'#39383b');rect(11,12,2,1,'#39383b');
+ }
+ return `<svg class="pixel-head ${esc(cls)}" viewBox="0 0 24 24" role="img" aria-label="原创像素头像，按编号分配的匿名示意，非真实肖像" shape-rendering="crispEdges"><title>匿名示意头像，不代表参与者的真实外貌</title>${r}</svg>`;
 }
 export const personColors=['#398194','#b05d67','#8a8e45','#756796'];
 export function timeline(people,metric,{centered=false,start=1,end=75}={}){
