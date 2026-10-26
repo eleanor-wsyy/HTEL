@@ -71,3 +71,8 @@ body:has(dialog[open]){overflow:hidden}dialog{color:var(--ink);background:var(--
 .compare-person-head .pixel-head{width:64px;height:64px;flex:0 0 64px;align-self:center}
 .avatar-portrait .pixel-head{width:112px;height:112px;max-height:none}
 @media(max-width:760px){.compare-person-head .pixel-head{width:44px;height:44px;flex-basis:44px}.avatar-portrait .pixel-head{width:72px;height:72px}}
+.compare-focus-note{display:flex;align-items:center;flex-wrap:wrap;gap:6px 16px;margin-top:22px;font-size:10px;color:var(--muted)}
+.compare-focus-note>span{display:inline-flex;align-items:center;gap:7px;color:var(--ink)}
+.compare-focus-note i{display:block;width:10px;height:10px;flex-shrink:0}
+.compare-focus-note+.compare-people{margin-top:22px}
+@media(max-width:760px){.compare-focus-note{font-size:9px;line-height:1.8}}

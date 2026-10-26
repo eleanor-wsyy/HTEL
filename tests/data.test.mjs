@@ -45,3 +45,30 @@ test('metric intensity darkens monotonically without changing numeric scores',()
  }
  assert.equal(color(0),'#fff5ba');assert.equal(color(10),'#10233f');
 });
+test('native comparison radials focus all eight metrics without redrawing source charts',()=>{
+ for(let metric=0;metric<8;metric++)for(const id of[1478,1498]){
+  const svg=radial(byId.get(id),data,{selectedMetric:metric});
+  assert.ok(svg.includes(`data-selected-metric="${metric}"`));
+  assert.ok(svg.includes(`data-metric-color="${data.metrics[metric].color}"`));
+  assert.equal((svg.match(new RegExp(`href="assets/radials.svg#radial-${id}"`,'g'))||[]).length,2);
+  assert.ok(svg.includes('opacity=".16"'));
+  assert.ok(svg.includes(`clip-path="url(#radial-focus-${id}-${metric})"`));
+  assert.ok(svg.includes('<circle cx="218" cy="218" r="44"/>'));
+  assert.ok(svg.includes('<rect x="368" y="367" width="58" height="45"/>'));
+  assert.ok(svg.includes(`当前高亮 0${metric+1} ${data.metrics[metric].name}`));
+ }
+});
+test('non-featured comparison radials emphasize one sector while retaining all eight',()=>{
+ const person=byId.get(1001);
+ for(let selectedMetric=0;selectedMetric<8;selectedMetric++){
+  const svg=radial(person,data,{selectedMetric});
+  assert.equal((svg.match(/class="radial-sector"/g)||[]).length,8);
+  assert.equal((svg.match(/opacity="0.16"/g)||[]).length,7);
+  assert.ok(svg.includes(`data-radial-metric="${selectedMetric}" opacity="1"`));
+ }
+});
+test('unfocused archive and invalid selections preserve the original full-color radial',()=>{
+ const p=byId.get(1478),original=radial(p,data);
+ for(const selectedMetric of [null,-1,8,NaN,'3'])assert.equal(radial(p,data,{selectedMetric}),original);
+ assert.ok(!original.includes('radial-focus-overlay'));
+});
