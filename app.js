@@ -1,4 +1,4 @@
-import {coverageThreshold} from './coverage.js';
+import {coverageThreshold,coverageEvidence} from './coverage.js';
 import {coverageMarkup} from './coverage-view.js';
 import {comparisonOptions,fitMosaicWidth,cohortSummary} from './view-utils.js';
 import {sortOptions,sortPeople,sortDescription,sortContext} from './sorting.js';
@@ -308,6 +308,8 @@ async function init(){
   people=new Map(data.people.map(p=>[p.id,p]));validIds=new Set(people.keys());
   try{const stored=JSON.parse(localStorage.getItem('htel-selection')||'[]');if(Array.isArray(stored))selection=parseSelection(stored.join(','),validIds);}catch{selection=[];}
   $('#loading').hidden=true;$('#archive-legend').innerHTML=data.metrics.map((m,i)=>`<span><i style="background:${m.color}"></i><small>0${i+1}</small> ${m.name}</span>`).join('');$('#compare-metric').innerHTML=options();
+  const coverage=coverageEvidence(data.people);
+  $('#overview-coverage-summary').textContent=`${coverage.low.n} 人的有效双题记录不超过 15 天，占全部 ${(coverage.low.n/data.people.length*100).toFixed(1)}%，却对应 ${(coverage.missingShare*100).toFixed(1)}% 的灰格。灰色不是零分；从这里继续看记录的空白。`;
   initReadingGuide();renderMosaic();bindEvents();renderRoute();
  }catch(error){console.error(error);$('#loading').className='error-state';$('#loading').setAttribute('role','alert');$('#loading').innerHTML='<h2>数据暂时没有展开。</h2><p>请通过本地预览服务器或 GitHub Pages 打开网页，不要直接双击 HTML。<br>在项目目录运行 <code>npm start</code>，然后访问 <code>http://127.0.0.1:4173</code>。</p><button class="primary-link" id="retry-load">重新加载 ↗</button>';$('#retry-load').addEventListener('click',()=>location.reload());}
 }

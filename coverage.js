@@ -36,3 +36,21 @@ export function coverageComparison(low,rest,field){
   return {label,n,other,share,reference,delta:share===null||reference===null?null:(share-reference)*100};
  });
 }
+
+// Person-level descriptive summaries; absent scores never become zero.
+const coverageMedian=values=>{
+ const sorted=values.filter(finite).sort((a,b)=>a-b),n=sorted.length;
+ return n?(sorted[Math.floor((n-1)/2)]+sorted[Math.floor(n/2)])/2:null;
+};
+export function coverageEvidence(people,threshold=15){
+ const {limit,low,rest}=coverageGroups(people,threshold);
+ const gray=group=>group.reduce((sum,p)=>sum+75-observedDays(p),0);
+ const describe=group=>{
+  const ages=group.map(p=>p.profile.age).filter(finite);
+  const lowerIncome=group.filter(p=>['低于 $9,999','$10,000 - $19,999','$20,000 - $39,999'].includes(p.profile.income)).length;
+  return {n:group.length,ageMedian:coverageMedian(ages),ageKnown:ages.length,lowerIncome,lowerIncomeShare:group.length?lowerIncome/group.length:null};
+ };
+ const missing=gray(low),totalMissing=gray(people);
+ const noDiary=low.reduce((sum,p)=>sum+75-p.days,0);
+ return {limit,low:describe(low),rest:describe(rest),missing,totalMissing,noDiary,incomplete:missing-noDiary,missingShare:totalMissing?missing/totalMissing:null};
+}

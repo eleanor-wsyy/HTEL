@@ -39,6 +39,7 @@
             <div class="overview-instruction"><span>一大格 = 一人 · 内部 15 × 5 小格 = D01—D75</span><output id="mosaic-current" aria-live="polite">先看全图，点一格走近这个人</output></div><div class="mosaic-scroll" id="mosaic-scroll" tabindex="0" aria-label="可缩放的人群图；放大后可拖动；方向键移动，回车查看人物"><div id="mosaic" class="mosaic" role="group" aria-label="515个人的75天日记"></div></div>
             <div class="scale-row"><span>双题孤独均分</span><span>0</span><div class="color-scale"></div><span>10</span><span class="missing-key">缺失</span></div></div>
             <p class="micro-note">点格子查看人物；放大后拖动浏览，键盘方向键也可移动。Shift 点选可加入对比；手机在人物卡里点「加入对比」。排序只改变位置，不改变分数。</p>
+            <aside class="coverage-bridge" aria-labelledby="overview-coverage-title"><span class="coverage-bridge-swatch" aria-hidden="true"></span><div><p class="eyebrow">01 → 04 / 从空白继续看</p><h3 id="overview-coverage-title">这些灰格里，还有谁的日常？</h3><p id="overview-coverage-summary">从有效记录较少的人开始，看看谁更少被数据看见。</p></div><a id="overview-coverage-link" href="#outsiders?threshold=15">走进 04 · 局外人 <span aria-hidden="true">↗</span></a></aside>
             <section class="tile-guide" aria-labelledby="tile-guide-title">
               <div class="tile-guide-heading"><p class="eyebrow">HOW TO READ A TILE</p><h3 id="tile-guide-title">一格，一个人的 75 天。</h3><p>把一段日常缩进一个格子，也保留它的起伏与空白。</p></div>
               <figure class="tile-example"><div id="tile-example"></div><figcaption id="tile-example-caption"></figcaption></figure>
@@ -91,6 +92,7 @@
     </section>
     <section data-page="outsiders" class="section-wrap coverage-page" hidden aria-labelledby="coverage-title">
       <div class="section-heading"><div><p class="eyebrow">04 / BEYOND THE OBSERVED</p><h2 id="coverage-title">局外人，<span>未被完整看见的日常。</span></h2></div><p class="section-intro">灰色不是零分，也不是一个人的全部。<br>这一次，从记录的空白开始看。</p></div>
+      <a class="coverage-backlink" href="#overview">← 返回 01 · 在 515 人总览中看这些灰格</a>
       <div class="coverage-method"><div><span class="coverage-kicker">先定义，再观察</span><h3>为什么默认选 ≤ 15 天？</h3><p>每人有 D01—D75 共 75 个格子。默认纳入<strong>有效双题日不超过 15 天</strong>的人：覆盖率 ≤ 20%，也就是至少 80% 的格子为灰色。用固定覆盖率而非按人数硬取末尾一组，门槛的含义更直观；15 天是本页的探索性选择，<strong>不是统计学公认界限或原研究排除标准</strong>。可切换更严格的 7 天或更宽松的 30 天，观察结论是否依赖门槛。</p></div><div><span class="coverage-kicker">“局外人”只指数据覆盖</span><h3>少被看见，不等于主动离开。</h3><p>有效日按总览口径计算：当天 loneliness 与 left_out 两题均有效，才有双题分。灰格可能是没有日记，也可能只是缺题。这里数的是<strong>无法计算双题分的格子</strong>，不把它等同于没有参与。现有数据不足以确定漏填、退出或记录结束的原因；也不能据此给人贴上孤独、消极或不合群的标签。</p></div></div>
       <div class="coverage-controls"><label for="coverage-threshold">定义「记录很少」</label><select id="coverage-threshold" aria-describedby="coverage-status"><option value="7">≤ 7 天 · 更严格</option><option value="15" selected>≤ 15 天 · 默认（20%）</option><option value="30">≤ 30 天 · 更宽松</option></select><button id="coverage-jump" class="quiet-button" type="button">查看人物格子 ↓</button><p id="coverage-status" role="status" aria-live="polite"></p></div>
       <div id="coverage-content"></div>

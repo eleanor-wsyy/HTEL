@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {coverageThreshold,coverageGroups,coverageBins,coverageFields,coverageComparison,observedDays} from '../coverage.js';
+import {coverageThreshold,coverageGroups,coverageBins,coverageFields,coverageComparison,observedDays,coverageEvidence} from '../coverage.js';
 import {coverageMarkup} from '../coverage-view.js';
 import {readRoute} from '../data-utils.js';
 const {people}=JSON.parse(await readFile(new URL('../data/study.json',import.meta.url),'utf8'));
@@ -28,4 +28,31 @@ test('low coverage gallery reuses exact tile symbols and opens every selected pe
 });
 test('outsider route retains threshold and profile state',()=>{
  const route=readRoute('#outsiders?threshold=7&person=1117&flip=1',new Set(people.map(p=>p.id)));assert.equal(route.page,'outsiders');assert.equal(route.person,1117);assert.equal(route.flipped,true);assert.equal(route.params.get('threshold'),'7');
+});
+
+test('coverage evidence reconciles missing cells and preserves demographic denominators',()=>{
+ const e=coverageEvidence(people);
+ assert.equal(e.low.n,49);assert.equal(e.rest.n,466);
+ assert.equal(e.missing,3389);assert.equal(e.totalMissing,10840);
+ assert.equal(e.noDiary,3317);assert.equal(e.incomplete,72);
+ assert.equal(e.noDiary+e.incomplete,e.missing);
+ assert.equal((e.missingShare*100).toFixed(1),'31.3');
+ assert.equal(e.low.ageMedian,30.5);assert.equal(e.rest.ageMedian,37);
+ assert.equal(e.low.lowerIncome,22);assert.equal(e.rest.lowerIncome,146);
+ for(const p of people){assert.equal(p.days,p.dates.filter(Boolean).length);assert.ok(observedDays(p)<=p.days);}
+});
+test('sensitivity results recompute rather than retaining default-threshold findings',()=>{
+ for(const [threshold,n,missing,noDiary,incomplete,ageLow,ageRest,incomeLow,incomeRest] of [[7,32,2304,2297,7,33,36,12,156],[15,49,3389,3317,72,30.5,37,22,146],[30,91,5562,5479,83,30,38,45,123]]){
+  const e=coverageEvidence(people,threshold);
+  assert.deepEqual([e.low.n,e.missing,e.noDiary,e.incomplete,e.low.ageMedian,e.rest.ageMedian,e.low.lowerIncome,e.rest.lowerIncome],[n,missing,noDiary,incomplete,ageLow,ageRest,incomeLow,incomeRest]);
+  assert.ok(e.low.ageMedian<e.rest.ageMedian);assert.ok(e.low.lowerIncomeShare>e.rest.lowerIncomeShare);
+  const html=coverageMarkup(people,threshold);assert.ok(html.includes(`${missing.toLocaleString('en-US')} 个灰格`));assert.ok(html.includes(`≤ ${threshold} 天 · 当前`));assert.ok(!html.includes('NaN'));assert.ok(!html.includes('undefined'));
+ }
+ const empty=coverageEvidence([]);assert.equal(empty.missingShare,null);assert.equal(empty.low.ageMedian,null);assert.equal(empty.low.lowerIncomeShare,null);
+});
+test('overview gray-cell context links directly to coverage with a return path',async()=>{
+ const html=await readFile(new URL('../index.html',import.meta.url),'utf8');
+ assert.match(html,/id="overview-coverage-link" href="#outsiders\?threshold=15"/);
+ assert.match(html,/class="coverage-backlink" href="#overview"/);
+ const route=readRoute('#outsiders?threshold=15',new Set(people.map(p=>p.id)));assert.equal(route.page,'outsiders');assert.equal(coverageThreshold(route.params.get('threshold')),15);
 });
