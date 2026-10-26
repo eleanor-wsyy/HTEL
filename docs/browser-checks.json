@@ -91,6 +91,38 @@
         "rows": 7,
         "viewport": 390
       }
+    },
+    {
+      "test": "515-tile fall animation replays, can be skipped, and releases transforms",
+      "pass": true,
+      "result": {
+        "playing": "跳过动画 ↓",
+        "stopped": {
+          "button": "↻ 重播落下",
+          "tiles": 515,
+          "transform": "none"
+        }
+      }
+    },
+    {
+      "test": "mobile falling cover retains all tiles and visible replay without overflow",
+      "pass": true,
+      "result": {
+        "button": {
+          "bottom": 830.8333740234375,
+          "height": 38,
+          "left": 288.96875,
+          "right": 355.9375,
+          "top": 792.8333740234375,
+          "width": 66.96875,
+          "x": 288.96875,
+          "y": 792.8333740234375
+        },
+        "scrollWidth": 375,
+        "tiles": 515,
+        "titleClear": true,
+        "width": 390
+      }
     }
   ],
   "allPassed": true

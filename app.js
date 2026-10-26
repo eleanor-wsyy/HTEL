@@ -1,9 +1,12 @@
 import {finite,mean,fmt,color,escapeHTML as esc,parseSelection,windowStats,scoreLayers,readRoute} from './data-utils.js';
 import {tile,radial,avatar,timeline,scatter,personColors} from './charts.js';
+import {createHeroFall} from './hero-motion.js';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 let data,people,validIds,selection=[],activePerson=null,flipped=false,detailMetric=-1,archivePage=0,mosaicMode='tiles',zoom=1,posterZoom=1,alignment='raw',compareMetric=0,dayStart=1,dayEnd=75;
 let toastTimer,returnFocus=null,returnPersonId=null,routePage='home';
 const personDialog=$('#person-dialog'),posterDialog=$('#poster-dialog');
+const heroFall=createHeroFall($('#hero-field'),$('#replay-hero'),matchMedia('(prefers-reduced-motion: reduce)'));
+let heroHasPlayed=false;
 const niceDate=(d)=>d?d.slice(5).replace('-','.'):'—';
 const personLabel=p=>`编号 ${p.displayId}，原始 ID ${p.id}，${p.validDays} 个有效双题日，均值 ${fmt(p.mean)}`;
 const options=(current=0)=>data.metrics.map((m,i)=>`<option value="${i}" ${current===i?'selected':''}>0${i+1} ${m.name}</option>`).join('');
@@ -20,6 +23,7 @@ function renderRoute(scroll=true){
   dayStart=Math.min(75,Math.max(1,Number.isFinite(start)&&start>0?Math.round(start):1));dayEnd=Math.min(75,Math.max(dayStart,Number.isFinite(end)&&end>0?Math.round(end):75));
  }
  const page=['home','overview'].includes(route.page)?'overview':route.page;
+ if(route.page!=='home')heroFall.stop();
  $$('[data-page]').forEach(el=>el.hidden=el.dataset.page!==page);
  $$('[data-nav]').forEach(a=>{if(a.dataset.nav===page)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
  $('#tooltip').hidden=true;
@@ -40,6 +44,7 @@ function restoreFocus(){
 }
 function renderHero(){
  const field=$('#hero-field');if(field.closest('[hidden]'))return;
+ heroFall.stop();
  const W=field.clientWidth,H=field.clientHeight,box=$('.hero-copy').getBoundingClientRect(),base=field.getBoundingClientRect();
  const safe={x:box.left-base.left-35,y:box.top-base.top-24,w:box.width+70,h:box.height+55};
  let pitch=Math.min(36,Math.sqrt(Math.max(1,W*(H-100)-safe.w*safe.h)/680)),slots=[];
@@ -49,8 +54,11 @@ function renderHero(){
   if(slots.length>=515)break;pitch*=.86;
  }
  slots.sort((a,b)=>a.key-b.key);slots=slots.slice(0,515).sort((a,b)=>a.y-b.y||a.x-b.x);
- const markup=slots.map((s,i)=>{const p=data.people[(i*137)%515],angle=Math.round(Math.sin(i*3.7)*9);return `<a href="#archives?person=${p.id}" data-person="${p.id}" tabindex="-1" class="hero-tile" aria-label="${personLabel(p)}" transform="translate(${s.x.toFixed(1)} ${s.y.toFixed(1)}) rotate(${angle} ${s.size/2} ${s.size/2})"><use href="assets/tiles.svg#tile-${p.id}" width="${s.size.toFixed(1)}" height="${s.size.toFixed(1)}"/><title>编号 ${p.displayId} · 点击走近这个人</title></a>`;}).join('');
- field.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${slots.length}位参与者的真实75天数据格围绕标题；全部人物可在下方总览通过键盘访问">${markup}</svg>`;
+ const markup=slots.map((s,i)=>{const p=data.people[(i*137)%515],angle=Math.round(Math.sin(i*3.7)*9);return `<a href="#archives?person=${p.id}" data-person="${p.id}" tabindex="-1" class="hero-tile" aria-label="${personLabel(p)}" transform="translate(${s.x.toFixed(1)} ${s.y.toFixed(1)}) rotate(${angle} ${s.size/2} ${s.size/2})"><g class="hero-drop" data-y="${s.y.toFixed(1)}" data-size="${s.size.toFixed(1)}"><use href="assets/tiles.svg#tile-${p.id}" width="${s.size.toFixed(1)}" height="${s.size.toFixed(1)}"/></g><title>编号 ${p.displayId} · 点击走近这个人</title></a>`;}).join('');
+ const clipHeight=H-75;
+ const clearPath=`M0 0H${W}V${clipHeight}H0Z M${safe.x} ${safe.y}V${safe.y+safe.h}H${safe.x+safe.w}V${safe.y}Z`;
+ field.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${slots.length}位参与者的真实75天数据格围绕标题；全部人物可在下方总览通过键盘访问"><defs><clipPath id="hero-title-clear"><path d="${clearPath}" clip-rule="evenodd"/></clipPath></defs><g clip-path="url(#hero-title-clear)">${markup}</g></svg>`;
+ if(!heroHasPlayed&&routePage==='home'){heroHasPlayed=true;heroFall.play();}
 }
 function renderMosaic(){
  const grid=$('#mosaic');grid.classList.toggle('matrix',mosaicMode==='matrix');
@@ -175,6 +183,7 @@ function bindEvents(){
  document.addEventListener('pointerout',event=>{if(event.target.closest('[data-person],[data-tip]'))$('#tooltip').hidden=true;});
  document.addEventListener('focusin',event=>{if(event.target.matches('.day-cell'))readDay(Number(event.target.dataset.day));});
  window.addEventListener('hashchange',()=>renderRoute());
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)heroFall.stop();});
  let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(renderHero,160);});
 }
 async function init(){
