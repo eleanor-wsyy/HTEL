@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {mean,fmt,color,correlation,segments,parseSelection,windowStats,scoreLayers,readRoute,displayId,escapeHTML} from '../data-utils.js';
+import {mean,fmt,color,metricColor,correlation,segments,parseSelection,windowStats,scoreLayers,readRoute,displayId,escapeHTML} from '../data-utils.js';
 import {radial,tile,avatar,timeline,scatter} from '../charts.js';
 const data=JSON.parse(await readFile(new URL('../data/study.json',import.meta.url),'utf8'));
 const byId=new Map(data.people.map(p=>[p.id,p]));const ids=new Set(byId.keys());
@@ -24,3 +24,24 @@ test('all missing dynamic chart has no fake rays',()=>{const p={...byId.get(1117
 test('all render functions avoid NaN and undefined on missing cases',()=>{for(const id of[1117,1122,1309,1478,1498]){const p=byId.get(id);for(const html of[radial(p,data),avatar(p),scatter(p),timeline([p],5)]){assert.ok(!html.includes('NaN'));assert.ok(!html.includes('undefined'));}}});
 test('raw CSV text is safely escaped for HTML',()=>{assert.equal(escapeHTML('<img onerror="x">'), '&lt;img onerror=&quot;x&quot;&gt;');});
 test('SVG sprites contain all original tile and radial symbols',async()=>{const tiles=await readFile(new URL('../assets/tiles.svg',import.meta.url),'utf8'),radials=await readFile(new URL('../assets/radials.svg',import.meta.url),'utf8');assert.equal((tiles.match(/<symbol /g)||[]).length,515);assert.equal((radials.match(/<symbol /g)||[]).length,27);for(const p of data.people)assert.ok(tiles.includes(`id="tile-${p.id}"`));assert.ok(radials.includes('>122</text>'));assert.ok(!radials.includes('>1122</text>'));});
+
+test('all eight day-grid palettes retain their radial metric hue',()=>{
+ assert.equal(new Set(data.metrics.map(m=>m.color)).size,8);
+ for(const m of data.metrics){
+  assert.equal(metricColor(10,m.color),m.color);
+  assert.notEqual(metricColor(0,m.color),metricColor(10,m.color));
+  assert.notEqual(metricColor(0,m.color),metricColor(null,m.color));
+  assert.equal(metricColor(null,m.color),'#e4e7ec');
+  assert.equal(metricColor(NaN,m.color),'#e4e7ec');
+  assert.equal(metricColor(-1,m.color),metricColor(0,m.color));
+  assert.equal(metricColor(11,m.color),m.color);
+ }
+});
+test('metric intensity darkens monotonically without changing numeric scores',()=>{
+ for(const m of data.metrics){
+  const brightness=c=>[1,3,5].reduce((sum,i)=>sum+parseInt(c.slice(i,i+2),16),0);
+  const shades=Array.from({length:11},(_,v)=>brightness(metricColor(v,m.color)));
+  for(let i=1;i<shades.length;i++)assert.ok(shades[i]<=shades[i-1]);
+ }
+ assert.equal(color(0),'#fff5ba');assert.equal(color(10),'#10233f');
+});

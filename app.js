@@ -1,4 +1,4 @@
-import {finite,mean,fmt,color,escapeHTML as esc,parseSelection,windowStats,scoreLayers,readRoute} from './data-utils.js';
+import {finite,mean,fmt,color,metricColor,escapeHTML as esc,parseSelection,windowStats,scoreLayers,readRoute} from './data-utils.js';
 import {tile,radial,avatar,timeline,scatter,personColors} from './charts.js';
 import {createHeroFall} from './hero-motion.js';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -105,7 +105,7 @@ function showPerson(p){
  $('#card-front').innerHTML=`${radial(p,data)}<div class="card-front-side"><div><span class="card-kicker">PERSONAL ARCHIVE</span><h3>${p.displayId}</h3><p>原始 ID ${p.id}</p></div><div class="card-front-stats"><span>孤独感 · 单题均值<strong>${fmt(p.stats[0].mean)}</strong></span><span>单题有效日数<strong>${p.stats[0].n}<small> / 75</small></strong></span></div><div>${tile(p,'card-mini-tile')}<span class="card-kicker">YOUR PIXEL DIARY</span></div></div>`;
  const profile=[['ID / 展示编号',`${p.displayId} · 原始 ${p.id}`],['性别 / Gender',p.profile.gender],['年龄 / Age',finite(p.profile.age)?p.profile.age+' 岁':'未报告'],['年收入 / USD',p.profile.income],['居住 / Living',p.profile.living],['婚恋 / Relationship',p.profile.relationship],['子女 / Children',p.profile.parent]];
  $('#card-back').innerHTML=`<div class="id-header"><h3>看见孤独<span style="font-size:12px;margin-left:6px">档案卡</span></h3><span class="id-number">IDENTIFICATION CARD<br>NO. ${p.displayId}</span></div><div class="id-body"><div class="avatar-portrait">${avatar(p)}<span>ILLUSTRATED · NOT A REAL PORTRAIT</span></div><dl class="profile-fields">${profile.map(([k,v])=>`<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl></div><div class="id-footnote"><span>基线自报资料 · 仅作背景描述<br>像素小人为编号生成的示意形象，不对应真实外貌</span><span aria-hidden="true">↗</span></div>`;
- $('#person-detail').innerHTML=`<div class="detail-selector"><label for="detail-metric">逐日记录 <span style="color:var(--muted)">D01 → D75</span></label><select id="detail-metric"><option value="-1">总览双题复合分</option>${options(-1)}</select></div><div class="day-heatmap" id="person-heatmap" role="group" aria-label="75天的逐日评分，方向键移动日次"></div><p class="detail-readout" id="detail-readout" aria-live="polite">选择一个日格，查看日期与分数。</p><p class="micro-note">灰色是未报告，不是 0 分。图上实心点为个人均值、横杠为标准差、空心点为精选 27 人均值。卡片展示匿名编号，不作诊断。</p>`;
+ $('#person-detail').innerHTML=`<div class="detail-selector"><label for="detail-metric">逐日记录 <span style="color:var(--muted)">D01 → D75</span></label><select id="detail-metric"><option value="-1">总览双题复合分</option>${options(-1)}</select></div><div class="day-heatmap" id="person-heatmap" role="group" aria-label="75天的逐日评分，方向键移动日次"></div><div id="detail-color-scale" class="detail-color-scale" aria-label="当前指标的评分色阶"></div><p class="detail-readout" id="detail-readout" aria-live="polite">选择一个日格，查看日期与分数。</p><p class="micro-note">灰色是未报告，不是 0 分。图上实心点为个人均值、横杠为标准差、空心点为精选 27 人均值。卡片展示匿名编号，不作诊断。</p>`;
  $('#person-dialog-title').textContent=`PERSONAL ARCHIVE / ${p.displayId} · ${p.days} 个记录日`;
  renderPersonHeat();updateSelectButton();setFlip(false,false);
  if(!personDialog.open){personDialog.showModal();$('#close-person').focus();}personDialog.scrollTop=0;
@@ -114,9 +114,16 @@ function setFlip(value,update=true){flipped=value;$('#flip-card').classList.togg
  if(update&&activePerson){const r=readRoute(location.hash,validIds);r.params.set('flip',value?'1':'0');history.replaceState(null,'','#'+r.page+'?'+r.params.toString());}
 }
 function renderPersonHeat(){
- if(!activePerson)return;const p=activePerson,values=detailMetric<0?p.heat:p.daily.map(r=>r[detailMetric]);
- $('#person-heatmap').innerHTML=values.map((v,i)=>`<button class="day-cell" style="background:${color(v)}" tabindex="${i===0?'0':'-1'}" data-day="${i}" aria-label="D${i+1}，${p.dates[i]||'无日期记录'}，${finite(v)?fmt(v)+'分':'缺失'}"></button>`).join('');
- $('#detail-readout').textContent=`${detailMetric<0?'双题复合分':data.metrics[detailMetric].name} · 有效 ${values.filter(finite).length}/75 天 · 均值 ${fmt(mean(values))} 分`;
+ if(!activePerson)return;
+ const p=activePerson,metric=detailMetric<0?null:data.metrics[detailMetric];
+ const values=metric?p.daily.map(r=>r[detailMetric]):p.heat;
+ const cellColor=value=>metric?metricColor(value,metric.color):color(value);
+ $('#person-heatmap').innerHTML=values.map((v,i)=>`<button class="day-cell${finite(v)?'':' is-missing'}" style="background-color:${cellColor(v)}" tabindex="${i===0?'0':'-1'}" data-day="${i}" aria-label="D${i+1}，${p.dates[i]||'无日期记录'}，${finite(v)?fmt(v)+'分':'缺失'}"></button>`).join('');
+ const title=metric?`0${detailMetric+1} ${metric.name}`:'双题复合分';
+ const gradient=metric?`linear-gradient(90deg,${cellColor(0)},${cellColor(10)})`:'linear-gradient(90deg,#fff5ba 0%,#ffe066 16%,#f7bb38 32%,#72c7cf 41%,#1686bd 53%,#174c94 67%,#10233f 100%)';
+ $('#detail-color-scale').innerHTML=`<span class="detail-metric-key"><i style="background:${metric?metric.color:'var(--ink)'}"></i>${esc(title)}</span><span>0</span><i class="detail-scale-ramp" style="background:${gradient}"></i><span>10</span><span class="missing-key">缺失</span>`;
+ $('#detail-metric').style.borderColor=metric?metric.color:'var(--line)';
+ $('#detail-readout').textContent=`${metric?metric.name:'双题复合分'} · 有效 ${values.filter(finite).length}/75 天 · 均值 ${fmt(mean(values))} 分`;
 }
 function readDay(index){if(!activePerson)return;const p=activePerson,v=detailMetric<0?p.heat[index]:p.daily[index][detailMetric];$('#detail-readout').textContent=`D${String(index+1).padStart(2,'0')} · ${p.dates[index]||'没有日期记录'} · ${detailMetric<0?'双题复合分':data.metrics[detailMetric].name}：${finite(v)?fmt(v)+' 分':'缺失（未报告）'}`;}
 function compareHash(){const params=new URLSearchParams();params.set('ids',selection.join(','));if(compareMetric)params.set('metric',compareMetric);if(alignment==='centered')params.set('align','centered');if(dayStart!==1)params.set('start',dayStart);if(dayEnd!==75)params.set('end',dayEnd);return '#compare?'+params.toString();}

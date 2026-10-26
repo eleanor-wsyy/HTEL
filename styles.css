@@ -26,3 +26,12 @@ body:has(dialog[open]){overflow:hidden}dialog{color:var(--ink);background:var(--
 .hero-replay:hover{border-color:var(--ink);background:var(--surface)}
 .hero-replay:disabled{cursor:default;opacity:.45}
 @media(max-width:760px){.hero-footer>a{display:none}.hero-footer>span:first-child{max-width:220px}.hero-replay{font-size:9px;min-height:38px;padding:6px 9px}}
+
+.detail-color-scale{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:9px;color:var(--muted)}
+.detail-metric-key{display:flex;align-items:center;gap:5px;white-space:nowrap}
+.detail-metric-key>i{width:9px;height:9px;display:block}
+.detail-scale-ramp{flex:1;height:6px;min-width:35px}
+.detail-color-scale .missing-key{margin-left:3px}
+@media(max-width:760px){.detail-color-scale{font-size:8px;gap:5px}.detail-metric-key{gap:4px}}
+
+.day-cell.is-missing,.detail-color-scale .missing-key:before{background-image:repeating-linear-gradient(135deg,transparent 0 3px,rgba(102,113,111,.24) 3px 4px)}

@@ -1,0 +1,63 @@
+{
+  "participantId": 1013,
+  "checkedCells": 600,
+  "allPassed": true,
+  "metrics": [
+    {
+      "metric": "01 孤独感",
+      "radialColor": "#398194",
+      "dailyCellsChecked": 75,
+      "missingCells": 0,
+      "passed": true
+    },
+    {
+      "metric": "02 低落情绪",
+      "radialColor": "#b05d67",
+      "dailyCellsChecked": 75,
+      "missingCells": 0,
+      "passed": true
+    },
+    {
+      "metric": "03 被排斥感",
+      "radialColor": "#726896",
+      "dailyCellsChecked": 75,
+      "missingCells": 0,
+      "passed": true
+    },
+    {
+      "metric": "04 兴趣缺失",
+      "radialColor": "#b88245",
+      "dailyCellsChecked": 75,
+      "missingCells": 0,
+      "passed": true
+    },
+    {
+      "metric": "05 社交互动量",
+      "radialColor": "#348a79",
+      "dailyCellsChecked": 75,
+      "missingCells": 0,
+      "passed": true
+    },
+    {
+      "metric": "06 自我表露",
+      "radialColor": "#7c8b47",
+      "dailyCellsChecked": 75,
+      "missingCells": 6,
+      "passed": true
+    },
+    {
+      "metric": "07 感知回应",
+      "radialColor": "#5c94a0",
+      "dailyCellsChecked": 75,
+      "missingCells": 0,
+      "passed": true
+    },
+    {
+      "metric": "08 疫情焦虑",
+      "radialColor": "#a08e35",
+      "dailyCellsChecked": 75,
+      "missingCells": 0,
+      "passed": true
+    }
+  ]
+}
