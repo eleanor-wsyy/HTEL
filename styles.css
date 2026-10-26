@@ -57,3 +57,9 @@ body:has(dialog[open]){overflow:hidden}dialog{color:var(--ink);background:var(--
 .radial-guide-body{display:grid;grid-template-columns:minmax(220px,300px) minmax(0,1fr);gap:24px 32px;padding:24px}.radial-guide figure{margin:0;align-self:center}.radial-guide figure svg{width:100%;height:auto}.radial-guide figcaption{text-align:center;font-size:12px;line-height:1.8;color:var(--muted);margin-top:8px}
 .radial-guide-key{display:grid;gap:18px}.radial-guide-key>div{position:relative;padding-left:40px}.radial-guide h3{font-size:15px;font-weight:500;margin:0 0 5px}.radial-guide p{font-size:13px;line-height:1.85;color:var(--muted);margin:0}.radial-symbol{position:absolute;left:0;top:0;width:26px;height:26px;color:var(--ink);font:26px/26px Georgia;text-align:center}.radial-symbol path,.radial-symbol circle{stroke:currentColor;stroke-width:1.5;fill:none}.radial-symbol .filled{fill:currentColor}.radial-guide-calculation{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px}.radial-guide-calculation p+p{margin-top:10px}.radial-guide-calculation strong{font-weight:500;color:var(--ink)}
 @media(max-width:760px){.radial-guide summary{padding:15px;font-size:15px}.radial-guide summary>span{display:block;margin:5px 0 0 18px}.radial-guide-body{grid-template-columns:minmax(0,1fr);padding:18px 15px;gap:22px}.radial-guide figure{width:240px;max-width:100%;margin:auto}.radial-guide-key>div{padding-left:34px}.radial-guide p{font-size:13px}}
+
+.compare-focus-note{display:flex;align-items:center;flex-wrap:wrap;gap:6px 16px;margin-top:22px;font-size:10px;color:var(--muted)}
+.compare-focus-note>span{display:inline-flex;align-items:center;gap:7px;color:var(--ink)}
+.compare-focus-note i{display:block;width:10px;height:10px;flex-shrink:0}
+.compare-focus-note+.compare-people{margin-top:22px}
+@media(max-width:760px){.compare-focus-note{font-size:9px;line-height:1.8}}

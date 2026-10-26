@@ -3,9 +3,19 @@ export const tile=(p,cls='')=>`<svg class="${cls}" viewBox="0 0 1 1" aria-hidden
 const point=(a,r)=>[210+Math.sin(a)*r,210-Math.cos(a)*r];
 const pt=(a,r)=>point(a,r).map(v=>v.toFixed(2)).join(',');
 export function radial(person,data,{native=true,selectedMetric=null}={}){
- const label=`编号${person.displayId}的八项日记，${person.days}个记录日，孤独感单题均值${fmt(person.stats[0].mean)}`;
- if(native&&person.featured)return `<svg class="radial-svg" viewBox="0 0 436 436" role="img" aria-label="${label}"><use href="assets/radials.svg#radial-${person.id}" width="436" height="436"/></svg>`;
- let out=`<svg class="radial-svg" viewBox="0 0 420 420" role="img" aria-label="${label}"><title>${label}</title>`;
+ selectedMetric=Number.isInteger(selectedMetric)&&selectedMetric>=0&&selectedMetric<data.metrics.length?selectedMetric:null;
+ const metric=selectedMetric===null?null:data.metrics[selectedMetric];
+ const label=`编号${person.displayId}的八项日记，${person.days}个记录日，孤独感单题均值${fmt(person.stats[0].mean)}`+(metric?`；当前高亮 0${selectedMetric+1} ${metric.name}，全期均值 ${fmt(person.stats[selectedMetric].mean)}`:'');
+ if(native&&person.featured){
+  const source=`assets/radials.svg#radial-${person.id}`;
+  if(!metric)return `<svg class="radial-svg" viewBox="0 0 436 436" role="img" aria-label="${label}"><use href="${source}" width="436" height="436"/></svg>`;
+  // Clip a second copy of the original artwork: no data paths, scales or positions change.
+  const angle=selectedMetric*Math.PI/4,edge=Math.PI/8;
+  const at=a=>[218+Math.sin(a)*320,218-Math.cos(a)*320].map(n=>n.toFixed(2)).join(',');
+  const clipId=`radial-focus-${person.id}-${selectedMetric}`;
+  return `<svg class="radial-svg is-metric-focused" data-selected-metric="${selectedMetric}" data-metric-color="${metric.color}" viewBox="0 0 436 436" role="img" aria-label="${label}"><title>${label}</title><defs><clipPath id="${clipId}"><path d="M218,218 L${at(angle-edge)} L${at(angle+edge)} Z"/><circle cx="218" cy="218" r="44"/><rect x="368" y="367" width="58" height="45"/></clipPath></defs><use href="${source}" width="436" height="436" opacity=".16"/><use class="radial-focus-overlay" href="${source}" width="436" height="436" clip-path="url(#${clipId})"/></svg>`;
+ }
+ let out=`<svg class="radial-svg${metric?' is-metric-focused':''}" ${metric?`data-selected-metric="${selectedMetric}" data-metric-color="${metric.color}"`:''} viewBox="0 0 420 420" role="img" aria-label="${label}"><title>${label}</title>`;
  for(const value of [0,2.5,5,7.5,10])out+=`<circle cx="210" cy="210" r="${38+value*12.6}" fill="none" stroke="#dce1d8" stroke-width=".65"/>`;
  data.metrics.forEach((m,i)=>{
   const a=i*Math.PI/4,dim=selectedMetric!==null&&selectedMetric!==i;

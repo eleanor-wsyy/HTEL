@@ -1,0 +1,223 @@
+{
+  "allPassed": true,
+  "metricSwitchesChecked": 8,
+  "originalRadialSourcesPreserved": true,
+  "cases": [
+    {
+      "selectedMetric": 0,
+      "figures": [
+        {
+          "clip": "url(#radial-focus-1478-0)",
+          "color": "#398194",
+          "label": "编号478的八项日记，75个记录日，孤独感单题均值3.44；当前高亮 01 孤独感，全期均值 3.44",
+          "metric": "0",
+          "sources": [
+            "assets/radials.svg#radial-1478",
+            "assets/radials.svg#radial-1478"
+          ]
+        },
+        {
+          "clip": "url(#radial-focus-1498-0)",
+          "color": "#398194",
+          "label": "编号498的八项日记，75个记录日，孤独感单题均值3.44；当前高亮 01 孤独感，全期均值 3.44",
+          "metric": "0",
+          "sources": [
+            "assets/radials.svg#radial-1498",
+            "assets/radials.svg#radial-1498"
+          ]
+        }
+      ],
+      "hash": "#compare?ids=1478%2C1498",
+      "note": "01 孤独感所有圆图同步高亮此维度，其他维度淡显 · 圆图显示全期记录"
+    },
+    {
+      "selectedMetric": 1,
+      "figures": [
+        {
+          "clip": "url(#radial-focus-1478-1)",
+          "color": "#b05d67",
+          "label": "编号478的八项日记，75个记录日，孤独感单题均值3.44；当前高亮 02 低落情绪，全期均值 2.64",
+          "metric": "1",
+          "sources": [
+            "assets/radials.svg#radial-1478",
+            "assets/radials.svg#radial-1478"
+          ]
+        },
+        {
+          "clip": "url(#radial-focus-1498-1)",
+          "color": "#b05d67",
+          "label": "编号498的八项日记，75个记录日，孤独感单题均值3.44；当前高亮 02 低落情绪，全期均值 0.79",
+          "metric": "1",
+          "sources": [
+            "assets/radials.svg#radial-1498",
+            "assets/radials.svg#radial-1498"
+          ]
+        }
+      ],
+      "hash": "#compare?ids=1478%2C1498&metric=1",
+      "note": "02 低落情绪所有圆图同步高亮此维度，其他维度淡显 · 圆图显示全期记录"
+    },
+    {
+      "selectedMetric": 2,
+      "figures": [
+        {
+          "clip": "url(#radial-focus-1478-2)",
+          "color": "#726896",
+          "label": "编号478的八项日记，75个记录日，孤独感单题均值3.44；当前高亮 03 被排斥感，全期均值 4.16",
+          "metric": "2",
+          "sources": [
+            "assets/radials.svg#radial-1478",
+            "assets/radials.svg#radial-1478"
+          ]
+        },
+        {
+          "clip": "url(#radial-focus-1498-2)",
+          "color": "#726896",
+          "label": "编号498的八项日记，75个记录日，孤独感单题均值3.44；当前高亮 03 被排斥感，全期均值 0.88",
+          "metric": "2",
+          "sources": [
+            "assets/radials.svg#radial-1498",
+            "assets/radials.svg#radial-1498"
+          ]
+        }
+      ],
+      "hash": "#compare?ids=1478%2C1498&metric=2",
+      "note": "03 被排斥感所有圆图同步高亮此维度，其他维度淡显 · 圆图显示全期记录"
+    },
+    {
+      "selectedMetric": 3,
+      "figures": [
+        {
+          "clip": "url(#radial-focus-1478-3)",
+          "color": "#b88245",
+          "label": "编号478的八项日记，75个记录日，孤独感单题均值3.44；当前高亮 04 兴趣缺失，全期均值 2.51",
+          "metric": "3",
+          "sources": [
+            "assets/radials.svg#radial-1478",
+            "assets/radials.svg#radial-1478"
+          ]
+        },
+        {
+          "clip": "url(#radial-focus-1498-3)",
+          "color": "#b88245",
+          "label": "编号498的八项日记，75个记录日，孤独感单题均值3.44；当前高亮 04 兴趣缺失，全期均值 1.23",
+          "metric": "3",
+          "sources": [
+            "assets/radials.svg#radial-1498",
+            "assets/radials.svg#radial-1498"
+          ]
+        }
+      ],
+      "hash": "#compare?ids=1478%2C1498&metric=3",
+      "note": "04 兴趣缺失所有圆图同步高亮此维度，其他维度淡显 · 圆图显示全期记录"
+    },
+    {
+      "selectedMetric": 4,
+      "figures": [
+        {
+          "clip": "url(#radial-focus-1478-4)",
+          "color": "#348a79",
+          "label": "编号478的八项日记，75个记录日，孤独感单题均值3.44；当前高亮 05 社交互动量，全期均值 5.17",
+          "metric": "4",
+          "sources": [
+            "assets/radials.svg#radial-1478",
+            "assets/radials.svg#radial-1478"
+          ]
+        },
+        {
+          "clip": "url(#radial-focus-1498-4)",
+          "color": "#348a79",
+          "label": "编号498的八项日记，75个记录日，孤独感单题均值3.44；当前高亮 05 社交互动量，全期均值 1.16",
+          "metric": "4",
+          "sources": [
+            "assets/radials.svg#radial-1498",
+            "assets/radials.svg#radial-1498"
+          ]
+        }
+      ],
+      "hash": "#compare?ids=1478%2C1498&metric=4",
+      "note": "05 社交互动量所有圆图同步高亮此维度，其他维度淡显 · 圆图显示全期记录"
+    },
+    {
+      "selectedMetric": 5,
+      "figures": [
+        {
+          "clip": "url(#radial-focus-1478-5)",
+          "color": "#7c8b47",
+          "label": "编号478的八项日记，75个记录日，孤独感单题均值3.44；当前高亮 06 自我表露，全期均值 7.43",
+          "metric": "5",
+          "sources": [
+            "assets/radials.svg#radial-1478",
+            "assets/radials.svg#radial-1478"
+          ]
+        },
+        {
+          "clip": "url(#radial-focus-1498-5)",
+          "color": "#7c8b47",
+          "label": "编号498的八项日记，75个记录日，孤独感单题均值3.44；当前高亮 06 自我表露，全期均值 1.84",
+          "metric": "5",
+          "sources": [
+            "assets/radials.svg#radial-1498",
+            "assets/radials.svg#radial-1498"
+          ]
+        }
+      ],
+      "hash": "#compare?ids=1478%2C1498&metric=5",
+      "note": "06 自我表露所有圆图同步高亮此维度，其他维度淡显 · 圆图显示全期记录"
+    },
+    {
+      "selectedMetric": 6,
+      "figures": [
+        {
+          "clip": "url(#radial-focus-1478-6)",
+          "color": "#5c94a0",
+          "label": "编号478的八项日记，75个记录日，孤独感单题均值3.44；当前高亮 07 感知回应，全期均值 5.64",
+          "metric": "6",
+          "sources": [
+            "assets/radials.svg#radial-1478",
+            "assets/radials.svg#radial-1478"
+          ]
+        },
+        {
+          "clip": "url(#radial-focus-1498-6)",
+          "color": "#5c94a0",
+          "label": "编号498的八项日记，75个记录日，孤独感单题均值3.44；当前高亮 07 感知回应，全期均值 1.12",
+          "metric": "6",
+          "sources": [
+            "assets/radials.svg#radial-1498",
+            "assets/radials.svg#radial-1498"
+          ]
+        }
+      ],
+      "hash": "#compare?ids=1478%2C1498&metric=6",
+      "note": "07 感知回应所有圆图同步高亮此维度，其他维度淡显 · 圆图显示全期记录"
+    },
+    {
+      "selectedMetric": 7,
+      "figures": [
+        {
+          "clip": "url(#radial-focus-1478-7)",
+          "color": "#a08e35",
+          "label": "编号478的八项日记，75个记录日，孤独感单题均值3.44；当前高亮 08 疫情焦虑，全期均值 2.69",
+          "metric": "7",
+          "sources": [
+            "assets/radials.svg#radial-1478",
+            "assets/radials.svg#radial-1478"
+          ]
+        },
+        {
+          "clip": "url(#radial-focus-1498-7)",
+          "color": "#a08e35",
+          "label": "编号498的八项日记，75个记录日，孤独感单题均值3.44；当前高亮 08 疫情焦虑，全期均值 0.04",
+          "metric": "7",
+          "sources": [
+            "assets/radials.svg#radial-1498",
+            "assets/radials.svg#radial-1498"
+          ]
+        }
+      ],
+      "hash": "#compare?ids=1478%2C1498&metric=7",
+      "note": "08 疫情焦虑所有圆图同步高亮此维度，其他维度淡显 · 圆图显示全期记录"
+    }
+  ]
+}
