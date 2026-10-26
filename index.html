@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f6ef">
+  <meta name="description" content="515个人，75天。通过可缩放的日常热力格、可翻转的人物档案与自选对比，探索社交互动与孤独的关系。">
+  <title>515个人，75天 · 看见孤独</title>
+  <link rel="stylesheet" href="styles.css"><script src="app.js" type="module"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <header class="site-header">
+    <a class="wordmark" href="#home" aria-label="看见孤独 首页"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M0 0h7v7H0zM9 0h7v7H9zM0 9h7v7H0zM9 9h7v7H9zM18 9h6v7h-6zM9 18h7v6H9z"/></svg><span>看见孤独<span class="wordmark-en">THE SHAPE OF LONELINESS</span></span></a>
+    <nav aria-label="主要导航"><a href="#overview" data-nav="overview"><span>01</span> 人群总览</a><a href="#archives" data-nav="archives"><span>02</span> 人物档案</a><a href="#compare" data-nav="compare"><span>03</span> 日常对照</a></nav>
+    <a class="header-note" href="#method">关于这项研究 <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="main" tabindex="-1">
+    <div id="loading" class="loading-state" role="status"><span class="loading-pixel"></span>正在展开 515 份日常记录…</div>
+    <section data-page="overview" hidden>
+      <div class="hero" id="home">
+        <div id="hero-field" class="hero-field" aria-label="来自515位参与者的像素日记，选择一个格子查看人物档案"></div>
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="small-cross">＋</span> A DAILY DIARY STUDY · 2020</p>
+          <h1><span class="hero-line"><span class="hero-number">515</span><span class="hero-cn">个人，</span></span><span class="hero-line second"><span class="hero-number">75</span><span class="hero-cn">天。</span><span class="hero-spark" aria-hidden="true">✳</span></span></h1>
+          <p class="hero-question">我们的社交互动，如何影响孤独？</p>
+          <p class="hero-caption">把难以言说的感受，放进每一天。<br>走近一小格，看见一个人的日常。</p>
+          <a class="primary-link" href="#overview">展开他们的日常 <span aria-hidden="true">↗</span></a>
+        </div>
+        <span class="hero-margin left">515 LIVES. ONE SHARED QUESTION.</span>
+        <span class="hero-margin right">每一格，是一个人。每一色，是一天。</span>
+        <div class="hero-footer"><span><i class="live-dot"></i> 真实日记数据 · 每人最多 75 个入组日次</span><a href="#overview">向下，走进数据 <span aria-hidden="true">↓</span></a><span>01 — 04 / INTERACTIVE ATLAS</span></div>
+      </div>
+      <section class="atlas section-wrap" id="overview" aria-labelledby="overview-title">
+        <div class="section-heading"><div><p class="eyebrow">01 / THE COLLECTIVE PORTRAIT</p><h2 id="overview-title">孤独有形，<span>日常有迹。</span></h2></div><p class="section-intro">515 个格子，515 条生活轨迹。<br>颜色记录感受，空白也有自己的位置。</p></div>
+        <div class="atlas-layout">
+          <div class="atlas-main">
+            <div class="atlas-toolbar"><div class="segmented" aria-label="查看方式"><button data-mode="tiles" aria-pressed="true">人物格子</button><button data-mode="matrix" aria-pressed="false">逐日矩阵</button></div><div class="zoom-controls"><button id="zoom-out" aria-label="缩小格子">−</button><output id="zoom-label">100%</output><button id="zoom-in" aria-label="放大格子">＋</button><button id="zoom-reset" aria-label="还原缩放">重置</button></div></div>
+            <div class="mosaic-scroll" id="mosaic-scroll" tabindex="0" aria-label="可缩放的人群图；方向键在格子间移动，回车查看人物"><div id="mosaic" class="mosaic" role="group" aria-label="515个人的75天日记"></div></div>
+            <div class="scale-row"><span>双题孤独均分</span><span>0</span><div class="color-scale"></div><span>10</span><span class="missing-key">缺失</span></div>
+            <p class="micro-note">每格一人 · 内部 15 列 × 5 行，依次为 D01—D75 · 按底色由深到浅排列 · 点选格子查看，按 Shift 点选加入对比</p>
+          </div>
+          <aside class="atlas-sidebar">
+            <p class="eyebrow">BEHIND THE PIXELS</p><div class="sample-stat"><strong>515</strong><span>个不同的日常</span></div>
+            <div class="data-totals"><div><strong id="valid-count">27,785</strong><span>有效双题人日</span></div><div><strong>75</strong><span>最多记录日次</span></div></div>
+            <div id="demographics" class="demographics"></div>
+            <a class="text-link" href="#method">这些颜色如何计算？ <span>↗</span></a>
+          </aside>
+        </div>
+        <div class="reading-strip"><span class="reading-index">读图 / 01</span><p><strong>深浅记录的是感受，不是一个人的全部。</strong> 先看 515 人的差异，再走近每个人自己的变化。</p><a href="#archives">27 份完整档案 <span>→</span></a></div>
+      </section>
+    </section>
+    <section data-page="archives" class="section-wrap archive-page" hidden aria-labelledby="archives-title">
+      <div class="section-heading"><div><p class="eyebrow">02 / INDIVIDUAL STORIES</p><h2 id="archives-title">走近，<span>一个人的日常。</span></h2></div><p class="section-intro">27 份连续记录的档案，8 个观察维度。<br>点开一张卡片，翻面认识图形背后的人。</p></div>
+      <div class="archive-tools"><label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></svg><span class="sr-only">搜索展示编号或原始 ID</span><input id="person-search" type="search" placeholder="找一个人：122 或 1122" autocomplete="off"></label><label class="archive-scope"><span class="sr-only">档案范围</span><select id="archive-scope"><option value="featured">原海报精选 · 27 人</option><option value="all">全部参与者 · 515 人</option></select></label><label class="archive-sort"><span class="sr-only">排序</span><select id="archive-sort"><option value="id">按编号排列</option><option value="high">孤独感：高 → 低</option><option value="low">孤独感：低 → 高</option></select></label><output id="archive-count">27 份档案</output></div>
+      <div class="metric-legend" id="archive-legend" aria-label="八项指标图例"></div>
+      <div id="archive-grid" class="archive-grid"></div><div id="archive-pagination" class="pagination"></div>
+      <p class="micro-note">圆内为展示编号（原始 ID − 1000）；右下角是此人在总览中的同一数据格。单题孤独感与总览双题复合分分别呈现，不混作同一指标。</p>
+    </section>
+    <section data-page="compare" class="section-wrap compare-page" hidden aria-labelledby="compare-title">
+      <div class="section-heading"><div><p class="eyebrow">03—04 / EVERYDAY CONTRASTS</p><h2 id="compare-title">相似的感受，<span>不同的日常。</span></h2></div><p class="section-intro">把两个人放在一起，或选出自己的比较。<br>共同的刻度，留住每个人的差异。</p></div>
+      <div class="comparison-presets"><button data-preset="1478,1498" class="preset"><span>03 / 同分镜像</span><strong>相同孤独，不同日常 <span>↗</span></strong><small>478 + 498 · 孤独感均值同为 3.44</small></button><button data-preset="1113,1045" class="preset"><span>04 / 个人均值对照</span><strong>不同水平，共同变化 <span>↗</span></strong><small>113 + 45 · 回到各自的日常</small></button></div>
+      <div class="compare-controls"><label>观察维度 <select id="compare-metric"></select></label><div class="segmented"><button data-alignment="raw" aria-pressed="true">原始评分</button><button data-alignment="centered" aria-pressed="false">相对个人均值</button></div><label class="day-range">入组日次 <input id="day-start" type="number" min="1" max="75" value="1" aria-label="开始日次"><span>—</span><input id="day-end" type="number" min="1" max="75" value="75" aria-label="结束日次"></label><button id="apply-range" class="range-apply">应用范围 ↗</button><a class="quiet-button" href="#archives">＋ 自选人物</a><button id="clear-comparison" class="quiet-button">清空选择</button></div>
+      <div id="comparison-content"></div>
+      <div class="comparison-reading"><span class="reading-index">读图 / 03</span><p id="comparison-note">自选 2—4 人，对照他们的日常轨迹。</p></div>
+      <details class="poster-source"><summary>回看海报原稿 <span>03 / 04 ↗</span></summary><div class="source-posters"><button data-poster="3" aria-label="放大第三张海报"><img src="assets/poster-3.svg" loading="lazy" alt="第三张海报，相同孤独不同日常，478与498的镜像比较"></button><button data-poster="4" aria-label="放大第四张海报"><img src="assets/poster-4.svg" loading="lazy" alt="第四张海报，不同水平共同变化，113与45的比较"></button></div></details>
+    </section>
+    <section data-page="method" class="section-wrap method-page" hidden aria-labelledby="method-title">
+      <p class="eyebrow">A NOTE ON THE DATA</p><h2 id="method-title">让数据说到，<br><span>它能说到的地方。</span></h2>
+      <div class="method-grid"><article><span>01 / 来源</span><h3>从真实日记开始</h3><p>本网页使用你提供的三份 CSV：时间序列表、DailyDiary 日记与 Baseline 基线信息。共 515 位参与者、28,027 条原始日记记录。研究发生在 2020 年，并非网页访问者的记录。</p><p>Kuczynski, A. M., Halvorson, M. A., Slater, L. R., &amp; Kanter, J. W. (2022; online 2021). <cite>The effect of social interaction quantity and quality on depressed mood and loneliness: A daily diary study.</cite> Journal of Social and Personal Relationships, 39(3), 734–756.</p><a href="https://doi.org/10.1177/02654075211045717" target="_blank" rel="noopener">阅读研究出处 ↗</a></article><article><span>02 / 时间与缺失</span><h3>75 天，是观察窗口</h3><p>D01—D75 表示每位参与者各自入组后的日次，不是所有人共享的自然日期。原始记录日期跨度为 2020-03-14—2020-06-29；每个人未必每天都有有效记录。</p><p>同人同日重复记录按字段取均值；共 7 条额外重复记录。窗口外 D76 的 1 条记录不计入视图。27,785 个有效双题人日；10,840 个缺失格保留为灰色，不插补，也不当作 0 分。</p></article><article><span>03 / 指标口径</span><h3>保留原海报的两种读法</h3><p>总览热力格：双题复合分 (loneliness + left_out) / 2，要求两题同时有效。格子内部按入组日次从左至右、从上至下读；底色对应个人双题均分。</p><p>人物档案与对照：直接使用 DailyDiary 的八个单题，孤独感为 loneliness 单题。社交互动量是自评评分，不是互动次数。圆图共用 0—10 分刻度，空心点为原海报 27 人个人均值的等权平均。</p></article><article><span>04 / 解释边界</span><h3>图形之外，仍是一个人</h3><p>人物卡信息来自 Baseline；未报告的信息明确标记。像素头像是按编号生成的示意形象，不还原真实外貌。编号仅作匿名记录的关联索引，展示编号 = 原始 ID − 1000。</p><p>自选个案、同分分层、同日相关与相对均值的变化仅用于描述，不作临床诊断、显著性或因果推断。背景信息差异未控制；这里也没有机器人使用或产品效果数据。</p></article></div>
+      <div class="method-artwork"><div><p class="eyebrow">THE ORIGINAL POSTERS</p><h3>四张海报，一条阅读路径。</h3><p>从人群，到个体，再到不同日常的对照。<br>网页保留矢量原稿，并将静态阅读展开为交互。</p></div><div class="poster-gallery"><button data-poster="1"><img src="assets/poster-1.svg" loading="lazy" alt="第一张，515人总览"><span>01 / 人群总览 ↗</span></button><button data-poster="2"><img src="assets/poster-2.svg" loading="lazy" alt="第二张，27人档案"><span>02 / 27人档案 ↗</span></button><button data-poster="3"><img src="assets/poster-3.svg" loading="lazy" alt="第三张，同分镜像"><span>03 / 同分镜像 ↗</span></button><button data-poster="4"><img src="assets/poster-4.svg" loading="lazy" alt="第四张，个人均值对照"><span>04 / 个人均值对照 ↗</span></button></div></div>
+      <p class="method-credits">设计来源：用户提供的 Figma 四张海报。首屏叙事参考 The New York Times《1,374 Days: My Life With Long Covid》；交互参考 ThreeUI、OhWow 与 UI Skills。图形与数据内容属于本项目，不借用参考作品的症状图形。<a href="https://www.commarts.com/project/37550/1-374-days-my-life-with-long-covid" target="_blank" rel="noopener">查看首屏参考 ↗</a></p>
+    </section>
+  </main>
+  <footer class="site-footer"><a href="#home">看见孤独 <span>THE SHAPE OF LONELINESS</span></a><p>每个格子之后，都有一段具体的生活。</p><a href="#method">数据与读图说明 ↗</a></footer>
+  <aside id="selection-tray" class="selection-tray" hidden aria-label="已选对比人物"><span class="tray-label">我的对照 <strong id="selection-count">0/4</strong></span><div id="selected-people"></div><a id="compare-link" class="primary-link" href="#compare">开始对比 <span>↗</span></a></aside>
+  <dialog id="person-dialog" class="person-dialog" aria-labelledby="person-dialog-title"><div class="dialog-toolbar"><span id="person-dialog-title">PERSONAL ARCHIVE / 人物档案</span><button id="close-person" aria-label="关闭人物档案">✕</button></div><div class="flip-scene"><div class="flip-card" id="flip-card"><section class="card-face card-front" id="card-front" aria-label="图表正面"></section><section class="card-face card-back" id="card-back" aria-label="人物档案背面" aria-hidden="true" inert></section></div></div><div class="dialog-actions"><button id="flip-person" class="flip-button" aria-pressed="false"><span aria-hidden="true">⤾</span> 翻面 · 认识这个人</button><button id="select-person" class="primary-link">＋ 加入对比</button></div><div id="person-detail" class="person-detail"></div></dialog>
+  <dialog id="poster-dialog" class="poster-dialog" aria-labelledby="poster-title"><div class="dialog-toolbar"><span id="poster-title">海报原稿</span><div class="zoom-controls"><button id="poster-minus" aria-label="缩小海报">−</button><output id="poster-scale">100%</output><button id="poster-plus" aria-label="放大海报">＋</button><button id="close-poster" aria-label="关闭海报">✕</button></div></div><div class="poster-viewport" id="poster-viewport"><img id="poster-image" alt="可放大的海报矢量原稿"></div><a id="poster-download" download>下载矢量 SVG ↗</a></dialog>
+  <div id="tooltip" class="tooltip" role="tooltip" hidden></div><div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

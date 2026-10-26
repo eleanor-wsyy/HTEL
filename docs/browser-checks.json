@@ -1,0 +1,97 @@
+{
+  "checks": [
+    {
+      "test": "metric, centered values, inclusive range 10–20",
+      "pass": true,
+      "result": {
+        "chart": "2人逐日评分，D10至D20，减去全期个人均值，共用负10至正10刻度；缺失日断开连线",
+        "hash": "#compare?ids=1478%2C1498&metric=6&align=centered&start=10&end=20",
+        "people": 2
+      }
+    },
+    {
+      "test": "exact search by display ID 122",
+      "pass": true,
+      "result": {
+        "count": 1,
+        "ids": [
+          "archive-1122"
+        ]
+      }
+    },
+    {
+      "test": "fifth selection rejected with feedback",
+      "pass": true,
+      "result": {
+        "count": "4/4",
+        "toast": "最多同时对比 4 人，请先移除一位。"
+      }
+    },
+    {
+      "test": "keyboard flip and original ID profile",
+      "pass": true,
+      "result": {
+        "back": "false",
+        "frontInert": true,
+        "id": true
+      }
+    },
+    {
+      "test": "515 tile overview and 200% zoom",
+      "pass": true,
+      "result": {
+        "tiles": 515,
+        "width": "200%",
+        "zoom": "200%"
+      }
+    },
+    {
+      "test": "complete 515×75 matrix",
+      "pass": true,
+      "result": {
+        "cells": 38625,
+        "rows": 515
+      }
+    },
+    {
+      "test": "Escape restores archive trigger",
+      "pass": true,
+      "result": {
+        "activeClass": "archive-open",
+        "activeId": "1122",
+        "activeTag": "BUTTON",
+        "open": false
+      }
+    },
+    {
+      "test": "390px mobile cover retains 515 tiles and has no horizontal overflow",
+      "pass": true,
+      "result": {
+        "heroTiles": 515,
+        "scrollWidth": 375,
+        "titleBox": {
+          "bottom": 437.1979217529297,
+          "height": 195,
+          "left": 47.83333587646485,
+          "right": 326.83333587646484,
+          "top": 242.1979217529297,
+          "width": 279,
+          "x": 47.83333587646485,
+          "y": 242.1979217529297
+        },
+        "width": 390
+      }
+    },
+    {
+      "test": "mobile deep-linked profile has all seven ID/demographic rows",
+      "pass": true,
+      "result": {
+        "backVisible": true,
+        "dialogWidth": 372,
+        "rows": 7,
+        "viewport": 390
+      }
+    }
+  ],
+  "allPassed": true
+}

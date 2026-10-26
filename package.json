@@ -1,0 +1,6 @@
+{
+  "name":"htel-loneliness-atlas", "version":"1.0.0", "private":true, "type":"module",
+  "description":"515个人，75天：基于真实日记与四张海报的交互式数据叙事",
+  "scripts":{"start":"node scripts/serve.mjs","test":"node --test tests/*.test.mjs","check":"node --check app.js && node --check scripts/serve.mjs"},
+  "engines":{"node":">=20"}
+}

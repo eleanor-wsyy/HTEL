@@ -1,0 +1,59 @@
+{
+  "participants": 515,
+  "sourceRows": 28027,
+  "diaryRows": 28027,
+  "baselineRows": 515,
+  "windowDays": 75,
+  "possibleCells": 38625,
+  "validCompositeCells": 27785,
+  "missingCompositeCells": 10840,
+  "pairedItems": "(loneliness + left_out) / 2, both required",
+  "archiveLoneliness": "DailyDiary.loneliness, single item",
+  "duplicatePersonDayExtraRows": 7,
+  "outsideWindowRows": 1,
+  "dateMin": "2020-03-14",
+  "dateMax": "2020-06-29",
+  "featuredIds": [
+    1002,
+    1013,
+    1041,
+    1045,
+    1113,
+    1122,
+    1130,
+    1147,
+    1150,
+    1157,
+    1159,
+    1167,
+    1173,
+    1191,
+    1204,
+    1245,
+    1247,
+    1291,
+    1309,
+    1312,
+    1456,
+    1471,
+    1478,
+    1483,
+    1489,
+    1497,
+    1498
+  ],
+  "sources": [
+    {
+      "name": "0039_kuczynski_ts(1).csv",
+      "sha256": "0f7dc64db666dec5c24fdd62ff7bebf247de684b0a098201f0550a2bd506c44e"
+    },
+    {
+      "name": "DailyDiary(1).csv",
+      "sha256": "404640347b77d303b3addd341853bdab454f98459bf40e65be88d59a99f63b2d"
+    },
+    {
+      "name": "Baseline(1)(1).csv",
+      "sha256": "f24460792d2f85b540a21fc0144e6a8d35509af771c4f2a70dd1cc125de00805"
+    }
+  ]
+}
