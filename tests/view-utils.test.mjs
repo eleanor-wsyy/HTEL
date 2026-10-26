@@ -19,3 +19,4 @@ test('refinement markup keeps all eight metric choices and accessible comparison
  assert.ok(html.includes('id="return-to-atlas"'));assert.ok(html.includes('id="focus-person"'));
 });
 test('all participants share the native radial canvas, scale and tile anchor',()=>{const p=data.people.find(p=>p.id===1001);const svg=radial(p,data);assert.ok(svg.includes('viewBox="0 0 436 436"'));assert.ok(svg.includes('r="178"'));assert.ok(svg.includes('<svg x="368" y="367" width="58" height="45"'));});
+test('native and generated radials explicitly preserve the full square drawing',()=>{for(const id of[1379,1045])for(const selectedMetric of[null,2])assert.ok(radial(data.people.find(p=>p.id===id),data,{selectedMetric}).includes('preserveAspectRatio="xMidYMid meet"'));});

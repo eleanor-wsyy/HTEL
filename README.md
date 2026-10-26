@@ -151,4 +151,8 @@ python scripts/build_standalone.py --output dist/loneliness-atlas.html
 
 该文件内置全部数据、CSS、JavaScript、515个矢量格、27个原始圆图和四张矢量海报，无外部脚本/样式/图形依赖。生成文件包含源码摘要；测试会检查是否为当前源码，防止交付旧副本。`dist/` 不提交Git。
 
-本轮45项自动测试通过（包含已生成独立文件的检查），16项交互/响应式浏览器检查通过，见 `docs/interaction-upgrade-checks.json`。浏览器工具禁止 `file://`，没有通过其他方式绕过；验收使用同一独立HTML的本地HTTP预览，另以静态检查确认无网络加载器及资源依赖。直接双击仍需在用户浏览器确认。
+本轮46项自动测试通过（包含已生成独立文件的检查），16项交互/响应式浏览器检查通过，见 `docs/interaction-upgrade-checks.json`。浏览器工具禁止 `file://`，没有通过其他方式绕过；验收使用同一独立HTML的本地HTTP预览，另以静态检查确认无网络加载器及资源依赖。直接双击仍需在用户浏览器确认。
+
+### 圆图裁切修复
+
+桌面人物卡的图表网格行使用 `minmax(0,1fr)`，SVG同时约束宽高并保持 `xMidYMid meet`，不再由固有正方形宽度撑高而被卡片裁掉。正反两面均纳入内容高度检查；已在截图尺寸、短屏和手机共10个案例验证，见 `docs/card-circle-fit-checks.json`。

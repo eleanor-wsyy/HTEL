@@ -177,8 +177,8 @@ function showPerson(p){
  if(!personDialog.open){personDialog.showModal();$('#close-person').focus();}fitProfileCard();personDialog.scrollTop=0;
 }
 function fitProfileCard(){
- const card=$('#flip-card'),back=$('#card-back');card.style.height='';
- const base=card.getBoundingClientRect().height,required=back.scrollHeight+back.offsetHeight-back.clientHeight+6;
+ const card=$('#flip-card'),back=$('#card-back'),front=$('#card-front');card.style.height='';
+ const base=card.getBoundingClientRect().height,required=Math.max(back.scrollHeight+back.offsetHeight-back.clientHeight,front.scrollHeight+front.offsetHeight-front.clientHeight)+6;
  if(required>base)card.style.height=Math.ceil(required)+'px';
 }
 function setFlip(value,update=true){flipped=value;$('#flip-card').classList.toggle('is-flipped',value);$('#flip-person').setAttribute('aria-pressed',String(value));$('#flip-person').innerHTML=`<span aria-hidden="true">⤾</span> ${value?'翻回 · 看他的日常':'翻面 · 认识这个人'}`;$('#card-front').setAttribute('aria-hidden',String(value));$('#card-front').inert=value;$('#card-back').setAttribute('aria-hidden',String(!value));$('#card-back').inert=!value;
