@@ -1,8 +1,9 @@
+import {sortOptions,sortPeople,sortDescription,sortContext} from './sorting.js';
 import {finite,mean,fmt,color,metricColor,escapeHTML as esc,parseSelection,windowStats,scoreLayers,readRoute} from './data-utils.js';
-import {tile,radial,avatar,timeline,scatter,personColors} from './charts.js';
+import {tile,radial,avatar,timeline,personColors} from './charts.js';
 import {createHeroFall} from './hero-motion.js';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-let data,people,validIds,selection=[],activePerson=null,flipped=false,detailMetric=-1,archivePage=0,mosaicMode='tiles',zoom=1,posterZoom=1,alignment='raw',compareMetric=0,dayStart=1,dayEnd=75;
+let data,people,validIds,selection=[],activePerson=null,flipped=false,detailMetric=-1,archivePage=0,mosaicMode='tiles',mosaicSort='high',zoom=1,posterZoom=1,alignment='raw',compareMetric=0,dayStart=1,dayEnd=75;
 let toastTimer,returnFocus=null,returnPersonId=null,routePage='home';
 const personDialog=$('#person-dialog'),posterDialog=$('#poster-dialog');
 const heroFall=createHeroFall($('#hero-field'),$('#replay-hero'),matchMedia('(prefers-reduced-motion: reduce)'));
@@ -62,29 +63,22 @@ function renderHero(){
 }
 function renderMosaic(){
  const grid=$('#mosaic');grid.classList.toggle('matrix',mosaicMode==='matrix');
- grid.innerHTML=data.order.map((id,i)=>{const p=people.get(id),pressed=selection.includes(id);return mosaicMode==='tiles'?`<button class="person-tile" data-person="${id}" data-index="${i}" tabindex="${i===0?0:-1}" aria-label="${personLabel(p)}" aria-pressed="${pressed}">${tile(p)}</button>`:`<button class="matrix-row" data-person="${id}" data-index="${i}" tabindex="${i===0?0:-1}" aria-label="${personLabel(p)}"><span class="matrix-id">${p.displayId}</span>${p.heat.map((v,j)=>`<span style="background:${color(v)}" title="D${j+1}：${finite(v)?fmt(v)+'分':'缺失'}"></span>`).join('')}</button>`;}).join('');
+ $('#overview-sort-note').textContent=sortDescription(mosaicSort);
+ const ordered=sortPeople(data.people,mosaicSort);
+ grid.innerHTML=ordered.map((p,i)=>{const id=p.id,pressed=selection.includes(id);return mosaicMode==='tiles'?`<button class="person-tile" data-person="${id}" data-index="${i}" tabindex="${i===0?0:-1}" aria-label="${personLabel(p)}，${esc(sortContext(p,mosaicSort))}" title="${esc(sortContext(p,mosaicSort))}" aria-pressed="${pressed}">${tile(p)}</button>`:`<button class="matrix-row" data-person="${id}" data-index="${i}" tabindex="${i===0?0:-1}" aria-label="${personLabel(p)}，${esc(sortContext(p,mosaicSort))}" aria-pressed="${pressed}"><span class="matrix-id">${p.displayId}</span>${p.heat.map((v,j)=>`<span style="background:${color(v)}" title="D${j+1}：${finite(v)?fmt(v)+'分':'缺失'}"></span>`).join('')}</button>`;}).join('');
  updateZoom();
 }
 function updateZoom(){zoom=Math.min(4,Math.max(1,zoom));$('#mosaic').style.width=zoom*100+'%';$('#zoom-label').textContent=Math.round(zoom*100)+'%';$('#zoom-out').disabled=zoom<=1;$('#zoom-in').disabled=zoom>=4;}
-function renderDemographics(){
- const palettes=[['#398194','#ebad9d','#a7ae6c','#d6d9ce'],['#9faaa0','#86b7a4','#dfbf72','#6d9ba7','#b4a1a7','#869169','#d6d9ce'],['#b9c67f','#87b2ab','#e7cf8d','#d6d9ce'],['#e3ca72','#94b28b','#839fbc','#d6d9ce'],['#8ca7b6','#bbbd83','#d8b3a1','#95b19c','#9b8da9','#d6d9ce']];
- const keys=[['gender','性别'],['income','年收入 · 美元'],['living','居住情境'],['relationship','婚恋状态'],['parent','子女与同住']];
- $('#demographics').innerHTML=keys.map(([key,label],index)=>{
-  const counts=new Map();data.people.forEach(p=>{const v=p.profile[key];counts.set(v,(counts.get(v)||0)+1);});
-  const entries=[...counts].sort((a,b)=>(a[0]==='未报告')-(b[0]==='未报告')||b[1]-a[1]);let total=0;
-  const bands=entries.map(([name,n],i)=>{const from=total/515*100;total+=n;return `${palettes[index][i%palettes[index].length]} ${from}% ${total/515*100}%`;});
-  return `<div class="demo-block"><div class="demo-title">${label}<span>N = 515</span></div><div class="demo-body"><div class="donut" role="img" aria-label="${esc(entries.map(([name,n])=>name+' '+n+'人').join('，'))}" style="background:conic-gradient(${bands.join(',')})"></div><div class="demo-key">${entries.map(([name,n],i)=>`<div><span class="demo-name" title="${esc(name)}"><i style="background:${palettes[index][i%palettes[index].length]}"></i>${esc(name)}</span><b>${(n/515*100).toFixed(1)}%</b></div>`).join('')}</div></div></div>`;
- }).join('');
-}
 function renderArchives(){
  const query=$('#person-search').value.trim().toLowerCase(),scope=$('#archive-scope').value,sort=$('#archive-sort').value;
  const exact=query?data.people.filter(p=>p.displayId===query||String(p.id)===query):[];
  let entries=exact.length?exact:data.people.filter(p=>(scope==='all'||p.featured)&&(!query||p.displayId.includes(query)||String(p.id).includes(query)));
  if(query&&scope!=='all'&&!entries.length)entries=data.people.filter(p=>p.displayId.includes(query)||String(p.id).includes(query));
- if(sort!=='id')entries.sort((a,b)=>{const x=a.stats[0].mean,y=b.stats[0].mean;if(x===null)return 1;if(y===null)return -1;return sort==='high'?y-x:x-y;});
+ entries=sortPeople(entries,sort,'single');
+ $('#archive-sort-note').textContent=sortDescription(sort,'single');
  const pageSize=scope==='featured'?27:32,pages=Math.max(1,Math.ceil(entries.length/pageSize));archivePage=Math.min(archivePage,pages-1);
  $('#archive-count').textContent=entries.length+' 份档案';
- $('#archive-grid').innerHTML=entries.length?entries.slice(archivePage*pageSize,(archivePage+1)*pageSize).map((p,i)=>`<article class="archive-card" id="archive-${p.id}"><div class="archive-card-header"><span>${String(archivePage*pageSize+i+1).padStart(2,'0')} / ${p.days} 个记录日</span><button data-select="${p.id}" aria-pressed="${selection.includes(p.id)}" aria-label="${selection.includes(p.id)?'移出':'加入'}对比：编号${p.displayId}">${selection.includes(p.id)?'✓':'＋'}</button></div><button class="archive-open" data-person="${p.id}" aria-label="打开${personLabel(p)}">${radial(p,data)}</button><div class="archive-card-footer"><span>${niceDate(p.dates.find(Boolean))}—${niceDate(p.dates.findLast(Boolean))}</span><span>孤独感 <strong>${fmt(p.stats[0].mean)}</strong></span><span class="open-arrow" aria-hidden="true">↗</span></div></article>`).join(''):'<div class="empty-state"><h3>没有找到这个编号。</h3><p>试试展示编号 122，或原始 ID 1122。</p><button class="primary-link" data-reset-search>重置搜索 ↗</button></div>';
+ $('#archive-grid').innerHTML=entries.length?entries.slice(archivePage*pageSize,(archivePage+1)*pageSize).map((p,i)=>`<article class="archive-card" id="archive-${p.id}"><div class="archive-card-header"><span>${String(archivePage*pageSize+i+1).padStart(2,'0')} / ${p.days} 个记录日</span><button data-select="${p.id}" aria-pressed="${selection.includes(p.id)}" aria-label="${selection.includes(p.id)?'移出':'加入'}对比：编号${p.displayId}">${selection.includes(p.id)?'✓':'＋'}</button></div><button class="archive-open" data-person="${p.id}" aria-label="打开${personLabel(p)}">${radial(p,data)}</button><p class="archive-sort-context">${esc(sortContext(p,sort))}</p><div class="archive-card-footer"><span>${niceDate(p.dates.find(Boolean))}—${niceDate(p.dates.findLast(Boolean))}</span><span>孤独感 <strong>${fmt(p.stats[0].mean)}</strong></span><span class="open-arrow" aria-hidden="true">↗</span></div></article>`).join(''):'<div class="empty-state"><h3>没有找到这个编号。</h3><p>试试展示编号 122，或原始 ID 1122。</p><button class="primary-link" data-reset-search>重置搜索 ↗</button></div>';
  $('#archive-pagination').innerHTML=pages>1?`<button data-page-step="-1" ${archivePage===0?'disabled':''}>← 上一页</button><span>${archivePage+1} / ${pages}</span><button data-page-step="1" ${archivePage===pages-1?'disabled':''}>下一页 →</button>`:'';
 }
 function toggleSelection(id){
@@ -139,7 +133,6 @@ function renderComparison(){
  const bars=data.metrics.map((m,i)=>`<div class="metric-row"><span><i style="display:inline-block;width:8px;height:2px;background:${m.color};margin-right:5px"></i>${m.name}</span>${chosen.map(p=>{const v=windowStats(p,i,dayStart,dayEnd).mean;return `<div class="metric-bar" role="img" aria-label="编号${p.displayId}，${m.name}均值${fmt(v)}"><i style="width:${finite(v)?v*10:0}%;background:${m.color}"></i><b>${fmt(v)}</b></div>`;}).join('')}</div>`).join('');
  let html=`<div class="compare-people" style="--columns:${chosen.length}">${cards}</div><section class="chart-section"><div class="chart-section-head"><h3>把每一天，放回时间里。</h3><span>${data.metrics[compareMetric].name} · ${alignment==='centered'?'减去全期个人均值':'0—10 分'} · 缺失日不连线</span></div>${timeline(chosen,compareMetric,range)}<div class="chart-key">${keys}</div><p class="micro-note">D01—D75 为各自入组日次，不是同一自然日期。点选轨迹上的日值查看数值。${alignment==='centered'?'0 表示该人的全期个人均值，不是原始 0 分。':''}</p></section><section class="chart-section"><div class="chart-section-head"><h3>同一把尺，八种感受。</h3><span>当前日次窗口均值 · 共用 0—10 分刻度 · 圆图仍显示全期记录</span></div><div class="metric-comparison" style="--columns:${chosen.length}">${bars}</div></section>`;
  if(chosen.length===2){const layers=chosen.map(p=>scoreLayers(p,dayStart,dayEnd));html+=`<section class="chart-section"><div class="chart-section-head"><h3>同样的孤独评分，对应怎样的互动？</h3><span>按单题整数评分分层，不按日期配对</span></div><div class="table-scroll"><table class="score-mirror"><caption class="sr-only">两位参与者在各孤独评分层内的互动与回应均分</caption><thead><tr><th>孤独评分</th>${chosen.map(p=>`<th>编号 ${p.displayId} · 天数</th><th>互动 / 回应（均分）</th>`).join('')}</tr></thead><tbody>${Array.from({length:11},(_,score)=>`<tr class="${layers.every(a=>a[score].n>=5)?'supported':''}"><td class="score-number">${score}</td>${layers.map(a=>{const s=a[score];return `<td>n=${s.n}${s.n>0&&s.n<5?' †':''}</td><td><div class="mirror-bands"><i style="width:${finite(s.interaction)?s.interaction*6:0}%"></i><i style="width:${finite(s.responsiveness)?s.responsiveness*6:0}%"></i></div>${fmt(s.interaction)} / ${fmt(s.responsiveness)}</td>`;}).join('')}</tr>`).join('')}</tbody></table></div><p class="micro-note">浅底表示两侧各至少 5 个该评分日，仅是阅读提示。† 少于 5 天；— 无有效值，不等于 0。重复日均值产生的非整数孤独评分不归入整数层。分层结果不构成匹配、显著性或因果比较。</p></section>`;}
- html+=`<section class="chart-section"><div class="chart-section-head"><h3>比平时更被回应的那天。</h3><span>横轴：回应偏离 · 纵轴：孤独偏离 · 共用 −10 至 +10</span></div><div class="centered-scatter" style="--columns:${chosen.length}">${chosen.map(p=>scatter(p,dayStart,dayEnd)).join('')}</div><p class="micro-note">偏离值 = 当天评分 − 该人的全期个人均值。同日相关只作描述，未控制趋势、自相关或混杂，不说明因果。</p></section>`;
  $('#comparison-content').innerHTML=html;
  const preset=selection.join(',');$('#comparison-note').textContent=preset==='1478,1498'?'478 与 498 的全期孤独感均值同为 3.44，但互动量与回应感不同。相同评分不能替代一个人的具体日常。':preset==='1113,1045'?'113 与 45 的孤独感水平不同。先看个人均值，再看相对各自日常的变化；不把群体水平当作个人基线。':'共同的刻度用于对照，不把曲线差异解释为背景信息的影响或因果关系。';
 }
@@ -147,6 +140,7 @@ function showPoster(n){posterZoom=1;$('#poster-title').textContent=['','01 / 515
 function updatePosterZoom(){posterZoom=Math.min(4,Math.max(1,posterZoom));$('#poster-image').style.width=100*posterZoom+'%';$('#poster-scale').textContent=Math.round(posterZoom*100)+'%';}
 function showTip(html,event){const tip=$('#tooltip');tip.innerHTML=html;tip.hidden=false;const box=tip.getBoundingClientRect();const x=event.clientX??event.target.getBoundingClientRect().right,y=event.clientY??event.target.getBoundingClientRect().top;tip.style.left=Math.max(8,Math.min(innerWidth-box.width-12,x+15))+'px';tip.style.top=Math.max(8,Math.min(innerHeight-box.height-12,y+15))+'px';}
 function bindEvents(){
+ $('#overview-sort').addEventListener('change',()=>{mosaicSort=$('#overview-sort').value;renderMosaic();$('#mosaic-scroll').scrollTop=0;});
  document.addEventListener('click',event=>{
   const target=event.target.closest('button,a,[data-tip]');if(!target)return;
   if(target.matches('[data-person]')){event.preventDefault();$('#tooltip').hidden=true;if(event.shiftKey)toggleSelection(target.dataset.person);else openPerson(target.dataset.person,target);return;}
@@ -185,13 +179,22 @@ function bindEvents(){
   }
  });
  document.addEventListener('pointerover',event=>{const el=event.target.closest('[data-person],[data-tip]');if(!el||personDialog.open)return;
-  if(el.dataset.person){const p=people.get(Number(el.dataset.person));showTip(`${tile(p,'tip-tile')}<strong>编号 ${p.displayId}</strong>双题均分 ${fmt(p.mean)}<br>有效 ${p.validDays}/75 天<br>点击 · 打开档案`,event);}else showTip(esc(el.dataset.tip),event);
+  if(el.dataset.person){const p=people.get(Number(el.dataset.person));showTip(`${tile(p,'tip-tile')}<strong>编号 ${p.displayId}</strong>${esc(sortContext(p,mosaicSort))}<br>双题均分 ${fmt(p.mean)}<br>有效 ${p.validDays}/75 天<br>点击 · 打开档案`,event);}else showTip(esc(el.dataset.tip),event);
  });
  document.addEventListener('pointerout',event=>{if(event.target.closest('[data-person],[data-tip]'))$('#tooltip').hidden=true;});
  document.addEventListener('focusin',event=>{if(event.target.matches('.day-cell'))readDay(Number(event.target.dataset.day));});
  window.addEventListener('hashchange',()=>renderRoute());
  document.addEventListener('visibilitychange',()=>{if(document.hidden)heroFall.stop();});
  let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(renderHero,160);});
+}
+function initReadingGuide(){
+ const choices=sortOptions.map(([value,label])=>`<option value="${value}">${label}</option>`).join('');
+ $('#overview-sort').innerHTML=choices;$('#overview-sort').value=mosaicSort;
+ $('#archive-sort').innerHTML=choices;$('#archive-sort').value='id';
+ const p=people.get(1478);
+ $('#radial-guide-example').innerHTML=radial(p,data);
+ $('#tile-example').innerHTML=`<div class="example-top"><span>D01 → D15</span><span>15 列</span></div>${tile(p,'example-tile')}<div class="example-bottom"><span>逐行向下 ↓</span><span>D61 → D75</span></div>`;
+ $('#tile-example-caption').textContent=`真实示例 · 编号 ${p.displayId} · ${p.validDays} 个有效日 · 双题均值 ${fmt(p.mean)}。外圈为底色，内部 75 个小格为逐日记录。`;
 }
 async function init(){
  try{
@@ -200,7 +203,7 @@ async function init(){
   people=new Map(data.people.map(p=>[p.id,p]));validIds=new Set(people.keys());
   try{const stored=JSON.parse(localStorage.getItem('htel-selection')||'[]');if(Array.isArray(stored))selection=parseSelection(stored.join(','),validIds);}catch{selection=[];}
   $('#loading').hidden=true;$('#archive-legend').innerHTML=data.metrics.map((m,i)=>`<span><i style="background:${m.color}"></i><small>0${i+1}</small> ${m.name}</span>`).join('');$('#compare-metric').innerHTML=options();
-  renderMosaic();renderDemographics();bindEvents();renderRoute();
+  initReadingGuide();renderMosaic();bindEvents();renderRoute();
  }catch(error){console.error(error);$('#loading').className='error-state';$('#loading').setAttribute('role','alert');$('#loading').innerHTML='<h2>数据暂时没有展开。</h2><p>请通过本地预览服务器或 GitHub Pages 打开网页，不要直接双击 HTML。<br>在项目目录运行 <code>npm start</code>，然后访问 <code>http://127.0.0.1:4173</code>。</p><button class="primary-link" id="retry-load">重新加载 ↗</button>';$('#retry-load').addEventListener('click',()=>location.reload());}
 }
 init();

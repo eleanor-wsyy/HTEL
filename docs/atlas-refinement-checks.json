@@ -1,0 +1,38 @@
+{
+  "baseCommit": "c7e0bcd2c8bde53b454014b2b443efe7cc744a58",
+  "baseTree": "486a0e7fce8cdfa3907790e5cdc6502a51aec851",
+  "unitTests": {
+    "passed": 33,
+    "failed": 0
+  },
+  "browserChecks": {
+    "overviewSortModes": [
+      "age",
+      "age-living",
+      "income",
+      "living-id",
+      "single",
+      "parent",
+      "high"
+    ],
+    "all515RenderedIdsMatchExpectedOrder": true,
+    "matrixRows": 515,
+    "archiveFeaturedCountPerSort": 27,
+    "archiveLegendSwatches": 8,
+    "archiveLegendSizeCssPx": 12,
+    "comparisonScatterCount": 0,
+    "consoleErrors": [],
+    "mobileViewportRequested": {
+      "width": 390,
+      "height": 844
+    },
+    "mobileHorizontalOverflow": false,
+    "mobileScopeAndSortControlWidthCssPx": 306.55,
+    "heroSparkCount": 0,
+    "archiveIntro": "8 个观察维度。点开一张卡片，翻面认识图形背后的人。",
+    "radialGuideExample": "assets/radials.svg#radial-1478",
+    "radialGuideToggleVerified": true,
+    "radialGuideMobileOverflow": false
+  },
+  "note": "Browser checks recorded during this edit. Existing source-validation reports remain unchanged."
+}
