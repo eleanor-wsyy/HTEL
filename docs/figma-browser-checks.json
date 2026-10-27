@@ -1,0 +1,242 @@
+{
+  "checkedAt": "2026-10-27 Asia/Shanghai",
+  "originalExports": [
+    {
+      "dialog": true,
+      "height": 2160,
+      "title": "515 人的基线资料流向，Figma 完整原稿",
+      "width": 3840
+    },
+    {
+      "dialog": true,
+      "height": 1230,
+      "title": "不同居住方式的年龄分布，Figma 完整原稿",
+      "width": 3840
+    },
+    {
+      "dialog": true,
+      "height": 1024,
+      "title": "不同性别的年龄分布，Figma 完整原稿",
+      "width": 1140
+    },
+    {
+      "dialog": true,
+      "height": 1024,
+      "title": "不同族群的年龄分布，Figma 完整原稿",
+      "width": 1140
+    },
+    {
+      "dialog": true,
+      "height": 1024,
+      "title": "有无子女的年龄分布，Figma 完整原稿",
+      "width": 1140
+    },
+    {
+      "dialog": true,
+      "height": 1246,
+      "title": "孤独均值与标准差，Figma 完整原稿",
+      "width": 1552
+    },
+    {
+      "dialog": true,
+      "height": 1024,
+      "title": "六次二分：从身份分类中寻找孤独均值差异，Figma 完整原稿",
+      "width": 1440
+    },
+    {
+      "dialog": true,
+      "height": 1024,
+      "title": "十次二分：从身份分类中寻找孤独均值差异，Figma 完整原稿",
+      "width": 1440
+    },
+    {
+      "dialog": true,
+      "height": 1461,
+      "title": "75 天里，每天有多少人填写日记？，Figma 完整原稿",
+      "width": 2198
+    },
+    {
+      "dialog": true,
+      "height": 1205,
+      "title": "最长连续填写天数，Figma 完整原稿",
+      "width": 2198
+    },
+    {
+      "dialog": true,
+      "height": 1755,
+      "title": "几乎每天填写 · 192 人，Figma 完整原稿",
+      "width": 2600
+    },
+    {
+      "dialog": true,
+      "height": 1755,
+      "title": "时间较短但基本连续 · 14 人，Figma 完整原稿",
+      "width": 2600
+    },
+    {
+      "dialog": true,
+      "height": 1755,
+      "title": "断断续续填写 · 242 人，Figma 完整原稿",
+      "width": 2600
+    },
+    {
+      "dialog": true,
+      "height": 1755,
+      "title": "5 月前停止填写 · 38 人，Figma 完整原稿",
+      "width": 2600
+    },
+    {
+      "dialog": true,
+      "height": 1755,
+      "title": "填写少于 7 晚 · 29 人，Figma 完整原稿",
+      "width": 2600
+    },
+    {
+      "dialog": true,
+      "height": 1024,
+      "title": "样本流失与孤独均值，Figma 完整原稿",
+      "width": 1440
+    },
+    {
+      "dialog": true,
+      "height": 1024,
+      "title": "填写时长分组与首周孤独均值，Figma 完整原稿",
+      "width": 1440
+    }
+  ],
+  "layout": [
+    {
+      "images": [
+        {
+          "alt": "515 人的基线资料流向，完整 Figma 原稿",
+          "loaded": true,
+          "ratioError": 0.000016466740459630813
+        },
+        {
+          "alt": "不同居住方式的年龄分布，完整 Figma 原稿",
+          "loaded": true,
+          "ratioError": 0.00013382849877885403
+        },
+        {
+          "alt": "不同性别的年龄分布，完整 Figma 原稿",
+          "loaded": true,
+          "ratioError": 0.0000141686340595637
+        },
+        {
+          "alt": "不同族群的年龄分布，完整 Figma 原稿",
+          "loaded": true,
+          "ratioError": 0.0000141686340595637
+        },
+        {
+          "alt": "有无子女的年龄分布，完整 Figma 原稿",
+          "loaded": true,
+          "ratioError": 0.0000141686340595637
+        }
+      ],
+      "overflow": false,
+      "page": "background"
+    },
+    {
+      "images": [
+        {
+          "alt": "孤独均值与标准差，完整 Figma 原稿",
+          "loaded": true,
+          "ratioError": 0.000009840399170402137
+        }
+      ],
+      "overflow": false,
+      "page": "archives"
+    },
+    {
+      "images": [
+        {
+          "alt": "六次二分：从身份分类中寻找孤独均值差异，完整 Figma 原稿",
+          "loaded": true,
+          "ratioError": 0.00001095249489746486
+        },
+        {
+          "alt": "十次二分：从身份分类中寻找孤独均值差异，完整 Figma 原稿",
+          "loaded": true,
+          "ratioError": 0.00001095249489746486
+        }
+      ],
+      "overflow": false,
+      "page": "compare"
+    },
+    {
+      "images": [
+        {
+          "alt": "75 天里，每天有多少人填写日记？，完整 Figma 原稿",
+          "loaded": true,
+          "ratioError": 0.00003645096113413793
+        },
+        {
+          "alt": "最长连续填写天数，完整 Figma 原稿",
+          "loaded": true,
+          "ratioError": 0.00006917212933288397
+        },
+        {
+          "alt": "几乎每天填写 · 192 人，完整 Figma 原稿",
+          "loaded": true,
+          "ratioError": 0.00001377609709396488
+        },
+        {
+          "alt": "时间较短但基本连续 · 14 人，完整 Figma 原稿",
+          "loaded": true,
+          "ratioError": 0.00001377609709396488
+        },
+        {
+          "alt": "断断续续填写 · 242 人，完整 Figma 原稿",
+          "loaded": true,
+          "ratioError": 0.00001377609709396488
+        },
+        {
+          "alt": "5 月前停止填写 · 38 人，完整 Figma 原稿",
+          "loaded": true,
+          "ratioError": 0.00001377609709396488
+        },
+        {
+          "alt": "填写少于 7 晚 · 29 人，完整 Figma 原稿",
+          "loaded": true,
+          "ratioError": 0.00001377609709396488
+        },
+        {
+          "alt": "样本流失与孤独均值，完整 Figma 原稿",
+          "loaded": true,
+          "ratioError": 0.00001095249489746486
+        },
+        {
+          "alt": "填写时长分组与首周孤独均值，完整 Figma 原稿",
+          "loaded": true,
+          "ratioError": 0.00001095249489746486
+        }
+      ],
+      "overflow": false,
+      "page": "participation"
+    }
+  ],
+  "models": {
+    "groups": 5,
+    "controls": [
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowDown",
+      "+",
+      "Home",
+      "zoom button",
+      "close"
+    ],
+    "result": "All five groups opened, rotated, zoomed and reset"
+  },
+  "retained": {
+    "overviewTiles": 515,
+    "archiveCards": 27
+  },
+  "consoleErrors": [],
+  "standalone": {
+    "file": "standalone.html",
+    "embeddedCharts": 17,
+    "model": "Group 5 opened, rotated and zoomed to 125%",
+    "consoleErrors": []
+  }
+}

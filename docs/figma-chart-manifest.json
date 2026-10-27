@@ -1,0 +1,162 @@
+{
+  "fileKey": "OvfeXkNGuYmqbaycS1LDtK",
+  "pageId": "260:2",
+  "retrievedAt": "2026-10-27 Asia/Shanghai",
+  "format": "Original full-node PNG exports at Figma default scale; no cropping, recoloring or redrawing",
+  "cloudDesignMutated": false,
+  "charts": [
+    {
+      "key": "baseline-sankey",
+      "nodeId": "283:26780",
+      "title": "515 人的基线资料流向",
+      "width": 3840,
+      "height": 2160,
+      "bytes": 3597014,
+      "sha256": "a430f8cb9cdb85f59db5f1d93279cd0e2707553b59468787bee390ab7e84f9e8"
+    },
+    {
+      "key": "age-living",
+      "nodeId": "283:24197",
+      "title": "不同居住方式的年龄分布",
+      "width": 3840,
+      "height": 1230,
+      "bytes": 167091,
+      "sha256": "e98715af7d6a8a085e690379c5ed31a343fcb1f0720d51325ae74c68ace2e10a"
+    },
+    {
+      "key": "age-gender",
+      "nodeId": "283:15681",
+      "title": "不同性别的年龄分布",
+      "width": 1140,
+      "height": 1024,
+      "bytes": 58457,
+      "sha256": "054f5338cb3ef026bc8cf3a7c591cd4ca8c080c8bbcd95ebcb48d2ba1e163fcc"
+    },
+    {
+      "key": "age-other",
+      "nodeId": "283:18537",
+      "title": "不同族群的年龄分布",
+      "width": 1140,
+      "height": 1024,
+      "bytes": 74587,
+      "sha256": "237c12d0119a59ebdf6115a0727176308963eb663f1999c440ee55e27ceff576"
+    },
+    {
+      "key": "age-third",
+      "nodeId": "283:21450",
+      "title": "有无子女的年龄分布",
+      "width": 1140,
+      "height": 1024,
+      "bytes": 49278,
+      "sha256": "11fe02dc68fa049b3ec7562556d40223fcd10c72269a99e962ce9d7b71d5c6e9"
+    },
+    {
+      "key": "mean-variation",
+      "nodeId": "293:3527",
+      "title": "孤独均值与标准差",
+      "width": 1552,
+      "height": 1246,
+      "bytes": 178110,
+      "sha256": "5c9be48e36cf6942e12e7d06e5bb0f3e30a5ab482d7bb4293fd4a0046ba1e738"
+    },
+    {
+      "key": "six-splits",
+      "nodeId": "273:1089",
+      "title": "六次二分：从身份分类中寻找孤独均值差异",
+      "width": 1440,
+      "height": 1024,
+      "bytes": 186164,
+      "sha256": "149199f2a30570e453fc8328a336107b891065f1a32059c1ed308821f9804670"
+    },
+    {
+      "key": "ten-splits",
+      "nodeId": "273:1779",
+      "title": "十次二分：从身份分类中寻找孤独均值差异",
+      "width": 1440,
+      "height": 1024,
+      "bytes": 191218,
+      "sha256": "64e855d48a757f2774ca5b75c467bcf6f69f2e1dbdbce21033602a9ace21b7c6"
+    },
+    {
+      "key": "daily-participation",
+      "nodeId": "281:168477",
+      "title": "75 天里，每天有多少人填写日记？",
+      "width": 2198,
+      "height": 1461,
+      "bytes": 80251,
+      "sha256": "4ed769bfe7b2546f3a54730e570c003cb1bb1f89e7f52ff6f322571fb95dcdc1"
+    },
+    {
+      "key": "longest-streak",
+      "nodeId": "293:2",
+      "title": "最长连续填写天数",
+      "width": 2198,
+      "height": 1205,
+      "bytes": 39802,
+      "sha256": "6245371bca61bc1c185f4def73f3800b74661a408019bc8cab6d230f1f70674d"
+    },
+    {
+      "key": "pattern-1",
+      "nodeId": "276:56116",
+      "title": "几乎每天填写 · 192 人",
+      "width": 2600,
+      "height": 1755,
+      "bytes": 390207,
+      "sha256": "1cdbb45e3f4fe91fb74fba709521c65df03217a310e12d52c1b1d475bdee1e85"
+    },
+    {
+      "key": "pattern-2",
+      "nodeId": "276:111327",
+      "title": "时间较短但基本连续 · 14 人",
+      "width": 2600,
+      "height": 1755,
+      "bytes": 114510,
+      "sha256": "c52691eba0ff283b08f534d2916fed1195740138bf048a564877760c7cc183d3"
+    },
+    {
+      "key": "pattern-3",
+      "nodeId": "276:114744",
+      "title": "断断续续填写 · 242 人",
+      "width": 2600,
+      "height": 1755,
+      "bytes": 346294,
+      "sha256": "3739286f6a7c52db054566d130472e95d4b4f0dc04d7caea2deb9c52f2a52d2b"
+    },
+    {
+      "key": "pattern-4",
+      "nodeId": "276:165426",
+      "title": "5 月前停止填写 · 38 人",
+      "width": 2600,
+      "height": 1755,
+      "bytes": 120762,
+      "sha256": "c66d8371b8fee6a3882b715a56a2ab5dc0f102575a51b76bd16e4ae7f1df7861"
+    },
+    {
+      "key": "pattern-5",
+      "nodeId": "276:168076",
+      "title": "填写少于 7 晚 · 29 人",
+      "width": 2600,
+      "height": 1755,
+      "bytes": 84483,
+      "sha256": "5b6549f09a424f17334ffe9f42eac6e74c9e1811493f3cf990cc2cfc7d885602"
+    },
+    {
+      "key": "attrition-mean",
+      "nodeId": "269:549",
+      "title": "样本流失与孤独均值",
+      "width": 1440,
+      "height": 1024,
+      "bytes": 114674,
+      "sha256": "0deddbe41fb4f19a715ce0da4142b41807c211d4be06ae80677cd816aa7ef8e0"
+    },
+    {
+      "key": "first-week",
+      "nodeId": "270:1032",
+      "title": "填写时长分组与首周孤独均值",
+      "width": 1440,
+      "height": 1024,
+      "bytes": 47541,
+      "sha256": "46282a917925bc5f077519c5188f9a66f1f3bcaea3727dcf274eac2bcdbfd96b"
+    }
+  ]
+}
