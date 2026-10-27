@@ -1,0 +1,49 @@
+{
+  "remoteSourceBaseline": "c1c0ca50944e8e18facc53ddef228bfb413a42c4",
+  "syncMethod": "Git transport failed; applied GitHub REST commit patches for six changed source files and verified each normalized Git blob SHA before editing. Regenerated standalone output. Local HEAD remains 99fc94a until a later Git fetch/merge.",
+  "annotationsCompleted": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "desktopSorting": {
+    "x": 268.977,
+    "y": 358.314,
+    "width": 340,
+    "height": 44,
+    "modes": [
+      "high",
+      "age",
+      "income",
+      "single",
+      "parent"
+    ],
+    "stable": true
+  },
+  "mobileSorting": {
+    "x": 17.027,
+    "pageY": 1217.793,
+    "width": 306.553,
+    "height": 44,
+    "stable": true,
+    "overflow": false
+  },
+  "cohortCounts": [
+    515,
+    192,
+    27
+  ],
+  "effectiveDate": "submitted and at least one finite daily item; zero is valid",
+  "testsPassed": 55
+}

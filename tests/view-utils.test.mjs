@@ -2,9 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {radial} from '../charts.js';
-import {comparisonOptions,fitMosaicWidth,cohortSummary,longestRun} from '../view-utils.js';
+import {comparisonOptions,fitMosaicWidth,cohortSummary,longestRun,filledDiaryDays} from '../view-utils.js';
 const data=JSON.parse(await readFile(new URL('../data/study.json',import.meta.url),'utf8'));
-test('cohort explanation derives 515→192→27 from submitted dates, not item validity',()=>{
+test('cohort explanation derives 515→192→27 from submitted days with at least one filled item',()=>{
  const c=cohortSummary(data.people);assert.equal(c.all,515);assert.equal(c.complete,192);assert.equal(c.continuous,27);assert.equal(c.full,24);assert.equal(c.nearFull,3);assert.deepEqual(c.ids,data.meta.featuredIds);
  const p=data.people.find(p=>p.id===1159);assert.equal(p.days,75);assert.equal(p.validDays,74);assert.ok(c.ids.includes(p.id));
 });
@@ -20,3 +20,7 @@ test('refinement markup keeps all eight metric choices and accessible comparison
 });
 test('all participants share the native radial canvas, scale and tile anchor',()=>{const p=data.people.find(p=>p.id===1001);const svg=radial(p,data);assert.ok(svg.includes('viewBox="0 0 436 436"'));assert.ok(svg.includes('r="178"'));assert.ok(svg.includes('<svg x="368" y="367" width="58" height="45"'));});
 test('native and generated radials explicitly preserve the full square drawing',()=>{for(const id of[1379,1045])for(const selectedMetric of[null,2])assert.ok(radial(data.people.find(p=>p.id===id),data,{selectedMetric}).includes('preserveAspectRatio="xMidYMid meet"'));});
+
+test('effective diary dates require a submission and content; zero is content',()=>{
+ assert.deepEqual(filledDiaryDays({dates:['2020-01-01','2020-01-02',null,'2020-01-04'],daily:[[null,null],[0,null],[3,null],[NaN,null]]}),[false,true,false,false]);
+});

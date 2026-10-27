@@ -1,4 +1,4 @@
-import {coverageThreshold} from './coverage.js';
+import {coverageThreshold,coverageEvidence} from './coverage.js';
 import {coverageMarkup} from './coverage-view.js';
 import {comparisonOptions,fitMosaicWidth,cohortSummary} from './view-utils.js';
 import {sortOptions,sortPeople,sortDescription,sortContext} from './sorting.js';
@@ -39,7 +39,7 @@ function renderRoute(scroll=true){
  if(route.person){if(activePerson?.id!==route.person||!personDialog.open)showPerson(people.get(route.person));setFlip(route.flipped,false);}
  else if(personDialog.open){personDialog.close();activePerson=null;restoreFocus();}
  if(page==='overview')requestAnimationFrame(()=>{renderHero();updateZoom();});
- document.title=route.person?`${people.get(route.person).displayId} · 人物档案 | 看见孤独`:({home:'515个人，75天',overview:'515人的日常',archives:'走近一个人的日常',compare:'日常对照',outsiders:'局外人 · 低覆盖的日常',method:'数据与读图说明'}[route.page]+' · 看见孤独');
+ document.title=route.person?`${people.get(route.person).displayId} · 人物档案 | 看见孤独`:({home:'515个人，75天',overview:'515人的日常',archives:'走进个人档案馆',compare:'日常对照',outsiders:'局外人 · 低覆盖的日常',method:'数据与读图说明'}[route.page]+' · 看见孤独');
 }
 function openPerson(id,trigger){
  const p=people.get(Number(id));if(!p)return;
@@ -94,7 +94,6 @@ function renderHero(){
 }
 function renderMosaic(){
  const grid=$('#mosaic');grid.classList.toggle('matrix',mosaicMode==='matrix');
- $('#overview-sort-note').textContent=sortDescription(mosaicSort);
  const ordered=sortPeople(data.people,mosaicSort);
  grid.innerHTML=ordered.map((p,i)=>{const id=p.id,pressed=selection.includes(id);return mosaicMode==='tiles'?`<button class="person-tile${focusedPersonId===id?' is-current':''}" data-person="${id}" data-index="${i}" tabindex="${i===0?0:-1}" aria-label="${personLabel(p)}，${esc(sortContext(p,mosaicSort))}" title="${esc(sortContext(p,mosaicSort))}" aria-pressed="${pressed}">${tile(p)}</button>`:`<button class="matrix-row" data-person="${id}" data-index="${i}" tabindex="${i===0?0:-1}" aria-label="${personLabel(p)}，${esc(sortContext(p,mosaicSort))}" aria-pressed="${pressed}"><span class="matrix-id">${p.displayId}</span>${p.heat.map((v,j)=>`<span style="background:${color(v)}" title="D${j+1}：${finite(v)?fmt(v)+'分':'缺失'}"></span>`).join('')}</button>`;}).join('');
  updateZoom();
@@ -295,7 +294,7 @@ function initReadingGuide(){
  $('#overview-sort').innerHTML=choices;$('#overview-sort').value=mosaicSort;
  $('#archive-sort').innerHTML=choices;$('#archive-sort').value='id';
  const cohort=cohortSummary(data.people);
- $('#cohort-explanation').innerHTML=`<div class="cohort-path"><span><strong>${cohort.all}</strong>全部参与者</span><b>→</b><span><strong>${cohort.complete}</strong>记录完成率≥90%</span><b>→</b><span><strong>${cohort.continuous}</strong>记录连续的档案</span></div><p>按是否提交日记记录计算：D01—D75 至少提交68个日记录，再选出这些记录全部落在一段连续日次里的27人。其中${cohort.full}人提交75日、${cohort.nearFull}人提交74日。</p><p>提交日数不等于每项指标的有效日数：个别单题仍可能缺失，圆图和日格会分别保留这些缺失；这27人是描述性案例，不代表全体。</p>`;
+ $('#cohort-explanation').innerHTML=`<div class="cohort-path"><span><strong>${cohort.all}</strong>全部参与者</span><b>→</b><span><strong>${cohort.complete}</strong>记录完成率≥90%</span><b>→</b><span><strong>${cohort.continuous}</strong>记录连续的档案</span></div><p>按有效日期计算：D01—D75 至少有68天提交且至少填写一项日记指标，再选出这些记录全部落在一段连续日次里的27人。其中${cohort.full}人提交75日、${cohort.nearFull}人提交74日。</p><p>有效日期指：提交且有填写内容的天数。</p>`;
  const p=people.get(1478);
  $('#radial-guide-example').innerHTML=radial(p,data);
  $('#tile-example').innerHTML=`<div class="example-top"><span>D01 → D15</span><span>15 列</span></div>${tile(p,'example-tile')}<div class="example-bottom"><span>逐行向下 ↓</span><span>D61 → D75</span></div>`;
@@ -308,6 +307,8 @@ async function init(){
   people=new Map(data.people.map(p=>[p.id,p]));validIds=new Set(people.keys());
   try{const stored=JSON.parse(localStorage.getItem('htel-selection')||'[]');if(Array.isArray(stored))selection=parseSelection(stored.join(','),validIds);}catch{selection=[];}
   $('#loading').hidden=true;$('#archive-legend').innerHTML=data.metrics.map((m,i)=>`<span><i style="background:${m.color}"></i><small>0${i+1}</small> ${m.name}</span>`).join('');$('#compare-metric').innerHTML=options();
+  const coverage=coverageEvidence(data.people);
+  $('#overview-coverage-summary').textContent=`${coverage.low.n} 人的有效双题记录不超过 15 天，占全部 ${(coverage.low.n/data.people.length*100).toFixed(1)}%，却对应 ${(coverage.missingShare*100).toFixed(1)}% 的灰格。灰色不是零分；从这里继续看记录的空白。`;
   initReadingGuide();renderMosaic();bindEvents();renderRoute();
  }catch(error){console.error(error);$('#loading').className='error-state';$('#loading').setAttribute('role','alert');$('#loading').innerHTML='<h2>数据暂时没有展开。</h2><p>请通过本地预览服务器或 GitHub Pages 打开网页，不要直接双击 HTML。<br>在项目目录运行 <code>npm start</code>，然后访问 <code>http://127.0.0.1:4173</code>。</p><button class="primary-link" id="retry-load">重新加载 ↗</button>';$('#retry-load').addEventListener('click',()=>location.reload());}
 }

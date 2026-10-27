@@ -31,16 +31,17 @@
         <div class="hero-footer"><span><i class="live-dot"></i> 真实日记数据 · 每人最多 75 个入组日次</span><a href="#overview">向下，走进数据 <span aria-hidden="true">↓</span></a><span class="hero-index">01 — 04 / INTERACTIVE ATLAS</span><button id="replay-hero" class="hero-replay" type="button" aria-label="重播格子落下动画">↻ 重播落下</button></div>
       </div>
       <section class="atlas section-wrap" id="overview" aria-labelledby="overview-title">
-        <div class="section-heading"><div><p class="eyebrow">01 / THE COLLECTIVE PORTRAIT</p><h2 id="overview-title">孤独有形，<span>日常有迹。</span></h2></div><p class="section-intro">515 个格子，515 条生活轨迹。<br>颜色记录感受，空白也有自己的位置。</p></div>
+        <div class="section-heading"><div><p class="eyebrow">01 / THE COLLECTIVE PORTRAIT</p><h2 id="overview-title">孤独有形，<span>日常有迹。</span></h2></div></div>
         <div class="atlas-layout">
           <div class="atlas-main">
             <div class="atlas-browser"><div class="atlas-toolbar"><div class="segmented" aria-label="查看方式"><button data-mode="tiles" aria-pressed="true">人物格子</button><button data-mode="matrix" aria-pressed="false">逐日矩阵</button></div><div class="zoom-controls"><button id="zoom-out" aria-label="缩小格子">−</button><output id="zoom-label">100%</output><button id="zoom-in" aria-label="放大格子">＋</button><button id="zoom-reset" aria-label="适配全图">适配全图</button><button id="focus-person" aria-label="聚焦当前人物" disabled>聚焦人物</button></div></div>
-            <div class="overview-sorting"><label for="overview-sort">重新排列这 515 个人</label><select id="overview-sort" aria-describedby="overview-sort-note"></select><p id="overview-sort-note" aria-live="polite"></p></div>
+            <div class="overview-sorting"><label for="overview-sort">重新排列这 515 个人</label><select id="overview-sort"></select></div>
             <div class="overview-instruction"><span>一大格 = 一人 · 内部 15 × 5 小格 = D01—D75</span><output id="mosaic-current" aria-live="polite">先看全图，点一格走近这个人</output></div><div class="mosaic-scroll" id="mosaic-scroll" tabindex="0" aria-label="可缩放的人群图；放大后可拖动；方向键移动，回车查看人物"><div id="mosaic" class="mosaic" role="group" aria-label="515个人的75天日记"></div></div>
             <div class="scale-row"><span>双题孤独均分</span><span>0</span><div class="color-scale"></div><span>10</span><span class="missing-key">缺失</span></div></div>
             <p class="micro-note">点格子查看人物；放大后拖动浏览，键盘方向键也可移动。Shift 点选可加入对比；手机在人物卡里点「加入对比」。排序只改变位置，不改变分数。</p>
+            <aside class="coverage-bridge" aria-labelledby="overview-coverage-title"><span class="coverage-bridge-swatch" aria-hidden="true"></span><div><p class="eyebrow">01 → 04 / 从空白继续看</p><h3 id="overview-coverage-title">这些灰格里，还有谁的日常？</h3><p id="overview-coverage-summary">从有效记录较少的人开始，看看谁更少被数据看见。</p></div><a id="overview-coverage-link" href="#outsiders?threshold=15">走进 04 · 局外人 <span aria-hidden="true">↗</span></a></aside>
             <section class="tile-guide" aria-labelledby="tile-guide-title">
-              <div class="tile-guide-heading"><p class="eyebrow">HOW TO READ A TILE</p><h3 id="tile-guide-title">一格，一个人的 75 天。</h3><p>把一段日常缩进一个格子，也保留它的起伏与空白。</p></div>
+              <div class="tile-guide-heading"><p class="eyebrow">HOW TO READ A TILE</p><h3 id="tile-guide-title">关于每一个方块的构成</h3></div>
               <figure class="tile-example"><div id="tile-example"></div><figcaption id="tile-example-caption"></figcaption></figure>
               <div class="tile-guide-steps">
                 <div><span class="guide-number">01</span><h4>大格代表人，小格代表日</h4><p>内部 15 列 × 5 行，从左到右、逐行向下：第一行 D01—D15，第二行 D16—D30，直到 D75。日次从各自入组起算，不是共同的自然日期。</p></div>
@@ -50,11 +51,11 @@
             </section>
           </div>
         </div>
-        <div class="reading-strip"><span class="reading-index">读图 / 01</span><p><strong>深浅记录的是感受，不是一个人的全部。</strong> 先看 515 人的差异，再走近每个人自己的变化。</p><a href="#archives">完整档案 <span>→</span></a></div>
+        <div class="reading-strip"><span class="reading-index">读图 / 01</span><p>总览孤独感受之后，看见独立个体</p><a href="#archives">完整档案 <span>→</span></a></div>
       </section>
     </section>
     <section data-page="archives" class="section-wrap archive-page" hidden aria-labelledby="archives-title">
-      <div class="section-heading"><div><p class="eyebrow">02 / INDIVIDUAL STORIES</p><h2 id="archives-title">走近，<span>一个人的日常。</span></h2></div><p class="section-intro">8 个观察维度。<br>点开一张卡片，翻面认识图形背后的人。</p></div>
+      <div class="section-heading"><div><p class="eyebrow">02 / INDIVIDUAL STORIES</p><h2 id="archives-title">走进个人档案馆</h2></div><p class="section-intro">8 个观察维度。<br>点开一张卡片，翻面认识图形背后的人。</p></div>
       <div class="archive-tools"><label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></svg><span class="sr-only">搜索展示编号或原始 ID</span><input id="person-search" type="search" placeholder="找一个人：122 或 1122" autocomplete="off"></label><label class="archive-scope"><span class="sr-only">档案范围</span><select id="archive-scope"><option value="featured">原海报精选 · 27 人</option><option value="all">全部参与者 · 515 人</option></select></label><label class="archive-sort"><span class="sr-only">排序</span><select id="archive-sort" aria-describedby="archive-sort-note"></select></label><output id="archive-count">27 份档案</output></div>
       <p id="archive-sort-note" class="sort-note" aria-live="polite"></p>
       <details class="cohort-guide"><summary>为什么是这 27 个人？<span>515 → 192 → 27</span></summary><div id="cohort-explanation"></div></details><div class="metric-legend" id="archive-legend" aria-label="八项指标图例"></div>
@@ -72,10 +73,10 @@
         </div>
       </details>
       <div id="archive-grid" class="archive-grid"></div><div id="archive-pagination" class="pagination"></div>
-      <p class="micro-note">圆内为展示编号（原始 ID − 1000）；右下角是此人在总览中的同一数据格。单题孤独感与总览双题复合分分别呈现，不混作同一指标。</p>
+
     </section>
     <section data-page="compare" class="section-wrap compare-page" hidden aria-labelledby="compare-title">
-      <div class="section-heading"><div><p class="eyebrow">03—04 / EVERYDAY CONTRASTS</p><h2 id="compare-title">相似的感受，<span>不同的日常。</span></h2></div><p class="section-intro">把两个人放在一起，或选出自己的比较。<br>共同的刻度，留住每个人的差异。</p></div>
+      <div class="section-heading"><div><p class="eyebrow">03—04 / EVERYDAY CONTRASTS</p><h2 id="compare-title">相似的感受，<span>不同的日常。</span></h2></div></div>
       <div class="comparison-presets"><button data-preset="1478,1498" class="preset"><span>03 / 同分镜像</span><strong>相同孤独，不同日常 <span>↗</span></strong><small>478 + 498 · 孤独感均值同为 3.44</small></button><button data-preset="1113,1045" class="preset"><span>04 / 个人均值对照</span><strong>不同水平，共同变化 <span>↗</span></strong><small>113 + 45 · 回到各自的日常</small></button></div>
       <div class="compare-workbench" id="compare-workbench" data-view="overview">
         <div class="compare-toolbar-top"><p id="compare-context"></p><button id="compare-settings-toggle" class="quiet-button" type="button" aria-expanded="false" aria-controls="compare-settings">范围与设置 ＋</button></div>
@@ -90,7 +91,8 @@
       <div class="comparison-reading"><span class="reading-index">读图 / 03</span><p id="comparison-note">自选 2—4 人，对照他们的日常轨迹。</p></div>
     </section>
     <section data-page="outsiders" class="section-wrap coverage-page" hidden aria-labelledby="coverage-title">
-      <div class="section-heading"><div><p class="eyebrow">04 / BEYOND THE OBSERVED</p><h2 id="coverage-title">局外人，<span>未被完整看见的日常。</span></h2></div><p class="section-intro">灰色不是零分，也不是一个人的全部。<br>这一次，从记录的空白开始看。</p></div>
+      <div class="section-heading"><div><p class="eyebrow">04 / BEYOND THE OBSERVED</p><h2 id="coverage-title">局外人，<span>未被完整看见的日常。</span></h2></div></div>
+      <a class="coverage-backlink" href="#overview">← 返回 01 · 在 515 人总览中看这些灰格</a>
       <div class="coverage-method"><div><span class="coverage-kicker">先定义，再观察</span><h3>为什么默认选 ≤ 15 天？</h3><p>每人有 D01—D75 共 75 个格子。默认纳入<strong>有效双题日不超过 15 天</strong>的人：覆盖率 ≤ 20%，也就是至少 80% 的格子为灰色。用固定覆盖率而非按人数硬取末尾一组，门槛的含义更直观；15 天是本页的探索性选择，<strong>不是统计学公认界限或原研究排除标准</strong>。可切换更严格的 7 天或更宽松的 30 天，观察结论是否依赖门槛。</p></div><div><span class="coverage-kicker">“局外人”只指数据覆盖</span><h3>少被看见，不等于主动离开。</h3><p>有效日按总览口径计算：当天 loneliness 与 left_out 两题均有效，才有双题分。灰格可能是没有日记，也可能只是缺题。这里数的是<strong>无法计算双题分的格子</strong>，不把它等同于没有参与。现有数据不足以确定漏填、退出或记录结束的原因；也不能据此给人贴上孤独、消极或不合群的标签。</p></div></div>
       <div class="coverage-controls"><label for="coverage-threshold">定义「记录很少」</label><select id="coverage-threshold" aria-describedby="coverage-status"><option value="7">≤ 7 天 · 更严格</option><option value="15" selected>≤ 15 天 · 默认（20%）</option><option value="30">≤ 30 天 · 更宽松</option></select><button id="coverage-jump" class="quiet-button" type="button">查看人物格子 ↓</button><p id="coverage-status" role="status" aria-live="polite"></p></div>
       <div id="coverage-content"></div>
