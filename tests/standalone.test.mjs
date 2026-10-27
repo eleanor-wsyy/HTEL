@@ -32,3 +32,9 @@ test('standalone embeds all 17 paper-background display copies exactly',{skip:!a
  assert.equal(Object.keys(assets).length,17);
  for(const [key,value] of Object.entries(assets))assert.deepEqual(Buffer.from(value.split(',')[1],'base64'),await readFile(new URL('../assets/figma/'+key+'-paper.png',import.meta.url)));
 });
+
+test('original poster gallery is temporarily hidden while originals remain available',async()=>{
+ const source=await readFile(new URL('../index.html',import.meta.url),'utf8');
+ assert.match(source,/<div class="method-artwork" hidden>/);
+ assert.equal((source.match(/data-poster="[1-4]"/g)||[]).length,4);
+});
