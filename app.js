@@ -1,3 +1,4 @@
+import {mountInteractiveSankey} from './sankey-view.js';
 import {mountFigmaGallery} from './figma-gallery.js';
 import {createResearchBoards} from './research-boards.js';
 import {coverageThreshold,coverageEvidence} from './coverage.js';
@@ -9,7 +10,7 @@ import {tile,radial,avatar,timeline,personColors} from './charts.js';
 import {createHeroFall} from './hero-motion.js';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 let data,people,validIds,selection=[],activePerson=null,flipped=false,detailMetric=-1,archivePage=0,mosaicMode='tiles',mosaicSort='high',zoom=1,posterZoom=1,alignment='raw',compareMetric=0,dayStart=1,dayEnd=75;
-let researchBoards=null,mosaicResearchFilter=null;
+let researchBoards=null,mosaicResearchFilter=null,sankeyView=null;
 let toastTimer,returnFocus=null,returnPersonId=null,routePage='home';
 const personDialog=$('#person-dialog'),posterDialog=$('#poster-dialog');
 const heroFall=createHeroFall($('#hero-field'),$('#replay-hero'),matchMedia('(prefers-reduced-motion: reduce)'));
@@ -51,7 +52,7 @@ function openPerson(id,trigger){
  if(routePage==='overview'||routePage==='home'){
   const scroller=$('#mosaic-scroll');focusedPersonId=p.id;
   atlasReturn={page:routePage,personId:p.id,zoom,mode:mosaicMode,sort:mosaicSort,left:scroller.scrollLeft,top:scroller.scrollTop,pageY:scrollY};
- }else atlasReturn=null;
+ }else if(routePage==='background')atlasReturn={page:'background',pageY:scrollY,trigger:returnFocus};else atlasReturn=null;
  if(routePage==='outsiders'){const params=new URLSearchParams(location.hash.split('?')[1]||'');params.set('person',p.id);params.delete('flip');go('#outsiders?'+params.toString(),{scroll:false});}
  else go(`#archives?person=${p.id}`,{scroll:routePage!=='archives'});
 }
@@ -63,6 +64,7 @@ function closePerson(){
 function returnToAtlas(){
  if(!atlasReturn)return;
  const saved=atlasReturn;atlasReturn=null;personDialog.close();activePerson=null;
+ if(saved.page==='background'){go('#background',{replace:true,scroll:false});requestAnimationFrame(()=>{window.scrollTo({top:saved.pageY,behavior:'instant'});if(saved.trigger?.isConnected)saved.trigger.focus({preventScroll:true});});return;}
  zoom=saved.zoom;mosaicMode=saved.mode;mosaicSort=saved.sort;focusedPersonId=saved.personId;
  $('#overview-sort').value=mosaicSort;
  $$('[data-mode]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.mode===mosaicMode)));
@@ -173,7 +175,7 @@ function renderSelection(){
  $('#selection-tray').hidden=!selection.length||!['overview','archives'].includes(routePage);$('#selection-count').textContent=selection.length+'/4';$('#selected-people').innerHTML=selection.map(id=>`<button class="selected-chip" data-select="${id}" aria-label="移出对比：编号${people.get(id).displayId}">${tile(people.get(id))}<span>${people.get(id).displayId}</span> ×</button>`).join('');$('#compare-link').href='#compare'+selectedUrl();
  $$('[data-select]').forEach(button=>{if(button.classList.contains('selected-chip')||button.classList.contains('remove-comparison'))return;const id=Number(button.dataset.select),yes=selection.includes(id);button.setAttribute('aria-pressed',String(yes));button.setAttribute('aria-label',`${yes?'移出':'加入'}对比：编号${people.get(id).displayId}`);button.textContent=yes?'✓':'＋';});
  $$('.person-tile').forEach(el=>el.setAttribute('aria-pressed',String(selection.includes(Number(el.dataset.person)))));
- if(activePerson)updateSelectButton();updateMosaicFocus();
+ if(activePerson)updateSelectButton();updateMosaicFocus();sankeyView?.updateSelection();
 }
 function updateSelectButton(){const yes=selection.includes(activePerson.id);$('#select-person').textContent=yes?'✓ 已加入 · 点击移除':'＋ 加入对比';$('#select-person').setAttribute('aria-pressed',String(yes));}
 function showPerson(p){
@@ -183,7 +185,7 @@ function showPerson(p){
  $('#card-back').innerHTML=`<div class="id-header"><h3>看见孤独<span style="font-size:12px;margin-left:6px">档案卡</span></h3><span class="id-number">IDENTIFICATION CARD<br>NO. ${p.displayId}</span></div><div class="id-body"><div class="avatar-portrait">${avatar(p)}<span>ILLUSTRATED · NOT A REAL PORTRAIT</span></div><dl class="profile-fields">${profile.map(([k,v])=>`<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl></div><div class="id-footnote"><span>基线自报资料 · 仅作背景描述<br>像素小人为编号生成的示意形象，不对应真实外貌</span><span aria-hidden="true">↗</span></div>`;
  $('#person-detail').innerHTML=`<div class="detail-selector"><label for="detail-metric">逐日记录 <span style="color:var(--muted)">D01 → D75</span></label><select id="detail-metric"><option value="-1">总览双题复合分 · 与总览格子对应</option>${options(0)}</select></div><div class="day-heatmap" id="person-heatmap" role="group" aria-label="75天的逐日评分，方向键移动日次"></div><div id="detail-color-scale" class="detail-color-scale" aria-label="当前指标的评分色阶"></div><p class="detail-readout" id="detail-readout" aria-live="polite">选择一个日格，查看日期与分数。</p><p class="micro-note">灰色是未报告，不是 0 分。图上实心点为个人均值、横杠为标准差、空心点为精选 27 人均值。卡片展示匿名编号，不作诊断。</p>`;
  $('#person-dialog-title').textContent=`PERSONAL ARCHIVE / ${p.displayId} · ${p.days} 个记录日`;
- $('#return-to-atlas').hidden=!atlasReturn;$('#return-to-atlas').textContent='← 返回刚才的格子';renderPersonHeat();updateSelectButton();setFlip(false,false);
+ $('#return-to-atlas').hidden=!atlasReturn;$('#return-to-atlas').textContent=atlasReturn?.page==='background'?'← 返回背景筛选':'← 返回刚才的格子';renderPersonHeat();updateSelectButton();setFlip(false,false);
  if(!personDialog.open){personDialog.showModal();$('#close-person').focus();}fitProfileCard();personDialog.scrollTop=0;
 }
 function fitProfileCard(){
@@ -241,6 +243,7 @@ function bindEvents(){
  $('#overview-sort').addEventListener('change',()=>{mosaicSort=$('#overview-sort').value;renderMosaic();$('#mosaic-scroll').scrollTop=0;});
  document.addEventListener('click',event=>{
   const target=event.target.closest('button,a,[data-tip]');if(!target||event.defaultPrevented)return;
+  if(target.id==='rb-clear-overview-filter'){sankeyView?.clear();applyResearchFilter(null);return;}
   if(target.matches('[data-person]')){event.preventDefault();if(target.closest('#mosaic')&&performance.now()<panClickBlockedUntil)return;$('#tooltip').hidden=true;if(event.shiftKey)toggleSelection(target.dataset.person);else openPerson(target.dataset.person,target);return;}
   if(target.matches('[data-select]')){toggleSelection(target.dataset.select);return;}
   if(target.matches('[data-preset]')){selection=parseSelection(target.dataset.preset,validIds);storeSelection();go('#compare'+selectedUrl(),{scroll:false});return;}
@@ -316,7 +319,7 @@ async function init(){
   $('#loading').hidden=true;$('#archive-legend').innerHTML=data.metrics.map((m,i)=>`<span><i style="background:${m.color}"></i><small>0${i+1}</small> ${m.name}</span>`).join('');$('#compare-metric').innerHTML=options();
   const coverage=coverageEvidence(data.people);
   $('#overview-coverage-summary').textContent=`${coverage.low.n} 人的有效双题记录不超过 15 天，占全部 ${(coverage.low.n/data.people.length*100).toFixed(1)}%，却对应 ${(coverage.missingShare*100).toFixed(1)}% 的灰格。灰色不是零分；从这里继续看记录的空白。`;
-  initReadingGuide();mountFigmaGallery();renderMosaic();researchBoards=createResearchBoards(data,{openPerson,getSelection:()=>selection,onOverviewFilter:applyResearchFilter});bindEvents();renderRoute();
+  initReadingGuide();mountFigmaGallery();renderMosaic();researchBoards=createResearchBoards(data,{openPerson,getSelection:()=>selection,onOverviewFilter:applyResearchFilter});sankeyView=mountInteractiveSankey(data,{getSelection:()=>selection,onFilter:applyResearchFilter,onExplore:ids=>{applyResearchFilter(new Set(ids));go('#overview');},onCompare:()=>go('#compare'+selectedUrl())});bindEvents();renderRoute();
  }catch(error){console.error(error);$('#loading').className='error-state';$('#loading').setAttribute('role','alert');$('#loading').innerHTML='<h2>数据暂时没有展开。</h2><p>请通过本地预览服务器或 GitHub Pages 打开网页，不要直接双击 HTML。<br>在项目目录运行 <code>npm start</code>，然后访问 <code>http://127.0.0.1:4173</code>。</p><button class="primary-link" id="retry-load">重新加载 ↗</button>';$('#retry-load').addEventListener('click',()=>location.reload());}
 }
 init();
