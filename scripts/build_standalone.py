@@ -46,7 +46,7 @@ def build(output):
  code=code.replace('</script','<\\/script')
  data=json.loads((ROOT/'data/study.json').read_text(encoding='utf-8'))
  payload=json.dumps(data,ensure_ascii=False,separators=(',',':')).replace('<','\\u003c')
- figma_assets={p.stem:'data:image/png;base64,'+base64.b64encode(p.read_bytes()).decode('ascii')for p in sorted((ROOT/'assets/figma').glob('*.png'))}
+ figma_assets={p.stem.removesuffix('-paper'):'data:image/png;base64,'+base64.b64encode(p.read_bytes()).decode('ascii')for p in sorted((ROOT/'assets/figma').glob('*-paper.png'))}
  embedded=sprite('tiles.svg')+sprite('radials.svg')+'<script id="study-data" type="application/json">'+payload+'</script>'+'<script id="figma-assets-data" type="application/json">'+json.dumps(figma_assets,separators=(',',':'))+'</script>'
  script='<script id="standalone-app">\n(()=>{\n\"use strict\";\nconst POSTERS='+json.dumps(posters,separators=(',',':'))+';\ndocument.querySelectorAll("[data-poster-image]").forEach(img=>img.src=POSTERS[img.dataset.posterImage]);\n'+code+'\n})();\n</script>'
  html=html.replace('</head>','<meta name="atlas-source-sha256" content="'+digest.hexdigest()+'"></head>')

@@ -1,0 +1,35 @@
+{
+  "fileKey": "OvfeXkNGuYmqbaycS1LDtK",
+  "charts": [
+    {
+      "key": "ten-splits",
+      "node": "273:1779",
+      "size": [
+        5760,
+        4096
+      ],
+      "scale": 4,
+      "sha256": "ff0c92e5e6119bc7175b711967568501a58b73f695e400f9fcbf72240718c9c0",
+      "browserNaturalSize": [
+        5760,
+        4096
+      ]
+    },
+    {
+      "key": "attrition-mean",
+      "node": "269:549",
+      "size": [
+        5760,
+        4096
+      ],
+      "scale": 4,
+      "sha256": "3e528ce03070c6362bf9896fe6c811cbfa8765e46d46a1b43ac21b4dffe696b3",
+      "browserNaturalSize": [
+        5760,
+        4096
+      ]
+    }
+  ],
+  "testsPassed": 78,
+  "sourceFigmaModified": false
+}

@@ -239,3 +239,30 @@ body:has(dialog[open]){overflow:hidden}dialog{color:var(--ink);background:var(--
 .site-header nav{flex-wrap:wrap;gap:12px 20px}.figma-page h1{font-size:clamp(30px,4vw,54px);line-height:1.2}.figma-intro{max-width:900px;font-size:16px;line-height:1.9;color:#59656c;margin:24px 0 40px}.figma-figure{margin:28px 0 56px;min-width:0}.figma-art{background:#fff;line-height:0;border:1px solid #e2e5e3}.figma-art img{display:block;width:100%;height:auto;object-fit:contain}.figma-figure figcaption{padding:20px 0 0;line-height:1.8}.figma-figure figcaption strong{font-size:18px}.figma-reason{color:#59656c;max-width:980px;margin:8px 0}.figma-actions{display:flex;gap:22px;align-items:center;font-size:13px}.figma-actions button,.figma-actions a,.figma-model-tools button,.figma-viewer-bar button{border:1px solid #ccd3d3;background:#fff;color:#1c294b;padding:9px 14px;border-radius:4px;cursor:pointer;text-decoration:none}.figma-demographics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}.figma-demographics .figma-figure{margin-top:0}.figma-section-intro{padding-top:55px;border-top:1px solid #cbd2cf;margin-top:45px;scroll-margin-top:130px}.figma-section-intro h2{font-size:clamp(26px,3vw,42px)}.figma-section-intro p{line-height:1.9;max-width:960px}.figma-pattern{margin-bottom:60px}.figma-pattern .figma-figure{margin-bottom:16px}.figma-model-tools{display:flex;gap:18px;align-items:center;color:#59656c;line-height:1.8;font-size:13px}.figma-model-tools button{background:#1c294b;color:white;flex-shrink:0}.figma-chapter-nav{display:flex;flex-wrap:wrap;gap:14px 30px;margin-bottom:30px}.figma-chapter-nav a{color:#1c294b}.figma-next{margin-top:36px}#figma-trees{margin-top:65px;padding-top:45px;border-top:1px solid #cbd2cf}#figma-patterns,#figma-retention-top,#figma-retention-end{scroll-margin-top:130px}
 .figma-viewer{width:96vw;max-width:1800px;height:94dvh;max-height:94dvh;padding:22px;border:1px solid #ccd3d3;border-radius:8px;background:#f9faf8;color:#1c294b;overflow:hidden}.figma-viewer[open]{display:flex;flex-direction:column}.figma-viewer::backdrop{background:#101b2cc9}.figma-viewer-bar{display:flex;align-items:center;justify-content:space-between;gap:16px}.figma-viewer-bar h2{font-size:20px;margin:0}.figma-viewer-bar>div{display:flex;gap:8px;align-items:center;flex-shrink:0}.figma-viewer-bar output{min-width:50px;text-align:center}.figma-viewer-help{font-size:13px;color:#59656c}.figma-viewer-stage{flex:1;min-height:0;overflow:auto;background:white}.figma-viewer-stage>img{display:block;max-width:none;height:auto}.figma-viewer-stage>canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}.figma-viewer-stage>canvas:active{cursor:grabbing}
 @media(max-width:900px){.figma-demographics{grid-template-columns:1fr}.figma-demographics .figma-art{max-width:650px}.figma-viewer-bar{align-items:flex-start;flex-direction:column}.figma-model-tools{align-items:flex-start;flex-direction:column;gap:8px}.figma-viewer{padding:12px}.figma-viewer-bar h2{font-size:17px}.figma-viewer-bar button{padding:7px 10px}.figma-page .section-heading{align-items:flex-start}.figma-figure{margin-bottom:40px}}
+
+/* A continuous editorial surface; chart geometry and colored marks stay intact. */
+.site-header nav{gap:6px 16px;justify-content:center}
+.site-header nav a{white-space:nowrap}
+.figma-page h1{font-family:var(--serif);font-weight:400}
+.figma-art,.figma-viewer,.figma-viewer-stage{background:var(--paper)}
+.figma-art{border:0}
+.figma-figure{padding:24px 0;border-top:1px solid var(--line)}
+.figma-figure figcaption{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-top:18px}
+.figma-figure figcaption strong{font-size:16px;font-weight:500}
+.figma-actions button,.figma-viewer-bar button{background:transparent;border-color:var(--line);border-radius:0;min-height:44px}
+.figma-demographics{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
+.figma-demographics .figma-figure{margin:0;display:flex;flex-direction:column}
+.figma-demographics .figma-art{aspect-ratio:1.12;display:flex;align-items:center;justify-content:center;max-width:none}
+.figma-demographics .figma-art img{width:100%;height:100%;object-fit:contain}
+.figma-demographics figcaption{flex:1;align-items:flex-start}
+#overview-variation,#overview-patterns,#research-overview,.figma-chapter-nav a{scroll-margin-top:140px}
+#overview-patterns>.figma-section-intro{margin-top:40px}
+#figma-patterns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
+.figma-pattern{min-width:0;margin-bottom:0}
+.figma-model-tools{align-items:flex-start;flex-direction:column;gap:8px}
+.figma-model-tools span{font-size:12px}
+.figma-section-intro h2,#figma-trees h2{font-family:var(--serif);font-weight:400;font-size:clamp(26px,3vw,38px);line-height:1.45}
+@media(max-width:1100px){.site-header .header-note{display:none}.site-header nav{gap:4px 12px}.site-header nav a{font-size:12px}}
+@media(max-width:760px){.site-header nav{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding:4px 0;gap:16px}.site-header nav a{flex-shrink:0;min-height:36px;display:flex;align-items:center}.site-header nav a span{display:inline;font-size:10px;margin-right:5px}.figma-demographics,#figma-patterns{grid-template-columns:1fr;gap:24px}.figma-figure figcaption{gap:12px;flex-wrap:wrap}.figma-demographics .figma-art{aspect-ratio:1.12}.figma-viewer-bar>div{flex-wrap:wrap}.hero-footer>.hero-index{display:none}}
+
+.figma-demographics .figma-art{position:relative;flex:none;display:block}.figma-demographics .figma-art img{position:absolute;inset:0}

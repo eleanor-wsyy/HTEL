@@ -27,8 +27,8 @@ test('standalone is built from the current sources, not a stale generated copy',
  const html=await readFile(file,'utf8');assert.equal(html.match(/name="atlas-source-sha256" content="([^"]+)"/)[1],hash.digest('hex'));
 });
 
-test('standalone retains all 17 Figma original exports byte for byte',{skip:!available},async()=>{
+test('standalone embeds all 17 paper-background display copies exactly',{skip:!available},async()=>{
  const html=await readFile(file,'utf8');const assets=JSON.parse(html.match(/<script id="figma-assets-data" type="application\/json">([\s\S]*?)<\/script>/)[1]);
  assert.equal(Object.keys(assets).length,17);
- for(const [key,value] of Object.entries(assets))assert.deepEqual(Buffer.from(value.split(',')[1],'base64'),await readFile(new URL('../assets/figma/'+key+'.png',import.meta.url)));
+ for(const [key,value] of Object.entries(assets))assert.deepEqual(Buffer.from(value.split(',')[1],'base64'),await readFile(new URL('../assets/figma/'+key+'-paper.png',import.meta.url)));
 });

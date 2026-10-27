@@ -30,7 +30,7 @@ function renderRoute(scroll=true){
   const start=Number(route.params.get('start')),end=Number(route.params.get('end'));
   dayStart=Math.min(75,Math.max(1,Number.isFinite(start)&&start>0?Math.round(start):1));dayEnd=Math.min(75,Math.max(dayStart,Number.isFinite(end)&&end>0?Math.round(end):75));
  }
- const page=['home','overview'].includes(route.page)?'overview':route.page;
+ const page=route.page;
  if(route.page!=='home')heroFall.stop();
  $$('[data-page]').forEach(el=>el.hidden=el.dataset.page!==page);
  $$('[data-nav]').forEach(a=>{if(a.dataset.nav===page)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
@@ -42,8 +42,9 @@ function renderRoute(scroll=true){
  if(scroll){if(route.page==='overview')requestAnimationFrame(()=>$('#overview').scrollIntoView({behavior:'instant'}));else window.scrollTo({top:0,behavior:'instant'});}
  if(route.person){if(activePerson?.id!==route.person||!personDialog.open)showPerson(people.get(route.person));setFlip(route.flipped,false);}
  else if(personDialog.open){personDialog.close();activePerson=null;restoreFocus();}
- if(page==='overview')requestAnimationFrame(()=>{renderHero();updateZoom();});
- document.title=route.person?`${people.get(route.person).displayId} · 人物档案 | 看见孤独`:({home:'515个人，75天',overview:'515人的日常',archives:'走进个人档案馆',compare:'日常对照',outsiders:'局外人 · 低覆盖的日常',background:'背景画像',participation:'填写轨迹',method:'数据与读图说明'}[route.page]+' · 看见孤独');
+ if(page==='home')requestAnimationFrame(renderHero);
+ if(page==='overview')requestAnimationFrame(updateZoom);
+ document.title=route.person?`${people.get(route.person).displayId} · 人物档案 | 看见孤独`:({home:'515个人，75天',overview:'515人的日常',archives:'走进个人档案馆',compare:'日常对照',outsiders:'局外人 · 低覆盖的日常',background:'背景画像',participation:'填写与缺失',method:'数据与读图说明'}[route.page]+' · 看见孤独');
 }
 function openPerson(id,trigger){
  const p=people.get(Number(id));if(!p)return;

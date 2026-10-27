@@ -1,0 +1,52 @@
+{
+  "baseCommit": "8fea08c",
+  "chapters": [
+    "home",
+    "background",
+    "overview",
+    "archives",
+    "compare",
+    "participation",
+    "outsiders"
+  ],
+  "annotationsCompleted": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "browser": {
+    "homeTiles": 515,
+    "homeSeparateFromOverview": true,
+    "backgroundAgeCards": 4,
+    "sourceLinks": 0,
+    "placementReasons": 0,
+    "groupTreesPage": "background",
+    "variationPage": "overview",
+    "patternsPage": "overview",
+    "naturalWeekTrendPage": "participation",
+    "rotatableModelsChecked": 5,
+    "imageZoom": "125%",
+    "archiveCards": 27,
+    "mobileCssWidth": 354,
+    "mobileHorizontalOverflow": false,
+    "browserErrors": []
+  },
+  "validation": {
+    "testsPassed": 77,
+    "syntaxChecks": "passed",
+    "diffCheck": "passed",
+    "standaloneRebuilt": true
+  },
+  "images": {
+    "originalsPreserved": 17,
+    "displayCopies": 17,
+    "coloredPixelsPreserved": true,
+    "dimensionsPreserved": true
+  }
+}

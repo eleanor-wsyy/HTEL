@@ -22,3 +22,15 @@ test('rotation changes model geometry while canonical view retains the original 
  assert.notDeepEqual(figmaProjection([100,50,100],.5,.2),figmaProjection([100,50,100]));
 });
 test('new chapters route without changing existing identity selection',()=>{for(const page of ['background','participation']){const r=readRoute('#'+page+'?person=1122',new Set([1122]));assert.equal(r.page,page);assert.equal(r.person,1122);}});
+
+
+test('the two detailed charts use genuine 4x Figma exports with matching display copies',async()=>{
+ for(const key of ['ten-splits','attrition-mean']){
+  const original=await readFile(new URL('../assets/figma/'+key+'.png',import.meta.url));
+  for(const suffix of ['-hires','-paper']){
+   const bytes=await readFile(new URL('../assets/figma/'+key+suffix+'.png',import.meta.url));
+   assert.equal(bytes.readUInt32BE(16),original.readUInt32BE(16)*4);
+   assert.equal(bytes.readUInt32BE(20),original.readUInt32BE(20)*4);
+  }
+ }
+});
