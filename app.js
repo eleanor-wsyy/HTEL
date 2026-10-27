@@ -1,3 +1,5 @@
+import {createTerrain} from './terrain-view.js';
+import {createResearchBoards} from './research-boards.js';
 import {coverageThreshold,coverageEvidence} from './coverage.js';
 import {coverageMarkup} from './coverage-view.js';
 import {comparisonOptions,fitMosaicWidth,cohortSummary} from './view-utils.js';
@@ -6,7 +8,8 @@ import {finite,mean,fmt,color,metricColor,escapeHTML as esc,parseSelection,windo
 import {tile,radial,avatar,timeline,personColors} from './charts.js';
 import {createHeroFall} from './hero-motion.js';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-let data,people,validIds,selection=[],activePerson=null,flipped=false,detailMetric=-1,archivePage=0,mosaicMode='tiles',mosaicSort='high',zoom=1,posterZoom=1,alignment='raw',compareMetric=0,dayStart=1,dayEnd=75;
+let data,people,validIds,selection=[],activePerson=null,flipped=false,detailMetric=-1,archivePage=0,mosaicMode='terrain',mosaicSort='high',zoom=1,posterZoom=1,alignment='raw',compareMetric=0,dayStart=1,dayEnd=75;
+let researchBoards=null,mosaicResearchFilter=null,terrainView=null;
 let toastTimer,returnFocus=null,returnPersonId=null,routePage='home';
 const personDialog=$('#person-dialog'),posterDialog=$('#poster-dialog');
 const heroFall=createHeroFall($('#hero-field'),$('#replay-hero'),matchMedia('(prefers-reduced-motion: reduce)'));
@@ -32,8 +35,10 @@ function renderRoute(scroll=true){
  $$('[data-page]').forEach(el=>el.hidden=el.dataset.page!==page);
  $$('[data-nav]').forEach(a=>{if(a.dataset.nav===page)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
  $('#tooltip').hidden=true;
- if(page==='archives')renderArchives();if(page==='compare')renderComparison();
+ if(page==='archives')renderArchives();if(page==='compare'){renderComparison();researchBoards?.comparison();}
  if(page==='outsiders'){const limit=coverageThreshold(route.params.get('threshold'));$('#coverage-threshold').value=String(limit);const panel=$('#coverage-content');if(panel.dataset.threshold!==String(limit)){panel.innerHTML=coverageMarkup(data.people,limit);panel.dataset.threshold=String(limit);}$('#coverage-status').textContent=`当前筛选：有效双题记录不超过 ${limit} 天，共 ${data.people.filter(p=>p.validDays<=limit).length} 人。`;}
+ if(page==='outsiders')researchBoards?.coverage(coverageThreshold(route.params.get('threshold')));
+ terrainView?.activate(page==='overview'&&mosaicMode==='terrain');
  renderSelection();
  if(scroll){if(route.page==='overview')requestAnimationFrame(()=>$('#overview').scrollIntoView({behavior:'instant'}));else window.scrollTo({top:0,behavior:'instant'});}
  if(route.person){if(activePerson?.id!==route.person||!personDialog.open)showPerson(people.get(route.person));setFlip(route.flipped,false);}
@@ -66,7 +71,7 @@ function returnToAtlas(){
  requestAnimationFrame(()=>{
   const scroller=$('#mosaic-scroll');scroller.scrollLeft=saved.left;scroller.scrollTop=saved.top;
   window.scrollTo({top:saved.pageY,behavior:'instant'});
-  if(saved.page==='overview')$(`#mosaic [data-person="${saved.personId}"]`)?.focus({preventScroll:true});
+  if(saved.page==='overview'){if(saved.mode==='terrain')terrainView?.focus();else $(`#mosaic [data-person="${saved.personId}"]`)?.focus({preventScroll:true});}
  });
 }
 function restoreFocus(){
@@ -92,13 +97,17 @@ function renderHero(){
  field.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${slots.length}位参与者的真实75天数据格围绕标题；全部人物可在下方总览通过键盘访问"><defs><clipPath id="hero-title-clear"><path d="${clearPath}" clip-rule="evenodd"/></clipPath></defs><g clip-path="url(#hero-title-clear)">${markup}</g></svg>`;
  if(!heroHasPlayed&&routePage==='home'){heroHasPlayed=true;heroFall.play();}
 }
+function applyResearchFilter(ids=mosaicResearchFilter){mosaicResearchFilter=ids;terrainView?.setFilter(ids);const status=$('#mosaic-research-status');if(status){status.hidden=!ids;status.querySelector('span').textContent=ids?'背景筛选：高亮 '+ids.size+' / 515 人，其余格子仅淡化，未删除。':'';}document.querySelectorAll('#mosaic [data-person]').forEach(el=>el.classList.toggle('is-research-dim',!!ids&&!ids.has(Number(el.dataset.person))));}
 function renderMosaic(){
+ const isTerrain=mosaicMode==='terrain';$('#terrain-view').hidden=!isTerrain;$('#mosaic-scroll').hidden=isTerrain;$('.atlas-browser').dataset.overviewMode=mosaicMode;terrainView?.activate(isTerrain&&['overview','home'].includes(routePage));
  const grid=$('#mosaic');grid.classList.toggle('matrix',mosaicMode==='matrix');
  const ordered=sortPeople(data.people,mosaicSort);
- grid.innerHTML=ordered.map((p,i)=>{const id=p.id,pressed=selection.includes(id);return mosaicMode==='tiles'?`<button class="person-tile${focusedPersonId===id?' is-current':''}" data-person="${id}" data-index="${i}" tabindex="${i===0?0:-1}" aria-label="${personLabel(p)}，${esc(sortContext(p,mosaicSort))}" title="${esc(sortContext(p,mosaicSort))}" aria-pressed="${pressed}">${tile(p)}</button>`:`<button class="matrix-row" data-person="${id}" data-index="${i}" tabindex="${i===0?0:-1}" aria-label="${personLabel(p)}，${esc(sortContext(p,mosaicSort))}" aria-pressed="${pressed}"><span class="matrix-id">${p.displayId}</span>${p.heat.map((v,j)=>`<span style="background:${color(v)}" title="D${j+1}：${finite(v)?fmt(v)+'分':'缺失'}"></span>`).join('')}</button>`;}).join('');
+ grid.innerHTML=ordered.map((p,i)=>{const id=p.id,pressed=selection.includes(id);return mosaicMode!=='matrix'?`<button class="person-tile${focusedPersonId===id?' is-current':''}" data-person="${id}" data-index="${i}" tabindex="${i===0?0:-1}" aria-label="${personLabel(p)}，${esc(sortContext(p,mosaicSort))}" title="${esc(sortContext(p,mosaicSort))}" aria-pressed="${pressed}">${tile(p)}</button>`:`<button class="matrix-row" data-person="${id}" data-index="${i}" tabindex="${i===0?0:-1}" aria-label="${personLabel(p)}，${esc(sortContext(p,mosaicSort))}" aria-pressed="${pressed}"><span class="matrix-id">${p.displayId}</span>${p.heat.map((v,j)=>`<span style="background:${color(v)}" title="D${j+1}：${finite(v)?fmt(v)+'分':'缺失'}"></span>`).join('')}</button>`;}).join('');
  updateZoom();
+ applyResearchFilter();
 }
 function updateZoom(){
+ if(mosaicMode==='terrain'){terrainView?.resize();$('#zoom-label').textContent=Math.round((terrainView?.getZoom()||1)*100)+'%';$('#zoom-reset').textContent='适配全景';$('#zoom-reset').setAttribute('aria-label','适配三维全景');return;}
  const scroller=$('#mosaic-scroll'),grid=$('#mosaic');if(!scroller.clientWidth)return;
  zoom=Math.min(4,Math.max(1,zoom));
  const padding=parseFloat(getComputedStyle(scroller).paddingLeft)*2;
@@ -109,6 +118,7 @@ function updateZoom(){
  $('#zoom-out').disabled=zoom<=1;$('#zoom-in').disabled=zoom>=4;updateMosaicFocus();
 }
 function changeZoom(amount){
+ if(mosaicMode==='terrain'){terrainView?.zoom(amount);return;}
  const scroller=$('#mosaic-scroll'),grid=$('#mosaic');
  const x=(scroller.scrollLeft+scroller.clientWidth/2)/Math.max(1,grid.offsetWidth),y=(scroller.scrollTop+scroller.clientHeight/2)/Math.max(1,grid.offsetHeight);
  zoom+=amount;updateZoom();
@@ -121,7 +131,7 @@ function updateMosaicFocus(){
 }
 function focusMosaicPerson(){
  const id=focusedPersonId||selection.at(-1);if(!id)return;
- focusedPersonId=id;zoom=Math.max(zoom,2);renderMosaic();
+ focusedPersonId=id;if(mosaicMode==='terrain'){terrainView?.focusPerson(id);terrainView?.focus();$('#terrain-view').scrollIntoView({block:'center',behavior:'instant'});return;}zoom=Math.max(zoom,2);renderMosaic();
  const el=$(`#mosaic [data-person="${id}"]`),scroller=$('#mosaic-scroll');
  if(el){scroller.scrollLeft=$('#mosaic').offsetLeft+el.offsetLeft-scroller.clientWidth/2+el.offsetWidth/2;scroller.scrollTop=$('#mosaic').offsetTop+el.offsetTop-scroller.clientHeight/2+el.offsetHeight/2;el.focus({preventScroll:true});}
  scroller.scrollIntoView({block:'center',behavior:'instant'});updateMosaicFocus();
@@ -163,10 +173,10 @@ function toggleSelection(id){
  if(routePage==='compare')updateCompareUrl();
 }
 function renderSelection(){
- $('#selection-tray').hidden=!selection.length||!['overview','archives'].includes(routePage);$('#selection-count').textContent=selection.length+'/4';$('#selected-people').innerHTML=selection.map(id=>`<button class="selected-chip" data-select="${id}" aria-label="移出对比：编号${people.get(id).displayId}">${tile(people.get(id))}<span>${people.get(id).displayId}</span> ×</button>`).join('');$('#compare-link').href='#compare'+selectedUrl();
+ $('#selection-tray').hidden=!selection.length||!['overview','archives'].includes(routePage)||(routePage==='overview'&&mosaicMode==='terrain');$('#selection-count').textContent=selection.length+'/4';$('#selected-people').innerHTML=selection.map(id=>`<button class="selected-chip" data-select="${id}" aria-label="移出对比：编号${people.get(id).displayId}">${tile(people.get(id))}<span>${people.get(id).displayId}</span> ×</button>`).join('');$('#compare-link').href='#compare'+selectedUrl();
  $$('[data-select]').forEach(button=>{if(button.classList.contains('selected-chip')||button.classList.contains('remove-comparison'))return;const id=Number(button.dataset.select),yes=selection.includes(id);button.setAttribute('aria-pressed',String(yes));button.setAttribute('aria-label',`${yes?'移出':'加入'}对比：编号${people.get(id).displayId}`);button.textContent=yes?'✓':'＋';});
  $$('.person-tile').forEach(el=>el.setAttribute('aria-pressed',String(selection.includes(Number(el.dataset.person)))));
- if(activePerson)updateSelectButton();updateMosaicFocus();
+ terrainView?.setSelection(selection);if(activePerson)updateSelectButton();updateMosaicFocus();
 }
 function updateSelectButton(){const yes=selection.includes(activePerson.id);$('#select-person').textContent=yes?'✓ 已加入 · 点击移除':'＋ 加入对比';$('#select-person').setAttribute('aria-pressed',String(yes));}
 function showPerson(p){
@@ -176,7 +186,7 @@ function showPerson(p){
  $('#card-back').innerHTML=`<div class="id-header"><h3>看见孤独<span style="font-size:12px;margin-left:6px">档案卡</span></h3><span class="id-number">IDENTIFICATION CARD<br>NO. ${p.displayId}</span></div><div class="id-body"><div class="avatar-portrait">${avatar(p)}<span>ILLUSTRATED · NOT A REAL PORTRAIT</span></div><dl class="profile-fields">${profile.map(([k,v])=>`<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl></div><div class="id-footnote"><span>基线自报资料 · 仅作背景描述<br>像素小人为编号生成的示意形象，不对应真实外貌</span><span aria-hidden="true">↗</span></div>`;
  $('#person-detail').innerHTML=`<div class="detail-selector"><label for="detail-metric">逐日记录 <span style="color:var(--muted)">D01 → D75</span></label><select id="detail-metric"><option value="-1">总览双题复合分 · 与总览格子对应</option>${options(0)}</select></div><div class="day-heatmap" id="person-heatmap" role="group" aria-label="75天的逐日评分，方向键移动日次"></div><div id="detail-color-scale" class="detail-color-scale" aria-label="当前指标的评分色阶"></div><p class="detail-readout" id="detail-readout" aria-live="polite">选择一个日格，查看日期与分数。</p><p class="micro-note">灰色是未报告，不是 0 分。图上实心点为个人均值、横杠为标准差、空心点为精选 27 人均值。卡片展示匿名编号，不作诊断。</p>`;
  $('#person-dialog-title').textContent=`PERSONAL ARCHIVE / ${p.displayId} · ${p.days} 个记录日`;
- $('#return-to-atlas').hidden=!atlasReturn;renderPersonHeat();updateSelectButton();setFlip(false,false);
+ $('#return-to-atlas').hidden=!atlasReturn;$('#return-to-atlas').textContent=atlasReturn?.mode==='terrain'?'← 返回刚才的三维视角':'← 返回刚才的格子';renderPersonHeat();updateSelectButton();setFlip(false,false);
  if(!personDialog.open){personDialog.showModal();$('#close-person').focus();}fitProfileCard();personDialog.scrollTop=0;
 }
 function fitProfileCard(){
@@ -201,7 +211,7 @@ function renderPersonHeat(){
 }
 function readDay(index){if(!activePerson)return;const p=activePerson,v=detailMetric<0?p.heat[index]:p.daily[index][detailMetric];$('#person-heatmap .is-active')?.classList.remove('is-active');$(`#person-heatmap [data-day="${index}"]`)?.classList.add('is-active');$('#detail-readout').textContent=`D${String(index+1).padStart(2,'0')} · ${p.dates[index]||'没有日期记录'} · ${detailMetric<0?'双题复合分':data.metrics[detailMetric].name}：${finite(v)?fmt(v)+' 分':'缺失（未报告）'}`;}
 function compareHash(){const params=new URLSearchParams();params.set('ids',selection.join(','));if(compareMetric)params.set('metric',compareMetric);if(alignment==='centered')params.set('align','centered');if(dayStart!==1)params.set('start',dayStart);if(dayEnd!==75)params.set('end',dayEnd);if(compareView!=='overview')params.set('view',compareView);if(compareFocus==='all')params.set('focus','all');if(compareLayout==='paired')params.set('layout','paired');return '#compare?'+params.toString();}
-function updateCompareUrl(){history.replaceState(null,'',compareHash());renderComparison();}
+function updateCompareUrl(){history.replaceState(null,'',compareHash());renderComparison();researchBoards?.comparison();}
 function renderComparison(){
  const chosen=selection.map(id=>people.get(id)),shownMetric=compareView==='score'?0:compareMetric,metric=data.metrics[compareMetric];
  $('#compare-metric').value=String(shownMetric);$('#compare-metric').disabled=compareView==='score';$('#compare-metric').style.borderColor=data.metrics[shownMetric].color;
@@ -237,7 +247,7 @@ function bindEvents(){
   if(target.matches('[data-person]')){event.preventDefault();if(target.closest('#mosaic')&&performance.now()<panClickBlockedUntil)return;$('#tooltip').hidden=true;if(event.shiftKey)toggleSelection(target.dataset.person);else openPerson(target.dataset.person,target);return;}
   if(target.matches('[data-select]')){toggleSelection(target.dataset.select);return;}
   if(target.matches('[data-preset]')){selection=parseSelection(target.dataset.preset,validIds);storeSelection();go('#compare'+selectedUrl(),{scroll:false});return;}
-  if(target.matches('[data-mode]')){mosaicMode=target.dataset.mode;zoom=1;$$('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b===target)));renderMosaic();return;}
+  if(target.matches('[data-mode]')){mosaicMode=target.dataset.mode;zoom=1;$$('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b===target)));renderMosaic();renderSelection();return;}
   if(target.matches('[data-compare-view]')){compareView=target.dataset.compareView;updateCompareUrl();return;}
   if(target.matches('[data-compare-focus]')){compareFocus=target.dataset.compareFocus;updateCompareUrl();$(`[data-compare-focus="${compareFocus}"]`)?.focus({preventScroll:true});return;}
   if(target.matches('[data-compare-layout]')){compareLayout=target.dataset.compareLayout;updateCompareUrl();$(`[data-compare-layout="${compareLayout}"]`)?.focus({preventScroll:true});return;}
@@ -249,7 +259,7 @@ function bindEvents(){
   if(target.matches('[data-tip]')){showTip(esc(target.dataset.tip),event);return;}
   if(target.matches('a[href^="#"]')&&!target.classList.contains('skip-link')){event.preventDefault();go(target.getAttribute('href'));}
  });
- $('#zoom-in').addEventListener('click',()=>changeZoom(.5));$('#zoom-out').addEventListener('click',()=>changeZoom(-.5));$('#zoom-reset').addEventListener('click',()=>{zoom=1;updateZoom();$('#mosaic-scroll').scrollLeft=0;$('#mosaic-scroll').scrollTop=0;$('#mosaic-scroll').scrollIntoView({block:'center',behavior:'instant'});});$('#focus-person').addEventListener('click',focusMosaicPerson);bindMosaicPan();
+ $('#zoom-in').addEventListener('click',()=>changeZoom(.5));$('#zoom-out').addEventListener('click',()=>changeZoom(-.5));$('#zoom-reset').addEventListener('click',()=>{if(mosaicMode==='terrain'){terrainView?.reset();$('#terrain-view').scrollIntoView({block:'center',behavior:'instant'});return;}zoom=1;updateZoom();$('#mosaic-scroll').scrollLeft=0;$('#mosaic-scroll').scrollTop=0;$('#mosaic-scroll').scrollIntoView({block:'center',behavior:'instant'});});$('#focus-person').addEventListener('click',focusMosaicPerson);bindMosaicPan();
  $('#mosaic-scroll').addEventListener('wheel',event=>{if(!event.ctrlKey)return;event.preventDefault();changeZoom(event.deltaY<0?.25:-.25);},{passive:false});
  $('#coverage-jump').addEventListener('click',()=>{const heading=$('#coverage-people-title');heading.scrollIntoView({block:'start'});heading.focus({preventScroll:true});});
  $('#coverage-threshold').addEventListener('change',event=>go('#outsiders?threshold='+coverageThreshold(event.target.value),{scroll:false}));
@@ -309,7 +319,7 @@ async function init(){
   $('#loading').hidden=true;$('#archive-legend').innerHTML=data.metrics.map((m,i)=>`<span><i style="background:${m.color}"></i><small>0${i+1}</small> ${m.name}</span>`).join('');$('#compare-metric').innerHTML=options();
   const coverage=coverageEvidence(data.people);
   $('#overview-coverage-summary').textContent=`${coverage.low.n} 人的有效双题记录不超过 15 天，占全部 ${(coverage.low.n/data.people.length*100).toFixed(1)}%，却对应 ${(coverage.missingShare*100).toFixed(1)}% 的灰格。灰色不是零分；从这里继续看记录的空白。`;
-  initReadingGuide();renderMosaic();bindEvents();renderRoute();
+  initReadingGuide();terrainView=createTerrain(data,{onOpen:openPerson,onSelect:toggleSelection,onFocus:id=>{focusedPersonId=id;updateMosaicFocus();},onCamera:value=>{$('#zoom-label').textContent=Math.round(value*100)+'%';$('#zoom-out').disabled=value<=.55;$('#zoom-in').disabled=value>=5;}});if(!terrainView){mosaicMode='tiles';$('[data-mode="terrain"]').disabled=true;$('[data-mode="terrain"]').title='当前环境无法绘制，已使用二维格子';$('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mosaicMode)));}renderMosaic();researchBoards=createResearchBoards(data,{openPerson,getSelection:()=>selection,onOverviewFilter:applyResearchFilter});bindEvents();renderRoute();
  }catch(error){console.error(error);$('#loading').className='error-state';$('#loading').setAttribute('role','alert');$('#loading').innerHTML='<h2>数据暂时没有展开。</h2><p>请通过本地预览服务器或 GitHub Pages 打开网页，不要直接双击 HTML。<br>在项目目录运行 <code>npm start</code>，然后访问 <code>http://127.0.0.1:4173</code>。</p><button class="primary-link" id="retry-load">重新加载 ↗</button>';$('#retry-load').addEventListener('click',()=>location.reload());}
 }
 init();

@@ -32,14 +32,16 @@
       </div>
       <section class="atlas section-wrap" id="overview" aria-labelledby="overview-title">
         <div class="section-heading"><div><p class="eyebrow">01 / THE COLLECTIVE PORTRAIT</p><h2 id="overview-title">孤独有形，<span>日常有迹。</span></h2></div></div>
+        <div class="rb-jumpbar"><span>新增探索</span><button data-rb-jump="#research-overview">背景交织与时间趋势 ↓</button></div>
         <div class="atlas-layout">
           <div class="atlas-main">
-            <div class="atlas-browser"><div class="atlas-toolbar"><div class="segmented" aria-label="查看方式"><button data-mode="tiles" aria-pressed="true">人物格子</button><button data-mode="matrix" aria-pressed="false">逐日矩阵</button></div><div class="zoom-controls"><button id="zoom-out" aria-label="缩小格子">−</button><output id="zoom-label">100%</output><button id="zoom-in" aria-label="放大格子">＋</button><button id="zoom-reset" aria-label="适配全图">适配全图</button><button id="focus-person" aria-label="聚焦当前人物" disabled>聚焦人物</button></div></div>
+            <div class="atlas-browser"><div class="atlas-toolbar"><div class="segmented" aria-label="查看方式"><button data-mode="terrain" aria-pressed="true">3D 人群地形</button><button data-mode="tiles" aria-pressed="false">二维格子</button><button data-mode="matrix" aria-pressed="false">逐日矩阵</button></div><div class="zoom-controls"><button id="zoom-out" aria-label="缩小格子">−</button><output id="zoom-label">100%</output><button id="zoom-in" aria-label="放大格子">＋</button><button id="zoom-reset" aria-label="适配全图">适配全图</button><button id="focus-person" aria-label="聚焦当前人物" disabled>聚焦人物</button></div></div>
             <div class="overview-sorting"><label for="overview-sort">重新排列这 515 个人</label><select id="overview-sort"></select></div>
-            <div class="overview-instruction"><span>一大格 = 一人 · 内部 15 × 5 小格 = D01—D75</span><output id="mosaic-current" aria-live="polite">先看全图，点一格走近这个人</output></div><div class="mosaic-scroll" id="mosaic-scroll" tabindex="0" aria-label="可缩放的人群图；放大后可拖动；方向键移动，回车查看人物"><div id="mosaic" class="mosaic" role="group" aria-label="515个人的75天日记"></div></div>
+            <div class="overview-instruction"><span>一大格 = 一人 · 内部 15 × 5 小格 = D01—D75</span><output id="mosaic-current" aria-live="polite">先看全图，点一格走近这个人</output></div><p id="mosaic-research-status" class="rb-filter-status" hidden><span></span><button id="rb-clear-overview-filter">清除背景筛选</button></p><div id="terrain-view" aria-label="FAMD基线平面与日记高度"></div><div class="mosaic-scroll" id="mosaic-scroll" tabindex="0" aria-label="可缩放的人群图；放大后可拖动；方向键移动，回车查看人物"><div id="mosaic" class="mosaic" role="group" aria-label="515个人的75天日记"></div></div>
             <div class="scale-row"><span>双题孤独均分</span><span>0</span><div class="color-scale"></div><span>10</span><span class="missing-key">缺失</span></div></div>
-            <p class="micro-note">点格子查看人物；放大后拖动浏览，键盘方向键也可移动。Shift 点选可加入对比；手机在人物卡里点「加入对比」。排序只改变位置，不改变分数。</p>
+            <p class="micro-note">三维视图中，基线资料决定平面位置，所选日记均值决定高度；二维格子保留原有排序。点击人物打开档案；Shift 点选可加入对比，手机可在人物卡中加入。</p>
             <aside class="coverage-bridge" aria-labelledby="overview-coverage-title"><span class="coverage-bridge-swatch" aria-hidden="true"></span><div><p class="eyebrow">01 → 04 / 从空白继续看</p><h3 id="overview-coverage-title">这些灰格里，还有谁的日常？</h3><p id="overview-coverage-summary">从有效记录较少的人开始，看看谁更少被数据看见。</p></div><a id="overview-coverage-link" href="#outsiders?threshold=15">走进 04 · 局外人 <span aria-hidden="true">↗</span></a></aside>
+            <section id="research-overview" class="research-board" aria-label="人群背景与自然日期探索"></section>
             <section class="tile-guide" aria-labelledby="tile-guide-title">
               <div class="tile-guide-heading"><p class="eyebrow">HOW TO READ A TILE</p><h3 id="tile-guide-title">关于每一个方块的构成</h3></div>
               <figure class="tile-example"><div id="tile-example"></div><figcaption id="tile-example-caption"></figcaption></figure>
@@ -56,6 +58,8 @@
     </section>
     <section data-page="archives" class="section-wrap archive-page" hidden aria-labelledby="archives-title">
       <div class="section-heading"><div><p class="eyebrow">02 / INDIVIDUAL STORIES</p><h2 id="archives-title">走进个人档案馆</h2></div><p class="section-intro">8 个观察维度。<br>点开一张卡片，翻面认识图形背后的人。</p></div>
+      <div class="rb-jumpbar"><span>选人方式</span><button data-rb-jump="#research-scatter">从均值与波动找人</button><button data-rb-jump="#archive-grid">查看原有档案卡片 ↓</button></div>
+      <section id="research-scatter" class="research-board" aria-label="按均值与波动选人"></section>
       <div class="archive-tools"><label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></svg><span class="sr-only">搜索展示编号或原始 ID</span><input id="person-search" type="search" placeholder="找一个人：122 或 1122" autocomplete="off"></label><label class="archive-scope"><span class="sr-only">档案范围</span><select id="archive-scope"><option value="featured">原海报精选 · 27 人</option><option value="all">全部参与者 · 515 人</option></select></label><label class="archive-sort"><span class="sr-only">排序</span><select id="archive-sort" aria-describedby="archive-sort-note"></select></label><output id="archive-count">27 份档案</output></div>
       <p id="archive-sort-note" class="sort-note" aria-live="polite"></p>
       <details class="cohort-guide"><summary>为什么是这 27 个人？<span>515 → 192 → 27</span></summary><div id="cohort-explanation"></div></details><div class="metric-legend" id="archive-legend" aria-label="八项指标图例"></div>
@@ -77,6 +81,7 @@
     </section>
     <section data-page="compare" class="section-wrap compare-page" hidden aria-labelledby="compare-title">
       <div class="section-heading"><div><p class="eyebrow">03—04 / EVERYDAY CONTRASTS</p><h2 id="compare-title">相似的感受，<span>不同的日常。</span></h2></div></div>
+      <div class="rb-jumpbar"><span>新增探索</span><button data-rb-jump="#research-pair">人群关联、相邻两天与相关矩阵 ↓</button></div>
       <div class="comparison-presets"><button data-preset="1478,1498" class="preset"><span>03 / 同分镜像</span><strong>相同孤独，不同日常 <span>↗</span></strong><small>478 + 498 · 孤独感均值同为 3.44</small></button><button data-preset="1113,1045" class="preset"><span>04 / 个人均值对照</span><strong>不同水平，共同变化 <span>↗</span></strong><small>113 + 45 · 回到各自的日常</small></button></div>
       <div class="compare-workbench" id="compare-workbench" data-view="overview">
         <div class="compare-toolbar-top"><p id="compare-context"></p><button id="compare-settings-toggle" class="quiet-button" type="button" aria-expanded="false" aria-controls="compare-settings">范围与设置 ＋</button></div>
@@ -88,6 +93,7 @@
         </div>
       </div>
       <div id="comparison-content"></div>
+      <section id="research-pair" class="research-board" aria-label="指标人群关联探索"></section>
       <div class="comparison-reading"><span class="reading-index">读图 / 03</span><p id="comparison-note">自选 2—4 人，对照他们的日常轨迹。</p></div>
     </section>
     <section data-page="outsiders" class="section-wrap coverage-page" hidden aria-labelledby="coverage-title">
@@ -95,12 +101,14 @@
       <a class="coverage-backlink" href="#overview">← 返回 01 · 在 515 人总览中看这些灰格</a>
       <div class="coverage-method"><div><span class="coverage-kicker">先定义，再观察</span><h3>为什么默认选 ≤ 15 天？</h3><p>每人有 D01—D75 共 75 个格子。默认纳入<strong>有效双题日不超过 15 天</strong>的人：覆盖率 ≤ 20%，也就是至少 80% 的格子为灰色。用固定覆盖率而非按人数硬取末尾一组，门槛的含义更直观；15 天是本页的探索性选择，<strong>不是统计学公认界限或原研究排除标准</strong>。可切换更严格的 7 天或更宽松的 30 天，观察结论是否依赖门槛。</p></div><div><span class="coverage-kicker">“局外人”只指数据覆盖</span><h3>少被看见，不等于主动离开。</h3><p>有效日按总览口径计算：当天 loneliness 与 left_out 两题均有效，才有双题分。灰格可能是没有日记，也可能只是缺题。这里数的是<strong>无法计算双题分的格子</strong>，不把它等同于没有参与。现有数据不足以确定漏填、退出或记录结束的原因；也不能据此给人贴上孤独、消极或不合群的标签。</p></div></div>
       <div class="coverage-controls"><label for="coverage-threshold">定义「记录很少」</label><select id="coverage-threshold" aria-describedby="coverage-status"><option value="7">≤ 7 天 · 更严格</option><option value="15" selected>≤ 15 天 · 默认（20%）</option><option value="30">≤ 30 天 · 更宽松</option></select><button id="coverage-jump" class="quiet-button" type="button">查看人物格子 ↓</button><p id="coverage-status" role="status" aria-live="polite"></p></div>
+      <div class="rb-jumpbar"><span>阅读路径</span><button data-rb-jump="#coverage-findings-title">数据洞察</button><button data-rb-jump="#research-coverage">记录连续性与题目缺失 ↓</button><button data-rb-jump="#coverage-people-title">人物格子 ↓</button></div>
       <div id="coverage-content"></div>
       <div class="reading-strip"><span class="reading-index">读图 / 04</span><p>我们描述的是这份样本的记录覆盖差异，不推断缺失原因，也不把样本特征推广到所有人。</p><a href="#method">数据与读图说明 ↗</a></div>
     </section>
     <section data-page="method" class="section-wrap method-page" hidden aria-labelledby="method-title">
       <p class="eyebrow">A NOTE ON THE DATA</p><h2 id="method-title">让数据说到，<br><span>它能说到的地方。</span></h2>
       <div class="method-grid"><article><span>01 / 来源</span><h3>从真实日记开始</h3><p>本网页使用你提供的三份 CSV：时间序列表、DailyDiary 日记与 Baseline 基线信息。共 515 位参与者、28,027 条原始日记记录。研究发生在 2020 年，并非网页访问者的记录。</p><p>Kuczynski, A. M., Halvorson, M. A., Slater, L. R., &amp; Kanter, J. W. (2022; online 2021). <cite>The effect of social interaction quantity and quality on depressed mood and loneliness: A daily diary study.</cite> Journal of Social and Personal Relationships, 39(3), 734–756.</p><a href="https://doi.org/10.1177/02654075211045717" target="_blank" rel="noopener">阅读研究出处 ↗</a></article><article><span>02 / 时间与缺失</span><h3>75 天，是观察窗口</h3><p>D01—D75 表示每位参与者各自入组后的日次，不是所有人共享的自然日期。原始记录日期跨度为 2020-03-14—2020-06-29；每个人未必每天都有有效记录。</p><p>同人同日重复记录按字段取均值；共 7 条额外重复记录。窗口外 D76 的 1 条记录不计入视图。27,785 个有效双题人日；10,840 个缺失格保留为灰色，不插补，也不当作 0 分。</p></article><article><span>03 / 指标口径</span><h3>保留原海报的两种读法</h3><p>总览热力格：双题复合分 (loneliness + left_out) / 2，要求两题同时有效。格子内部按入组日次从左至右、从上至下读；底色对应个人双题均分。</p><p>人物档案与对照：直接使用 DailyDiary 的八个单题，孤独感为 loneliness 单题。社交互动量是自评评分，不是互动次数。圆图共用 0—10 分刻度，空心点为原海报 27 人个人均值的等权平均。</p></article><article><span>04 / 解释边界</span><h3>图形之外，仍是一个人</h3><p>人物卡信息来自 Baseline；未报告的信息明确标记。像素头像是按编号生成的示意形象，不还原真实外貌。编号仅作匿名记录的关联索引，展示编号 = 原始 ID − 1000。</p><p>自选个案、同分分层、同日相关与相对均值的变化仅用于描述，不作临床诊断、显著性或因果推断。背景信息差异未控制；这里也没有机器人使用或产品效果数据。</p></article></div>
+      <section id="research-audit" class="research-board" aria-label="数据处理路径"></section>
       <div class="method-artwork"><div><p class="eyebrow">THE ORIGINAL POSTERS</p><h3>四张海报，一条阅读路径。</h3><p>从人群，到个体，再到不同日常的对照。<br>网页保留矢量原稿，并将静态阅读展开为交互。</p></div><div class="poster-gallery"><button data-poster="1"><img src="assets/poster-1.svg" loading="lazy" alt="第一张，515人总览"><span>01 / 人群总览 ↗</span></button><button data-poster="2"><img src="assets/poster-2.svg" loading="lazy" alt="第二张，27人档案"><span>02 / 27人档案 ↗</span></button><button data-poster="3"><img src="assets/poster-3.svg" loading="lazy" alt="第三张，同分镜像"><span>03 / 同分镜像 ↗</span></button><button data-poster="4"><img src="assets/poster-4.svg" loading="lazy" alt="第四张，个人均值对照"><span>04 / 个人均值对照 ↗</span></button></div></div>
       <p class="method-credits">设计来源：用户提供的 Figma 四张海报。首屏叙事参考 The New York Times《1,374 Days: My Life With Long Covid》；交互参考 ThreeUI、OhWow 与 UI Skills。图形与数据内容属于本项目，不借用参考作品的症状图形。<a href="https://www.commarts.com/project/37550/1-374-days-my-life-with-long-covid" target="_blank" rel="noopener">查看首屏参考 ↗</a></p>
     </section>

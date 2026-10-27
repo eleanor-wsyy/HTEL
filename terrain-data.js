@@ -1,0 +1,7 @@
+import {finite} from './data-utils.js';
+export function terrainMetric(person,metric=-1){if(metric===-1)return {mean:person.mean,n:person.validDays,values:person.heat};const stat=person.stats[metric];return {mean:stat.mean,n:stat.n,values:person.daily.map(row=>row[metric])};}
+export function terrainLayout(people,records){const ids=new Set(people.map(p=>p.id));return records.filter(r=>ids.has(r.id)).map(r=>({id:r.id,x:r.f1,z:r.f2,cluster:r.cluster}));}
+export function terrainProject(point,camera){const x=point.x*Math.cos(camera.yaw)-point.z*Math.sin(camera.yaw),depth=point.x*Math.sin(camera.yaw)+point.z*Math.cos(camera.yaw);return {x:camera.cx+x*camera.scale,y:camera.cy+(depth*Math.sin(camera.pitch)-point.y*Math.cos(camera.pitch))*camera.scale,depth};}
+export function terrainContains(point,polygon){let yes=false;for(let i=0,j=polygon.length-1;i<polygon.length;j=i++){const a=polygon[i],b=polygon[j];if((a.y>point.y)!==(b.y>point.y)&&point.x<(b.x-a.x)*(point.y-a.y)/(b.y-a.y)+a.x)yes=!yes;}return yes;}
+export function terrainPreset(name='angle'){return {yaw:-.58,pitch:name==='top'?Math.PI/2:name==='side'?.34:.87,zoom:1,panX:0,panY:0};}
+export function terrainSummary(people,metric=-1,minimum=0,locatedIds=null){let shown=0,short=0,missing=0,unlocated=0;for(const p of people){if(locatedIds&&!locatedIds.has(p.id)){unlocated++;continue;}const s=terrainMetric(p,metric);if(!finite(s.mean))missing++;else if(s.n<minimum)short++;else shown++;}return {total:people.length,shown,short,missing,unlocated};}
