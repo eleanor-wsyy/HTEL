@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-import {figmaCharts,figmaColumnCells,figmaProjection} from '../figma-gallery.js';
+import {figmaCharts,figmaColumnCells,figmaProjection,figmaTopPitch} from '../figma-gallery.js';
 import {figmaModels} from '../figma-model-data.js';
 import {readRoute} from '../data-utils.js';
 test('all 17 original chart exports retain their source file bytes and natural aspect ratio',async()=>{
@@ -34,3 +34,10 @@ test('the two detailed charts use genuine 4x Figma exports with matching display
   }
  }
 });
+test('top view collapses vertical height without changing original column encoding',()=>{
+ for(const yaw of [0,.7,Math.PI]){const a=figmaProjection([300,200,0],yaw,figmaTopPitch),b=figmaProjection([300,200,450],yaw,figmaTopPitch);assert.ok(Math.hypot(a[0]-b[0],a[1]-b[1])<1e-9);}
+ const base=figmaProjection([300,200,450]),orbit=figmaProjection([300,200,450],.7,.3);assert.notDeepEqual(base,orbit);
+ assert.equal(figmaModels.reduce((s,g)=>s+figmaColumnCells(g).length,0),28019);
+});
+
+test('participation models have no static-original comparison controls',async()=>{const source=await readFile(new URL('../figma-gallery.js',import.meta.url),'utf8');assert.ok(!source.includes('data-inline-tab'));assert.ok(!source.includes('原稿对照'));assert.ok(source.includes('默认视角'));assert.ok(source.includes('originalFigure.remove()'));});

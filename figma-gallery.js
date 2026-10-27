@@ -32,6 +32,7 @@ export function mountFigmaGallery(){
  fill('figma-patterns',figmaModels.map((m,i)=>`<section class="figma-pattern" data-model-group="${i}">${figmaFigure('pattern-'+(i+1))}<div class="figma-model-tools"><button data-model-open="${i}" type="button">放大并旋转模型 ↗</button><span>拖动查看不同角度，柱高、位置和颜色保持一致。</span></div></section>`).join(''));
  fill('figma-retention-end',figmaFigure('attrition-mean')+figmaFigure('first-week'));
  document.addEventListener('click',e=>{const a=e.target.closest('[data-chapter]');if(a){e.preventDefault();document.getElementById(a.dataset.chapter)?.scrollIntoView({block:'start'});}});
+ mountInlineFigmaModels();
  const dialog=document.createElement('dialog');dialog.id='figma-viewer';dialog.className='figma-viewer';dialog.innerHTML='<div class="figma-viewer-bar"><h2></h2><div><button data-view-action="out" aria-label="缩小">−</button><output>100%</output><button data-view-action="in" aria-label="放大">＋</button><button data-view-action="reset">复位</button><button data-view-action="close" aria-label="关闭图表查看器">关闭 ×</button></div></div><p class="figma-viewer-help"></p><div class="figma-viewer-stage" tabindex="0"></div>';document.body.append(dialog);
  let scale=1,model=null,trigger=null,cleanup=null;
  const stage=dialog.querySelector('.figma-viewer-stage');
@@ -45,30 +46,57 @@ export function mountFigmaGallery(){
 
 // The canonical projection is measured from the original column faces, not study-data regeneration.
 export function figmaColumnCells(group){const cells=[];group.rows.forEach((row,r)=>[...row].forEach((code,d)=>{const units=code.charCodeAt(0)-48;if(units>0)cells.push({r,d,h:units*6});}));return cells;}
-export function figmaProjection(point,yaw=0,pitch=0,cy=230){
- const [x,y,z]=point,cx=742.5;
- const a=x-cx,b=y-cy,rx=a*Math.cos(yaw)-b*Math.sin(yaw),ry=a*Math.sin(yaw)+b*Math.cos(yaw),rz=z-225;
- const ty=ry*Math.cos(pitch)-rz*Math.sin(pitch),tz=ry*Math.sin(pitch)+rz*Math.cos(pitch)+225;
- return [850.29+cx+rx-cy-ty,665.75+(cx+rx)*2/9+(cy+ty)*(.30624/.46464)-tz];
+export function figmaRotated(point,yaw=0,pitch=0,cy=230){
+ const [x,y,z]=point,a=x-742.5,b=y-cy,rx=a*Math.cos(yaw)-b*Math.sin(yaw),ry=a*Math.sin(yaw)+b*Math.cos(yaw),rz=z-225,s=Math.SQRT1_2,c=Math.cos(pitch),sn=Math.sin(pitch),dot=(rx-ry)*s;
+ return [rx*c-rz*s*sn+s*dot*(1-c),ry*c-rz*s*sn-s*dot*(1-c),rz*c+(rx+ry)*s*sn];
 }
-function createFigmaModel(canvas,group,onZoom){
- const ctx=canvas.getContext('2d'),cells=figmaColumnCells(group),colors=group.colors.map(c=>'rgb('+[c.r,c.g,c.b].map(v=>Math.round(v*255)).join(',')+')');let yaw=0,pitch=0,zoom=1,drag=null,raf=0,disposed=false;
- function draw(){raf=0;if(disposed)return;const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;const dpr=Math.min(2,devicePixelRatio||1);canvas.width=Math.round(rect.width*dpr);canvas.height=Math.round(rect.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,rect.width,rect.height);ctx.fillStyle='#f7f6ef';ctx.fillRect(0,0,rect.width,rect.height);
-  const factor=Math.min(rect.width/2600,rect.height/1500)*zoom;ctx.save();ctx.translate(rect.width/2,rect.height/2);ctx.scale(factor,factor);ctx.translate(-1300,-740);
-  const p=(x,y,z)=>figmaProjection([x,y,z],yaw,pitch,(group.count-1)*1.21),line=(a,b)=>{ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke();};
-  ctx.strokeStyle='#d9dedf';ctx.lineWidth=1.2;for(const day of [0,7,14,30,45,60,74])line(p(day*19.8,0,0),p(day*19.8,group.count*2.42,0));for(let r=0;r<=group.count;r+=Math.max(1,Math.ceil(group.count/8)))line(p(0,r*2.42,0),p(1485,r*2.42,0));
-  const faces=[];const add=(v,color)=>{const screen=v.map(a=>p(...a)),depth=v.reduce((n,a)=>n+(a[0]-742.5)*Math.sin(yaw)+(a[1]-230)*Math.cos(yaw),0)/v.length;faces.push({screen,color,depth});};
-  for(const b of cells){const x=b.d*19.8,y=b.r*2.42,h=b.h,w=15.05,t=1.75;add([[x,y,0],[x+w,y,0],[x+w,y,h],[x,y,h]],colors[1]);add([[x+w,y,0],[x+w,y+t,0],[x+w,y+t,h],[x+w,y,h]],colors[0]);add([[x,y+t,0],[x+w,y+t,0],[x+w,y+t,h],[x,y+t,h]],colors[1]);add([[x,y,0],[x,y+t,0],[x,y+t,h],[x,y,h]],colors[0]);add([[x,y,h],[x+w,y,h],[x+w,y+t,h],[x,y+t,h]],colors[2]);}
-  faces.sort((a,b)=>a.depth-b.depth);for(const f of faces){ctx.fillStyle=f.color;ctx.beginPath();ctx.moveTo(...f.screen[0]);f.screen.slice(1).forEach(v=>ctx.lineTo(...v));ctx.closePath();ctx.fill();}
-  ctx.fillStyle='#1c294b';ctx.font='22px sans-serif';ctx.strokeStyle='#1c294b';ctx.lineWidth=1.5;const label=(text,v)=>ctx.fillText(text,...v),front=group.count*2.42;line(p(0,front,0),p(1485,front,0));label('X · 第1—75天',p(650,front+65,0));for(const d of [1,8,15,31,46,61,75])label(String(d),p((d-1)*19.8,front+25,0));line(p(-90,0,0),p(-90,(group.count-1)*2.42,0));label('Y · 填写的用户',p(-240,group.count*1.21,0));for(const r of [...new Set([1,...[50,100,150,200].filter(n=>n<group.count),group.count])])label(String(r),p(-130,(r-1)*2.42,0));line(p(1530,0,0),p(1530,0,450));label('Z · 用户填写量',p(1530,0,485));for(let z=0;z<=450;z+=90)label(Math.round(z/450*100)+'%',p(1540,0,z));ctx.restore();
+export function figmaProjection(point,yaw=0,pitch=0,cy=230){const [x,y,z]=figmaRotated(point,yaw,pitch,cy);return [850.29+742.5+x-cy-y,665.75+(742.5+x)*2/9+(cy+y)*(.30624/.46464)-(z+225)];}
+export function figmaDepth(point,yaw=0,pitch=0,cy=230){const [x,y,z]=figmaRotated(point,yaw,pitch,cy);return x+y+(2/9+.30624/.46464)*z;}
+export const figmaTopPitch=-Math.atan(Math.SQRT2/(2/9+.30624/.46464));
+
+function createFigmaModel(canvas,group,onZoom=()=>{},options={}){
+ const ctx=canvas.getContext('2d');if(!ctx){canvas.insertAdjacentHTML('afterend','<p>当前环境无法绘制，请切换原稿。</p>');return {setZoom(){},reset(){},setView(){},setActive(){},dispose(){}};}
+ const cells=figmaColumnCells(group),colors=group.colors.map(c=>'rgb('+[c.r,c.g,c.b].map(v=>Math.round(v*255)).join(',')+')');
+ let yaw=0,pitch=0,zoom=1,panX=0,panY=0,raf=0,disposed=false,active=true,drag=null,pinch=null;const pointers=new Map(),cy=(group.count-1)*1.21;
+ const clampPitch=x=>Math.max(-1.05,Math.min(.48,x));
+ function draw(){raf=0;if(disposed||!active)return;const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;const dpr=Math.min(2,devicePixelRatio||1),W=Math.round(rect.width*dpr),H=Math.round(rect.height*dpr);if(canvas.width!==W||canvas.height!==H){canvas.width=W;canvas.height=H;}ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,rect.width,rect.height);ctx.fillStyle='#f7f6ef';ctx.fillRect(0,0,rect.width,rect.height);
+
+  // A rigid rotation of the original coordinates. Basis projection avoids trigonometry per vertex.
+  const o=figmaProjection([0,0,0],yaw,pitch,cy),unit=[[1,0,0],[0,1,0],[0,0,1]].map(v=>{const p=figmaProjection(v,yaw,pitch,cy);return [p[0]-o[0],p[1]-o[1]];}),originDepth=figmaDepth([0,0,0],yaw,pitch,cy),depth=[[1,0,0],[0,1,0],[0,0,1]].map(v=>figmaDepth(v,yaw,pitch,cy)-originDepth);
+  const p=(x,y,z)=>[o[0]+x*unit[0][0]+y*unit[1][0]+z*unit[2][0],o[1]+x*unit[0][1]+y*unit[1][1]+z*unit[2][1]],line=(a,b)=>{ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke();};
+  // Fit the complete geometry and axis anchors at 100%, including a physical text margin.
+  const extents=[];for(const x of [0,1485])for(const y of [0,group.count*2.42])for(const z of [0,450])extents.push(p(x,y,z));for(const v of [[-350,group.count*1.21,0],[640,group.count*2.42+90,0],[1550,0,500],[1570,0,0]])extents.push(p(...v));
+  const xs=extents.map(v=>v[0]),ys=extents.map(v=>v[1]),minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys),factor=Math.min((rect.width-112)/(maxX-minX),(rect.height-70)/(maxY-minY))*zoom;
+  ctx.save();ctx.translate((rect.width-52)/2+panX,rect.height/2+panY);ctx.scale(factor,factor);ctx.translate(-(minX+maxX)/2,-(minY+maxY)/2);
+  ctx.strokeStyle='#d9dedf';ctx.lineWidth=.7/factor;for(const day of [0,7,14,30,45,60,74])line(p(day*19.8,0,0),p(day*19.8,group.count*2.42,0));for(let r=0;r<=group.count;r+=Math.max(1,Math.ceil(group.count/8)))line(p(0,r*2.42,0),p(1485,r*2.42,0));
+  const ordered=[...cells].sort((a,b)=>(a.d*19.8-b.d*19.8)*depth[0]+(a.r*2.42-b.r*2.42)*depth[1]);
+  const face=(vertices,color)=>{ctx.fillStyle=color;ctx.beginPath();vertices.forEach((v,i)=>{const point=p(...v);if(i)ctx.lineTo(...point);else ctx.moveTo(...point);});ctx.closePath();ctx.fill();};
+  for(const b of ordered){const x=b.d*19.8,y=b.r*2.42,h=b.h,w=15.05,t=1.75;if(depth[0]>=0)face([[x+w,y,0],[x+w,y+t,0],[x+w,y+t,h],[x+w,y,h]],colors[0]);else face([[x,y,0],[x,y+t,0],[x,y+t,h],[x,y,h]],colors[0]);if(depth[1]>=0)face([[x,y+t,0],[x+w,y+t,0],[x+w,y+t,h],[x,y+t,h]],colors[1]);else face([[x,y,0],[x+w,y,0],[x+w,y,h],[x,y,h]],colors[1]);face([[x,y,h],[x+w,y,h],[x+w,y+t,h],[x,y+t,h]],colors[2]);}
+  const fontPx=Math.max(12,Math.min(14,rect.width/85));ctx.fillStyle='#1c294b';ctx.font=(fontPx/factor)+'px Arial,"Microsoft YaHei",sans-serif';ctx.strokeStyle='#71808c';ctx.lineWidth=.8/factor;const label=(text,v,dx=0,dy=0)=>ctx.fillText(text,v[0]+dx/factor,v[1]+dy/factor),front=group.count*2.42,compact=rect.width<600;line(p(0,front,0),p(1485,front,0));label('X · 第1—75天',p(640,front,0),0,40);for(const d of (compact?[1,15,31,46,61,75]:[1,8,15,31,46,61,75]))label(String(d),p((d-1)*19.8,front,0),-4,16);line(p(-90,0,0),p(-90,(group.count-1)*2.42,0));label('Y',p(-90,0,0),-12,-12);for(const r of [...new Set(compact?[1,Math.max(1,Math.ceil(group.count/2)),group.count]:[1,...[50,100,150,200].filter(n=>n<group.count),group.count])])label(String(r),p(-155,(r-1)*2.42,0));if(Math.abs(pitch-figmaTopPitch)>.06){line(p(1550,0,0),p(1550,0,450));label('Z · 填写量',p(1550,0,500));for(let z=0;z<=450;z+=compact?225:90)label(Math.round(z/450*100)+'%',p(1570,0,z));}ctx.restore();
+  canvas.dataset.zoom=zoom.toFixed(3);canvas.dataset.yaw=yaw.toFixed(4);canvas.dataset.pitch=pitch.toFixed(4);canvas.dataset.barCount=String(cells.length);canvas.dataset.modelCount=String(group.count);options.onState?.({yaw,pitch,zoom,panX,panY});
  }
- function schedule(){if(!raf&&!disposed)raf=requestAnimationFrame(draw);}
- const setZoom=value=>{zoom=Math.max(.5,Math.min(5,value));onZoom(zoom);schedule();};
- const down=e=>{if(e.button!==0)return;drag={x:e.clientX,y:e.clientY,id:e.pointerId};canvas.setPointerCapture(e.pointerId);};
- const move=e=>{if(!drag||drag.id!==e.pointerId)return;yaw+=(e.clientX-drag.x)*.006;pitch=Math.max(-1.1,Math.min(1.1,pitch+(e.clientY-drag.y)*.004));drag.x=e.clientX;drag.y=e.clientY;schedule();};
- const up=()=>{drag=null;};const wheel=e=>{e.preventDefault();setZoom(zoom*(e.deltaY<0?1.1:1/1.1));};
- const reset=()=>{yaw=0;pitch=0;setZoom(1);};
- const key=e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','+','-','='].includes(e.key))e.preventDefault();else return;if(e.key==='Home')reset();else if(['+','=','-'].includes(e.key))setZoom(zoom+(e.key==='-'?-.25:.25));else{yaw+=e.key==='ArrowLeft'?-.12:e.key==='ArrowRight'?.12:0;pitch=Math.max(-1.1,Math.min(1.1,pitch+(e.key==='ArrowUp'?-.1:e.key==='ArrowDown'?.1:0)));schedule();}};
+ function schedule(){if(!raf&&!disposed&&active)raf=requestAnimationFrame(draw);}
+ function setZoom(value){zoom=Math.max(.5,Math.min(5,value));onZoom(zoom);schedule();}
+ function reset(){yaw=0;pitch=0;panX=0;panY=0;setZoom(1);}
+ function setView(name){yaw=0;pitch=name==='top'?figmaTopPitch:name==='side'?.43:0;panX=0;panY=0;setZoom(1);}
+ const down=e=>{if(e.pointerType!=='touch'&&e.button!==0)return;canvas.focus({preventScroll:true});canvas.setPointerCapture(e.pointerId);pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});drag={id:e.pointerId,x:e.clientX,y:e.clientY,yaw,pitch,panX,panY,pan:e.shiftKey};if(pointers.size===2){const a=[...pointers.values()];pinch={distance:Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y),zoom};}};
+ const move=e=>{if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointers.size===2&&pinch){const a=[...pointers.values()];setZoom(pinch.zoom*Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)/Math.max(1,pinch.distance));return;}if(!drag||drag.id!==e.pointerId)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(drag.pan){panX=drag.panX+dx;panY=drag.panY+dy;}else{yaw=drag.yaw+dx*.006;pitch=clampPitch(drag.pitch+dy*.004);}schedule();};
+ const up=e=>{pointers.delete(e.pointerId);drag=null;pinch=null;};
+ const wheel=e=>{if(options.wheelModifier&&!e.ctrlKey&&!e.metaKey)return;e.preventDefault();setZoom(zoom*(e.deltaY<0?1.1:1/1.1));};
+ const key=e=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','+','-','='].includes(e.key))return;e.preventDefault();if(e.key==='Home')reset();else if(['+','=','-'].includes(e.key))setZoom(zoom+(e.key==='-'?-.25:.25));else if(e.shiftKey){panX+=e.key==='ArrowLeft'?-25:e.key==='ArrowRight'?25:0;panY+=e.key==='ArrowUp'?-25:e.key==='ArrowDown'?25:0;schedule();}else{yaw+=e.key==='ArrowLeft'?-.12:e.key==='ArrowRight'?.12:0;pitch=clampPitch(pitch+(e.key==='ArrowUp'?-.1:e.key==='ArrowDown'?.1:0));schedule();}};
  canvas.addEventListener('pointerdown',down);canvas.addEventListener('pointermove',move);canvas.addEventListener('pointerup',up);canvas.addEventListener('pointercancel',up);canvas.addEventListener('lostpointercapture',up);canvas.addEventListener('wheel',wheel,{passive:false});canvas.addEventListener('keydown',key);const observer=new ResizeObserver(schedule);observer.observe(canvas);schedule();
- return {setZoom,reset,dispose(){disposed=true;cancelAnimationFrame(raf);observer.disconnect();canvas.removeEventListener('pointerdown',down);canvas.removeEventListener('pointermove',move);canvas.removeEventListener('pointerup',up);canvas.removeEventListener('pointercancel',up);canvas.removeEventListener('lostpointercapture',up);canvas.removeEventListener('wheel',wheel);canvas.removeEventListener('keydown',key);}};
+ return {setZoom,reset,setView,setActive(value){active=value;if(!active&&raf){cancelAnimationFrame(raf);raf=0;}if(active)schedule();},dispose(){disposed=true;cancelAnimationFrame(raf);observer.disconnect();canvas.removeEventListener('pointerdown',down);canvas.removeEventListener('pointermove',move);canvas.removeEventListener('pointerup',up);canvas.removeEventListener('pointercancel',up);canvas.removeEventListener('lostpointercapture',up);canvas.removeEventListener('wheel',wheel);canvas.removeEventListener('keydown',key);}};
+}
+
+function mountInlineFigmaModels(){
+ document.querySelectorAll('.figma-pattern').forEach(section=>{const index=Number(section.dataset.modelGroup),group=figmaModels[index],chart=figmaCharts.find(c=>c[0]==='pattern-'+(index+1)),originalFigure=section.querySelector('.figma-figure'),tools=section.querySelector('.figma-model-tools');
+  const header=document.createElement('div');header.className='inline-model-heading';header.innerHTML='<p class="eyebrow">RECORDING PATTERN / '+String(index+1).padStart(2,'0')+'</p><h3>'+chart[2]+'</h3><p>X：D01—D75　Y：组内用户序位　Z：用户填写量（0—100%）</p>';section.prepend(header);
+  tools.innerHTML='<span>拖动旋转，选择视角，放大查看每一天。</span><button data-model-open="'+index+'" type="button">放大模型 ↗</button>';header.insertAdjacentElement('afterend',tools);
+  originalFigure.remove();
+  const panel=document.createElement('div');panel.className='inline-model-panel';panel.innerHTML='<div class="inline-model-controls"><div class="inline-model-presets segmented" aria-label="模型视角"><button type="button" data-inline-view="default" aria-pressed="true">默认视角</button><button type="button" data-inline-view="top" aria-pressed="false">俯视</button><button type="button" data-inline-view="side" aria-pressed="false">侧看</button></div><div class="inline-model-zoom"><button type="button" data-inline-action="out" aria-label="缩小模型">−</button><output aria-label="缩放比例">100%</output><button type="button" data-inline-action="in" aria-label="放大模型">＋</button><button type="button" data-inline-action="reset">复位</button></div></div><canvas class="inline-model-canvas" tabindex="0" role="application" aria-label="'+chart[2]+'，可拖动旋转，Shift拖动平移，加减号缩放，Home复位"></canvas><div class="inline-model-state" role="status"></div><p class="inline-model-help">拖动旋转 · Shift 拖动或 Shift＋方向键平移 · Ctrl / ⌘＋滚轮缩放 · 双指缩放 · Home 复位。缺失格不补柱；组内行序不是人物 ID。</p>';tools.insertAdjacentElement('afterend',panel);
+  const canvas=panel.querySelector('canvas'),output=panel.querySelector('output'),readout=panel.querySelector('.inline-model-state');let controller=null,zoom=1;
+  const get=()=>{if(!controller)controller=createFigmaModel(canvas,group,value=>{zoom=value;output.value=Math.round(value*100)+'%';},{wheelModifier:true,onState:state=>{readout.textContent=group.count+' 人 · '+group.barCount.toLocaleString()+' 根原始柱 · 旋转 '+Math.round(state.yaw*180/Math.PI)+'° · 缩放 '+Math.round(state.zoom*100)+'%';panel.querySelectorAll('[data-inline-view]').forEach(b=>b.setAttribute('aria-pressed',String(Math.abs(state.yaw)<.01&&(b.dataset.inlineView==='top'?Math.abs(state.pitch-figmaTopPitch)<.02:b.dataset.inlineView==='side'?Math.abs(state.pitch-.43)<.02:Math.abs(state.pitch)<.02))));}});return controller;};
+  section.addEventListener('click',e=>{const t=e.target.closest('[data-inline-action],[data-inline-view]');if(!t)return;e.preventDefault();const model=get();if(t.dataset.inlineView)model.setView(t.dataset.inlineView);else if(t.dataset.inlineAction==='reset')model.reset();else model.setZoom(zoom+(t.dataset.inlineAction==='in'?.25:-.25));});
+  const visibility=new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting&&!panel.hidden)get().setActive(true);else controller?.setActive(false);}},{rootMargin:'160px'});visibility.observe(canvas);
+ });
 }
