@@ -1,0 +1,9 @@
+assets/
+lib/
+out/
+review/
+research/
+shots/
+*.mp4
+*.log
+prepared.json
