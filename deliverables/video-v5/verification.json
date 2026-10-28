@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "durationSeconds": 214,
+  "decodedFrames": 6420,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "fps": 30,
+  "scriptSavedBeforeVideo": true,
+  "narration": false,
+  "speechCaptions": false,
+  "audioSource": "In This Moment / Scott Buckley",
+  "license": "CC BY 4.0",
+  "musicOnlyMasterCorrelation": 0.9999326529878019,
+  "endingText": "看见互动，看见日常，看见个体，看见孤独",
+  "endingFadesToBlank": true,
+  "musicFadesOut": true,
+  "sankeyVariables": 6,
+  "sankeyNodes": 31,
+  "sankeyPaths": 283,
+  "allNodesConserved": true,
+  "sourceCommit": "dc50a9f9be8f10bab286dfc32d35677c9959631c",
+  "movieSha256": "1ca0f40cfe4a2ea962ce412f720c8ad9e9c750ae86c9ec5ace9ba6772fab8f4c",
+  "bytes": 27988638
+}

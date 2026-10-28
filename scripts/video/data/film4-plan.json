@@ -1,0 +1,443 @@
+{
+  "status": "script-for-review",
+  "sourceCommit": "dc50a9f9be8f10bab286dfc32d35677c9959631c",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "duration": 238,
+  "totalFrames": 7140,
+  "audio": {
+    "narrationText": "docs/video/storyboard-v4.md",
+    "mode": "narration-ready",
+    "voice": null,
+    "music": null
+  },
+  "visual": {
+    "paper": "#f7f6ef",
+    "ink": "#1c294b",
+    "missing": "#e4e7ec",
+    "metrics": [
+      {
+        "key": "loneliness",
+        "name": "孤独感",
+        "color": "#398194"
+      },
+      {
+        "key": "depressedmood",
+        "name": "低落情绪",
+        "color": "#b05d67"
+      },
+      {
+        "key": "leftout",
+        "name": "被排斥感",
+        "color": "#726896"
+      },
+      {
+        "key": "anhedonia",
+        "name": "兴趣缺失",
+        "color": "#b88245"
+      },
+      {
+        "key": "socialintgross",
+        "name": "社交互动量",
+        "color": "#348a79"
+      },
+      {
+        "key": "vulnerability",
+        "name": "自我表露",
+        "color": "#7c8b47"
+      },
+      {
+        "key": "ppr",
+        "name": "感知回应",
+        "color": "#5c94a0"
+      },
+      {
+        "key": "anxietycovid",
+        "name": "疫情焦虑",
+        "color": "#a08e35"
+      }
+    ],
+    "showWebUI": false
+  },
+  "transition": {
+    "effect": "typewriter",
+    "titleFirst": true,
+    "summarySecond": true,
+    "holdAfterTyping": 1.5
+  },
+  "segments": [
+    {
+      "id": "intro",
+      "start": 0,
+      "end": 14,
+      "kind": "intro",
+      "page": "home",
+      "title": "515个人，75天。",
+      "summary": "我们的社交互动，如何影响孤独？",
+      "startFrame": 0,
+      "endFrame": 420
+    },
+    {
+      "id": "chapter-background",
+      "start": 14,
+      "end": 19,
+      "kind": "chapter-transition",
+      "page": "background",
+      "title": "故事开始，我们先来认识写下这些日常的人",
+      "summary": "从六个背景维度，认识同一批515人。",
+      "startFrame": 420,
+      "endFrame": 570
+    },
+    {
+      "id": "sankey",
+      "start": 19,
+      "end": 44,
+      "kind": "data",
+      "page": "background",
+      "title": "515 人的基线资料流向",
+      "summary": "六个变量，31个节点；流带宽度表示人数。",
+      "transition": false,
+      "startFrame": 570,
+      "endFrame": 1320
+    },
+    {
+      "id": "chapter-overview",
+      "start": 44,
+      "end": 49,
+      "kind": "chapter-transition",
+      "page": "overview",
+      "title": "孤独有形，日常有迹。",
+      "summary": "从一天的记录，展开515个人的日常。",
+      "startFrame": 1320,
+      "endFrame": 1470
+    },
+    {
+      "id": "mosaic",
+      "start": 49,
+      "end": 64,
+      "kind": "data",
+      "page": "overview",
+      "title": "关于每一个方块的构成",
+      "summary": "大格代表人，小格代表日；颜色来自两题平均。",
+      "transition": false,
+      "startFrame": 1470,
+      "endFrame": 1920
+    },
+    {
+      "id": "models",
+      "start": 64,
+      "end": 88,
+      "kind": "data",
+      "page": "overview",
+      "title": "相同的 75 天窗口，不同的填写轨迹。",
+      "summary": "连续与间断，让记录长出不同的形状。",
+      "startFrame": 1920,
+      "endFrame": 2640,
+      "transition": {
+        "duration": 3,
+        "effect": "typewriter",
+        "title": "相同的 75 天窗口，不同的填写轨迹。",
+        "summary": "连续与间断，让记录长出不同的形状。"
+      }
+    },
+    {
+      "id": "variation",
+      "start": 88,
+      "end": 102,
+      "kind": "data",
+      "page": "overview",
+      "title": "孤独水平与日常波动，有怎样的关系？",
+      "summary": "把平均水平与日常起伏放在一起看。",
+      "startFrame": 2640,
+      "endFrame": 3060,
+      "transition": {
+        "duration": 3,
+        "effect": "typewriter",
+        "title": "孤独水平与日常波动，有怎样的关系？",
+        "summary": "把平均水平与日常起伏放在一起看。"
+      }
+    },
+    {
+      "id": "chapter-archives",
+      "start": 102,
+      "end": 107,
+      "kind": "chapter-transition",
+      "page": "archives",
+      "title": "走进个人档案馆",
+      "summary": "当每一个人的日常都围绕着八种感受展开",
+      "startFrame": 3060,
+      "endFrame": 3210
+    },
+    {
+      "id": "radial",
+      "start": 107,
+      "end": 129,
+      "kind": "data",
+      "page": "archives",
+      "title": "走进个人档案馆",
+      "summary": "从评分尺、日线到均值与波动，逐层生成圆图。",
+      "transition": false,
+      "startFrame": 3210,
+      "endFrame": 3870
+    },
+    {
+      "id": "chapter-compare",
+      "start": 129,
+      "end": 134,
+      "kind": "chapter-transition",
+      "page": "compare",
+      "title": "相似的感受，不同的日常。",
+      "summary": "同样的均值，会有怎样不同的日常？",
+      "startFrame": 3870,
+      "endFrame": 4020
+    },
+    {
+      "id": "compare-overview",
+      "start": 134,
+      "end": 140,
+      "kind": "data",
+      "page": "compare",
+      "title": "同一把尺，八种感受。",
+      "summary": "八项感受在同一评分尺上并置。",
+      "transition": false,
+      "startFrame": 4020,
+      "endFrame": 4200
+    },
+    {
+      "id": "compare-daily",
+      "start": 140,
+      "end": 153,
+      "kind": "data",
+      "page": "compare",
+      "title": "把每一天，放回时间里。",
+      "summary": "同分，不同起伏。",
+      "startFrame": 4200,
+      "endFrame": 4590,
+      "transition": {
+        "duration": 3,
+        "effect": "typewriter",
+        "title": "把每一天，放回时间里。",
+        "summary": "同分，不同起伏。"
+      }
+    },
+    {
+      "id": "compare-score",
+      "start": 153,
+      "end": 163,
+      "kind": "data",
+      "page": "compare",
+      "title": "同样的孤独评分，对应怎样的互动？",
+      "summary": "同分，互动也不同。",
+      "startFrame": 4590,
+      "endFrame": 4890,
+      "transition": {
+        "duration": 3,
+        "effect": "typewriter",
+        "title": "同样的孤独评分，对应怎样的互动？",
+        "summary": "同分，互动也不同。"
+      }
+    },
+    {
+      "id": "chapter-participation",
+      "start": 163,
+      "end": 168,
+      "kind": "chapter-transition",
+      "page": "participation",
+      "title": "谁的日常，留在记录里？",
+      "summary": "从参与比例，走向连续性，再回看均值。",
+      "startFrame": 4890,
+      "endFrame": 5040
+    },
+    {
+      "id": "daily-participation",
+      "start": 168,
+      "end": 174,
+      "kind": "data",
+      "page": "participation",
+      "title": "75 天里，每天有多少人填写日记？",
+      "summary": "沿日次看参与比例的变化。",
+      "transition": false,
+      "startFrame": 5040,
+      "endFrame": 5220
+    },
+    {
+      "id": "longest-streak",
+      "start": 174,
+      "end": 179,
+      "kind": "data",
+      "page": "participation",
+      "title": "最长连续填写天数",
+      "summary": "记录也有长短。",
+      "startFrame": 5220,
+      "endFrame": 5370,
+      "transition": {
+        "duration": 2,
+        "effect": "typewriter",
+        "title": "最长连续填写天数",
+        "summary": "记录也有长短。"
+      }
+    },
+    {
+      "id": "weekly-trend",
+      "start": 179,
+      "end": 184,
+      "kind": "data",
+      "page": "participation",
+      "title": "记录人数变化时，平均分怎样变化？",
+      "summary": "均分与人数一起看。",
+      "startFrame": 5370,
+      "endFrame": 5520,
+      "transition": {
+        "duration": 2,
+        "effect": "typewriter",
+        "title": "记录人数变化时，平均分怎样变化？",
+        "summary": "均分与人数一起看。"
+      }
+    },
+    {
+      "id": "attrition",
+      "start": 184,
+      "end": 192,
+      "kind": "data",
+      "page": "participation",
+      "title": "均值变化时，回答的人也在变化。",
+      "summary": "看均分，也看谁在写。",
+      "startFrame": 5520,
+      "endFrame": 5760,
+      "transition": {
+        "duration": 2,
+        "effect": "typewriter",
+        "title": "均值变化时，回答的人也在变化。",
+        "summary": "看均分，也看谁在写。"
+      }
+    },
+    {
+      "id": "first-week",
+      "start": 192,
+      "end": 199,
+      "kind": "data",
+      "page": "participation",
+      "title": "填写时长分组与首周孤独均值",
+      "summary": "回看最初的感受。",
+      "startFrame": 5760,
+      "endFrame": 5970,
+      "transition": {
+        "duration": 2,
+        "effect": "typewriter",
+        "title": "填写时长分组与首周孤独均值",
+        "summary": "回看最初的感受。"
+      }
+    },
+    {
+      "id": "chapter-outsiders",
+      "start": 199,
+      "end": 210,
+      "kind": "chapter-transition",
+      "page": "outsiders",
+      "title": "当记录的天数减少，",
+      "summary": "那些未被看见的日常里，作为拥有灰色格子最多的那群人，有哪些感受同样值得我们关注？",
+      "startFrame": 5970,
+      "endFrame": 6300
+    },
+    {
+      "id": "coverage",
+      "start": 210,
+      "end": 218,
+      "kind": "data",
+      "page": "outsiders",
+      "title": "为什么默认选 ≤ 15 天？",
+      "summary": "75天中有效双题记录不超过15天，意味着至少80%的灰格。",
+      "transition": false,
+      "startFrame": 6300,
+      "endFrame": 6540
+    },
+    {
+      "id": "coverage-profiles",
+      "start": 218,
+      "end": 228,
+      "kind": "data",
+      "page": "outsiders",
+      "title": "他们会有什么与众不同的特点吗？",
+      "summary": "两组，都按组内占比看。",
+      "startFrame": 6540,
+      "endFrame": 6840,
+      "transition": {
+        "duration": 3,
+        "effect": "typewriter",
+        "title": "他们会有什么与众不同的特点吗？",
+        "summary": "两组，都按组内占比看。"
+      }
+    },
+    {
+      "id": "coverage-gallery",
+      "start": 228,
+      "end": 232,
+      "kind": "data",
+      "page": "outsiders",
+      "title": "灰格之后，仍然是具体的人。",
+      "summary": "从一格，回到一个人。",
+      "startFrame": 6840,
+      "endFrame": 6960,
+      "transition": {
+        "duration": 2,
+        "effect": "typewriter",
+        "title": "灰格之后，仍然是具体的人。",
+        "summary": "从一格，回到一个人。"
+      }
+    },
+    {
+      "id": "close",
+      "start": 232,
+      "end": 238,
+      "kind": "close",
+      "page": "home",
+      "title": "看见孤独",
+      "summary": "总览孤独感受之后，看见独立个体。",
+      "startFrame": 6960,
+      "endFrame": 7140
+    }
+  ],
+  "inputs": {
+    "index.html": {
+      "gitBlob": "36b28105896155a133cc61a45e2002b781acdd7b",
+      "sha256": "71607482d56ca39b9272f4afc28c0af2fc3f2fb137db65525204c622a1df0e9f"
+    },
+    "data/study.json": {
+      "gitBlob": "b27c90ff730df18bc41b522d2cb6498888fad61f",
+      "sha256": "68a67c5c77a6471c1d39f33ba069b65fd50fde96b670721249827226dab11ce8"
+    },
+    "data-utils.js": {
+      "gitBlob": "563530bad0f20eac79e09dfbde06922ccf15569f",
+      "sha256": "1266b86433992a771bb38779594c02d98ac65d17aef4ad4bdfe4fe8ded6906c7"
+    },
+    "sankey-data.js": {
+      "gitBlob": "74470bdca84faeb75c6c8973513b6fa2140389ca",
+      "sha256": "d3d966c72026b12af0b5c8062c5e201ae772ad0c7b075572c1c8dd37b353120c"
+    },
+    "figma-model-data.js": {
+      "gitBlob": "014a1e4c35511961006a131799de222d06da7fca",
+      "sha256": "faa72fd0e89b1221fbf2dc960b8ec8678cc2efef39cabb40a6574758c62fd4d9"
+    },
+    "figma-gallery.js": {
+      "gitBlob": "a102a4cff3c8bacc6f8d6074f28dc664b6e9886f",
+      "sha256": "147fa5b1bd96cd6a7f321aadf4b4e4d8660ee5c629d289603eab51a381baa9ad"
+    },
+    "coverage.js": {
+      "gitBlob": "5b0664f8790e5da63e388d6eedad4a36e50edc76",
+      "sha256": "e36fd6714acfeb0b119955df9cce4eff77e7dd628aeb10e2e05cf6eb2d72f453"
+    },
+    "coverage-view.js": {
+      "gitBlob": "49cf42fd8da6cde74f4fc1b39bb74babde6cf637",
+      "sha256": "8cb58bd6c34d2641624877aaad6c130822cd96ab2720ecce3457e6be5e759937"
+    },
+    "research-boards.js": {
+      "gitBlob": "2db8fd1efeedd79982b8d123890a316852e80985",
+      "sha256": "fc10180f56be7337a35446af638f5bf7ca232be645a6e29fb4bb49dcd02b71fd"
+    },
+    "app.js": {
+      "gitBlob": "ce59fdb258b59dc5d70d6c475b96e08eb7855af2",
+      "sha256": "a8fe2d8b6604754417d30045bc6c1bc2e168cf652be3f136a63c9dbebed61251"
+    }
+  }
+}

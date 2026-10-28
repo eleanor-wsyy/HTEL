@@ -1,0 +1,719 @@
+{
+  "sourceCommit": "dc50a9f9be8f10bab286dfc32d35677c9959631c",
+  "status": "data-and-plan-verified; movie-not-rendered",
+  "sankey": {
+    "variables": 6,
+    "nodes": 31,
+    "completePaths": 283,
+    "participants": 515,
+    "adjacencyCounts": [
+      17,
+      19,
+      14,
+      28,
+      25
+    ],
+    "allNodesBalanced": true,
+    "allPathsRetained": true
+  },
+  "recordCounts": {
+    "participants": 515,
+    "sourceRows": 28027,
+    "diaryRows": 28027,
+    "baselineRows": 515,
+    "windowDays": 75,
+    "possibleCells": 38625,
+    "validCompositeCells": 27785,
+    "missingCompositeCells": 10840,
+    "pairedItems": "(loneliness + left_out) / 2, both required",
+    "archiveLoneliness": "DailyDiary.loneliness, single item",
+    "duplicatePersonDayExtraRows": 7,
+    "outsideWindowRows": 1,
+    "dateMin": "2020-03-14",
+    "dateMax": "2020-06-29",
+    "featuredIds": [
+      1002,
+      1013,
+      1041,
+      1045,
+      1113,
+      1122,
+      1130,
+      1147,
+      1150,
+      1157,
+      1159,
+      1167,
+      1173,
+      1191,
+      1204,
+      1245,
+      1247,
+      1291,
+      1309,
+      1312,
+      1456,
+      1471,
+      1478,
+      1483,
+      1489,
+      1497,
+      1498
+    ],
+    "sources": [
+      {
+        "name": "0039_kuczynski_ts(1).csv",
+        "sha256": "0f7dc64db666dec5c24fdd62ff7bebf247de684b0a098201f0550a2bd506c44e"
+      },
+      {
+        "name": "DailyDiary(1).csv",
+        "sha256": "404640347b77d303b3addd341853bdab454f98459bf40e65be88d59a99f63b2d"
+      },
+      {
+        "name": "Baseline(1)(1).csv",
+        "sha256": "f24460792d2f85b540a21fc0144e6a8d35509af771c4f2a70dd1cc125de00805"
+      }
+    ]
+  },
+  "models": [
+    {
+      "name": "01 几乎每天填写 · 192人",
+      "count": 192,
+      "barCount": 13789
+    },
+    {
+      "name": "02 时间较短但基本连续 · 14人",
+      "count": 14,
+      "barCount": 843
+    },
+    {
+      "name": "03 断断续续填写 · 242人",
+      "count": 242,
+      "barCount": 12656
+    },
+    {
+      "name": "04 5月前停止填写 · 38人",
+      "count": 38,
+      "barCount": 651
+    },
+    {
+      "name": "05 填写少于7晚 · 29人",
+      "count": 29,
+      "barCount": 80
+    }
+  ],
+  "participants": [
+    {
+      "id": 1478,
+      "displayId": "478",
+      "profile": {
+        "gender": "女性",
+        "age": 45,
+        "income": "超过 $100,000",
+        "living": "与家人／伴侣同住",
+        "relationship": "已婚",
+        "parent": "有子女且同住"
+      },
+      "days": 75,
+      "compositeMean": 3.8,
+      "stats": [
+        {
+          "mean": 3.44,
+          "sd": 1.89052,
+          "n": 75
+        },
+        {
+          "mean": 2.64,
+          "sd": 1.62447,
+          "n": 75
+        },
+        {
+          "mean": 4.16,
+          "sd": 1.98671,
+          "n": 75
+        },
+        {
+          "mean": 2.50667,
+          "sd": 1.36929,
+          "n": 75
+        },
+        {
+          "mean": 5.17333,
+          "sd": 1.40821,
+          "n": 75
+        },
+        {
+          "mean": 7.42667,
+          "sd": 1.25389,
+          "n": 75
+        },
+        {
+          "mean": 5.64,
+          "sd": 1.41077,
+          "n": 75
+        },
+        {
+          "mean": 2.69333,
+          "sd": 1.1025,
+          "n": 75
+        }
+      ],
+      "scoreLayers": [
+        {
+          "score": 0,
+          "n": 0,
+          "interaction": null,
+          "responsiveness": null
+        },
+        {
+          "score": 1,
+          "n": 8,
+          "interaction": 6.375,
+          "responsiveness": 6.875
+        },
+        {
+          "score": 2,
+          "n": 20,
+          "interaction": 5.8,
+          "responsiveness": 5.9
+        },
+        {
+          "score": 3,
+          "n": 15,
+          "interaction": 5.333333333333333,
+          "responsiveness": 5.533333333333333
+        },
+        {
+          "score": 4,
+          "n": 17,
+          "interaction": 4.411764705882353,
+          "responsiveness": 5.470588235294118
+        },
+        {
+          "score": 5,
+          "n": 5,
+          "interaction": 5,
+          "responsiveness": 5.2
+        },
+        {
+          "score": 6,
+          "n": 4,
+          "interaction": 4.5,
+          "responsiveness": 5
+        },
+        {
+          "score": 7,
+          "n": 2,
+          "interaction": 4.5,
+          "responsiveness": 5
+        },
+        {
+          "score": 8,
+          "n": 2,
+          "interaction": 4,
+          "responsiveness": 4
+        },
+        {
+          "score": 9,
+          "n": 2,
+          "interaction": 3,
+          "responsiveness": 5
+        },
+        {
+          "score": 10,
+          "n": 0,
+          "interaction": null,
+          "responsiveness": null
+        }
+      ]
+    },
+    {
+      "id": 1498,
+      "displayId": "498",
+      "profile": {
+        "gender": "女性",
+        "age": 60,
+        "income": "$20,000 - $39,999",
+        "living": "独居",
+        "relationship": "单身",
+        "parent": "有子女但不同住"
+      },
+      "days": 75,
+      "compositeMean": 2.16,
+      "stats": [
+        {
+          "mean": 3.44,
+          "sd": 2.50535,
+          "n": 75
+        },
+        {
+          "mean": 0.78667,
+          "sd": 1.01733,
+          "n": 75
+        },
+        {
+          "mean": 0.88,
+          "sd": 1.64366,
+          "n": 75
+        },
+        {
+          "mean": 1.22667,
+          "sd": 1.32107,
+          "n": 75
+        },
+        {
+          "mean": 1.16,
+          "sd": 0.7718,
+          "n": 75
+        },
+        {
+          "mean": 1.84,
+          "sd": 1.9662,
+          "n": 75
+        },
+        {
+          "mean": 1.12,
+          "sd": 0.65677,
+          "n": 75
+        },
+        {
+          "mean": 0.04,
+          "sd": 0.2568,
+          "n": 75
+        }
+      ],
+      "scoreLayers": [
+        {
+          "score": 0,
+          "n": 6,
+          "interaction": 1.3333333333333333,
+          "responsiveness": 1.8333333333333333
+        },
+        {
+          "score": 1,
+          "n": 13,
+          "interaction": 1.2307692307692308,
+          "responsiveness": 1.3846153846153846
+        },
+        {
+          "score": 2,
+          "n": 15,
+          "interaction": 1.0666666666666667,
+          "responsiveness": 1.0666666666666667
+        },
+        {
+          "score": 3,
+          "n": 8,
+          "interaction": 1.5,
+          "responsiveness": 1.25
+        },
+        {
+          "score": 4,
+          "n": 5,
+          "interaction": 1,
+          "responsiveness": 1
+        },
+        {
+          "score": 5,
+          "n": 18,
+          "interaction": 0.9444444444444444,
+          "responsiveness": 0.8888888888888888
+        },
+        {
+          "score": 6,
+          "n": 2,
+          "interaction": 1.5,
+          "responsiveness": 1
+        },
+        {
+          "score": 7,
+          "n": 1,
+          "interaction": 1,
+          "responsiveness": 0
+        },
+        {
+          "score": 8,
+          "n": 4,
+          "interaction": 1.75,
+          "responsiveness": 1
+        },
+        {
+          "score": 9,
+          "n": 0,
+          "interaction": null,
+          "responsiveness": null
+        },
+        {
+          "score": 10,
+          "n": 3,
+          "interaction": 0.6666666666666666,
+          "responsiveness": 0.6666666666666666
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "evidence": {
+      "limit": 15,
+      "low": {
+        "n": 49,
+        "ageMedian": 30.5,
+        "ageKnown": 48,
+        "lowerIncome": 22,
+        "lowerIncomeShare": 0.4489795918367347
+      },
+      "rest": {
+        "n": 466,
+        "ageMedian": 37,
+        "ageKnown": 465,
+        "lowerIncome": 146,
+        "lowerIncomeShare": 0.3133047210300429
+      },
+      "missing": 3389,
+      "totalMissing": 10840,
+      "noDiary": 3317,
+      "incomplete": 72,
+      "missingShare": 0.31263837638376385
+    },
+    "profiles": [
+      {
+        "key": "gender",
+        "name": "性别",
+        "rows": [
+          {
+            "label": "女性",
+            "n": 29,
+            "other": 331,
+            "share": 0.5918367346938775,
+            "reference": 0.7103004291845494,
+            "delta": -11.846369449067184
+          },
+          {
+            "label": "男性",
+            "n": 15,
+            "other": 101,
+            "share": 0.30612244897959184,
+            "reference": 0.2167381974248927,
+            "delta": 8.938425155469915
+          },
+          {
+            "label": "跨性别／非二元／其他性别",
+            "n": 4,
+            "other": 32,
+            "share": 0.08163265306122448,
+            "reference": 0.06866952789699571,
+            "delta": 1.2963125164228775
+          },
+          {
+            "label": "未报告",
+            "n": 1,
+            "other": 2,
+            "share": 0.02040816326530612,
+            "reference": 0.004291845493562232,
+            "delta": 1.6116317771743889
+          }
+        ]
+      },
+      {
+        "key": "age",
+        "name": "年龄",
+        "rows": [
+          {
+            "label": "18–29 岁",
+            "n": 21,
+            "other": 129,
+            "share": 0.42857142857142855,
+            "reference": 0.27682403433476394,
+            "delta": 15.17473942366646
+          },
+          {
+            "label": "30–44 岁",
+            "n": 22,
+            "other": 168,
+            "share": 0.4489795918367347,
+            "reference": 0.3605150214592275,
+            "delta": 8.84645703775072
+          },
+          {
+            "label": "45–59 岁",
+            "n": 3,
+            "other": 96,
+            "share": 0.061224489795918366,
+            "reference": 0.20600858369098712,
+            "delta": -14.478409389506874
+          },
+          {
+            "label": "60 岁及以上",
+            "n": 2,
+            "other": 72,
+            "share": 0.04081632653061224,
+            "reference": 0.15450643776824036,
+            "delta": -11.369011123762812
+          },
+          {
+            "label": "未报告",
+            "n": 1,
+            "other": 1,
+            "share": 0.02040816326530612,
+            "reference": 0.002145922746781116,
+            "delta": 1.8262240518525006
+          }
+        ]
+      },
+      {
+        "key": "income",
+        "name": "年收入 · 美元",
+        "rows": [
+          {
+            "label": "低于 $9,999",
+            "n": 8,
+            "other": 54,
+            "share": 0.16326530612244897,
+            "reference": 0.11587982832618025,
+            "delta": 4.738547779626871
+          },
+          {
+            "label": "$10,000 - $19,999",
+            "n": 3,
+            "other": 34,
+            "share": 0.061224489795918366,
+            "reference": 0.07296137339055794,
+            "delta": -1.1736883594639578
+          },
+          {
+            "label": "$20,000 - $39,999",
+            "n": 11,
+            "other": 58,
+            "share": 0.22448979591836735,
+            "reference": 0.12446351931330472,
+            "delta": 10.002627660506262
+          },
+          {
+            "label": "$40,000 – $59,999",
+            "n": 6,
+            "other": 55,
+            "share": 0.12244897959183673,
+            "reference": 0.11802575107296137,
+            "delta": 0.44232285188753606
+          },
+          {
+            "label": "$60,000 – $79,000",
+            "n": 4,
+            "other": 87,
+            "share": 0.08163265306122448,
+            "reference": 0.18669527896995708,
+            "delta": -10.50626259087326
+          },
+          {
+            "label": "$80,000 – $99,999",
+            "n": 2,
+            "other": 49,
+            "share": 0.04081632653061224,
+            "reference": 0.10515021459227468,
+            "delta": -6.433388806166243
+          },
+          {
+            "label": "超过 $100,000",
+            "n": 13,
+            "other": 123,
+            "share": 0.2653061224489796,
+            "reference": 0.26394849785407726,
+            "delta": 0.13576245949023513
+          },
+          {
+            "label": "未报告",
+            "n": 2,
+            "other": 6,
+            "share": 0.04081632653061224,
+            "reference": 0.012875536480686695,
+            "delta": 2.794079004992555
+          }
+        ]
+      },
+      {
+        "key": "living",
+        "name": "居住状况",
+        "rows": [
+          {
+            "label": "独居",
+            "n": 6,
+            "other": 98,
+            "share": 0.12244897959183673,
+            "reference": 0.21030042918454936,
+            "delta": -8.785144959271262
+          },
+          {
+            "label": "与家人／伴侣同住",
+            "n": 26,
+            "other": 307,
+            "share": 0.5306122448979592,
+            "reference": 0.6587982832618026,
+            "delta": -12.818603836384334
+          },
+          {
+            "label": "与朋友／室友同住",
+            "n": 8,
+            "other": 57,
+            "share": 0.16326530612244897,
+            "reference": 0.1223175965665236,
+            "delta": 4.094770955592536
+          },
+          {
+            "label": "未报告",
+            "n": 9,
+            "other": 4,
+            "share": 0.1836734693877551,
+            "reference": 0.008583690987124463,
+            "delta": 17.508977840063064
+          }
+        ]
+      },
+      {
+        "key": "relationship",
+        "name": "婚恋状态",
+        "rows": [
+          {
+            "label": "单身",
+            "n": 16,
+            "other": 136,
+            "share": 0.32653061224489793,
+            "reference": 0.2918454935622318,
+            "delta": 3.4685118682666163
+          },
+          {
+            "label": "有伴侣",
+            "n": 18,
+            "other": 124,
+            "share": 0.3673469387755102,
+            "reference": 0.26609442060085836,
+            "delta": 10.125251817465186
+          },
+          {
+            "label": "已婚",
+            "n": 14,
+            "other": 205,
+            "share": 0.2857142857142857,
+            "reference": 0.43991416309012876,
+            "delta": -15.419987737584307
+          },
+          {
+            "label": "未报告",
+            "n": 1,
+            "other": 1,
+            "share": 0.02040816326530612,
+            "reference": 0.002145922746781116,
+            "delta": 1.8262240518525006
+          }
+        ]
+      },
+      {
+        "key": "parent",
+        "name": "子女情况",
+        "rows": [
+          {
+            "label": "无子女",
+            "n": 33,
+            "other": 276,
+            "share": 0.673469387755102,
+            "reference": 0.592274678111588,
+            "delta": 8.119470964351406
+          },
+          {
+            "label": "有子女且同住",
+            "n": 14,
+            "other": 122,
+            "share": 0.2857142857142857,
+            "reference": 0.26180257510729615,
+            "delta": 2.3911710606989542
+          },
+          {
+            "label": "有子女但不同住",
+            "n": 1,
+            "other": 67,
+            "share": 0.02040816326530612,
+            "reference": 0.14377682403433475,
+            "delta": -12.336866076902863
+          },
+          {
+            "label": "未报告",
+            "n": 1,
+            "other": 1,
+            "share": 0.02040816326530612,
+            "reference": 0.002145922746781116,
+            "delta": 1.8262240518525006
+          }
+        ]
+      }
+    ],
+    "sensitivity": [
+      {
+        "limit": 7,
+        "low": {
+          "n": 32,
+          "ageMedian": 33,
+          "ageKnown": 31,
+          "lowerIncome": 12,
+          "lowerIncomeShare": 0.375
+        },
+        "rest": {
+          "n": 483,
+          "ageMedian": 36,
+          "ageKnown": 482,
+          "lowerIncome": 156,
+          "lowerIncomeShare": 0.32298136645962733
+        },
+        "missing": 2304,
+        "totalMissing": 10840,
+        "noDiary": 2297,
+        "incomplete": 7,
+        "missingShare": 0.21254612546125462
+      },
+      {
+        "limit": 15,
+        "low": {
+          "n": 49,
+          "ageMedian": 30.5,
+          "ageKnown": 48,
+          "lowerIncome": 22,
+          "lowerIncomeShare": 0.4489795918367347
+        },
+        "rest": {
+          "n": 466,
+          "ageMedian": 37,
+          "ageKnown": 465,
+          "lowerIncome": 146,
+          "lowerIncomeShare": 0.3133047210300429
+        },
+        "missing": 3389,
+        "totalMissing": 10840,
+        "noDiary": 3317,
+        "incomplete": 72,
+        "missingShare": 0.31263837638376385
+      },
+      {
+        "limit": 30,
+        "low": {
+          "n": 91,
+          "ageMedian": 30,
+          "ageKnown": 90,
+          "lowerIncome": 45,
+          "lowerIncomeShare": 0.4945054945054945
+        },
+        "rest": {
+          "n": 424,
+          "ageMedian": 38,
+          "ageKnown": 423,
+          "lowerIncome": 123,
+          "lowerIncomeShare": 0.29009433962264153
+        },
+        "missing": 5562,
+        "totalMissing": 10840,
+        "noDiary": 5479,
+        "incomplete": 83,
+        "missingShare": 0.51309963099631
+      }
+    ]
+  },
+  "duration": 238,
+  "frames": 7140
+}

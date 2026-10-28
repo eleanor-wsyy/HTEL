@@ -1,5 +1,43 @@
 # 看见孤独：180 秒重剪制作脚本
 
+## 已交付成片
+
+最新版视频保存在 `../../deliverables/video-v5/看见孤独-纯音乐版-3分34秒-v5.mp4`，完整脚本为 `../../docs/video/storyboard-v5-music.md`。成片为214秒、1080p、30fps，全程仅背景音乐；音乐署名与验收记录一并保存在交付目录。下文提到的输出目录忽略规则仅适用于渲染缓存，交付版MP4已纳入仓库。
+
+## 最新版：3分34秒纯音乐版（film5）
+
+先保存 `docs/video/storyboard-v5-music.md`，再修改渲染代码和视频。v5基于用户提供的参考片收紧节奏，保留六维桑基和原数据口径；移除旁白、旁白字幕、声音合成及装饰进度线。新增10秒结束语页，逐句打出「看见互动，看见日常，看见个体，看见孤独」，随后淡出至纸色空画面。
+
+配乐是 Scott Buckley 的《In This Moment》，CC BY 4.0。官方作品页：https://www.scottbuckley.com.au/library/in-this-moment/ 。将官方MP3保存到 `scripts/video/film5_output/InThisMoment-ScottBuckley.mp3`；应为7,984,316字节。许可署名随成片导出，也出现在片尾总量页。配乐0.93倍速伸展并保持音高，以整首适配214秒，不循环、不混入人声或参考片音轨。
+
+```powershell
+python scripts/video/film5.py --stills
+python scripts/video/film5.py --render --workers 8
+python scripts/video/verify_film5.py
+```
+
+也可用 `--render --picture-only` 先生成画面，再用 `--mux` 合入音乐。输出 `film5_output/看见孤独-纯音乐版-3分34秒-v5.mp4`，1920×1080、30fps、214秒、6,420帧。验收包含完整解码、结束语淡出、最终AAC与纯音乐母带的相关性检查。整个 `film5_output` 作为生成媒体与缓存被Git忽略。
+
+## 上一版：3分58秒（film4）
+
+按最新批注重写的版本使用 `film4.py`：首页碎块、六维完整桑基、人物总览、人物档案、日常对照、填写与缺失、局外人、片尾，共238秒、1920×1080、30fps。旧版 film3 保留供追溯。
+
+```powershell
+node scripts/video/prepare_film4.mjs
+python scripts/video/film4.py --stills
+& scripts/video/narrate_film4.ps1
+python scripts/video/film4.py --render --workers 8
+python scripts/video/verify_film4.py
+```
+
+Python依赖为 NumPy、Pillow、imageio-ffmpeg；中文配音调用本机 Microsoft Huihui SAPI。每段语音测量实际长度并适配镜头；字幕从同一旁白源生成，烧录到成片，同时导出SRT。无外部语音API调用。
+
+输出在 `scripts/video/film4_output/`：`看见孤独-3分58秒-完整版.mp4`、`字幕.srt`、中文配音WAV、24张章节抽帧、渲染及完整解码验收记录。生成媒体和缓存不纳入Git。
+
+`film4-plan.json` 是唯一时间轴；桑基读取 `film4-sankey.json` 的全部六变量、31节点、283条真实组合路径。默认低覆盖阈值仍为15个有效双题日。文字稿见 `docs/video/storyboard-v4.md`。
+
+下文记录旧180秒版本的制作方式。
+
 本目录提供可执行绘图脚本和必要的小型数据输入。分镜已经用户确认，目标为 **180 秒 / 1920×1080 / 30fps / 静音**。原脚本包由用户提供（Kimi Code），这里保留其数据来源并重新组织绘图与叙事，不覆盖用户原文件。
 
 **视频、抽帧、编码分段和渲染缓存不纳入 Git。此提交是制作源码，不代表仓库内附带已完成的 MP4。** 网页逻辑未修改。

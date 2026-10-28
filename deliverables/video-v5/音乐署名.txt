@@ -1,0 +1,4 @@
+'In This Moment' by Scott Buckley — released under CC-BY 4.0. www.scottbuckley.com.au
+Official track: https://www.scottbuckley.com.au/library/in-this-moment/
+License: https://creativecommons.org/licenses/by/4.0/
+Changes: 0.93x tempo with original pitch preserved, excerpt, loudness normalization, opening and closing fades. No speech or other audio mixed.
