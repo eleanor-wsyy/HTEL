@@ -22,7 +22,8 @@ let figmaAssetCache;
 function figmaAsset(key){if(figmaAssetCache===undefined){const embedded=document.getElementById('figma-assets-data');figmaAssetCache=embedded?JSON.parse(embedded.textContent):null;}return figmaAssetCache?.[key]||'assets/figma/'+key+'-paper.png';}
 export function figmaFigure(key){
  const c=figmaCharts.find(c=>c[0]===key);if(!c)return '';
- return `<figure class="figma-figure" data-figma="${key}"><div class="figma-art"><img src="${figmaAsset(key)}" width="${key==='age-living'?1140:c[3]}" height="${key==='age-living'?1024:c[4]}" loading="lazy" alt="${c[2]}，完整图表"></div><figcaption><strong>${c[2]}</strong><div class="figma-actions"><button type="button" data-art-open="${key}">放大查看 ↗</button></div></figcaption></figure>`;
+ const titleCrop=key==='baseline-sankey'?`<span class="sankey-title-crop" aria-hidden="true"><img src="${figmaAsset(key)}" alt=""></span>`:'';
+ return `<figure class="figma-figure" data-figma="${key}"><div class="figma-art"><img src="${figmaAsset(key)}" width="${key==='age-living'?1140:c[3]}" height="${key==='age-living'?1024:c[4]}" loading="lazy" alt="${c[2]}，完整图表">${titleCrop}</div><figcaption><strong>${c[2]}</strong><div class="figma-actions"><button type="button" data-art-open="${key}">放大查看 ↗</button></div></figcaption></figure>`;
 }
 export function mountFigmaGallery(){
  const fill=(id,html)=>{const el=document.getElementById(id);if(el)el.innerHTML=html;};

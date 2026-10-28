@@ -403,3 +403,18 @@ body:has(dialog[open]){overflow:hidden}dialog{color:var(--ink);background:var(--
  .method-grid h3{font-size:21px}
  .reading-strip>a{white-space:normal}
 }
+
+/* Requested serif headings and lighter white-to-yellow page background. */
+body{min-height:100vh;background:#fff6d8;background:-webkit-linear-gradient(left,#fff,#fff6d8);background:linear-gradient(to right,#fff,#fff6d8);background-attachment:fixed}
+.site-header,.hero-footer{background:transparent}
+.hero-copy h1{font-family:var(--serif);font-weight:400;letter-spacing:-4px}
+.hero-copy .hero-number{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-7px}
+.hero-copy .hero-cn{font-family:var(--serif);font-weight:400;letter-spacing:-6px}
+.hero-copy .hero-question{font-family:var(--serif);font-size:21px;line-height:1.6;letter-spacing:1px}
+.hero-copy .hero-caption{font-family:var(--serif)}
+.section-heading h1,.section-heading h2{font-family:var(--serif);font-weight:400}
+.section-heading .eyebrow{font-family:var(--serif)}
+/* Scale only the original Sankey title pixels by 92%; all plotted marks stay intact. */
+.sankey-title-crop{position:absolute;left:2.6041667%;top:4.1666667%;width:78.125%;height:5.6481481%;overflow:hidden;background:var(--paper);pointer-events:none}
+.figma-art .sankey-title-crop img{position:absolute;left:-2.9813333%;top:-67.2131148%;width:117.76%;height:auto;max-width:none}
+@media(max-width:760px){.hero-copy .hero-cn{letter-spacing:-4px}.hero-copy .hero-question{font-size:18px;letter-spacing:0}}

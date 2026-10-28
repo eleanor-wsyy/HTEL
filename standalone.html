@@ -410,8 +410,23 @@ body:has(dialog[open]){overflow:hidden}dialog{color:var(--ink);background:var(--
  .method-grid h3{font-size:21px}
  .reading-strip>a{white-space:normal}
 }
+
+/* Requested serif headings and lighter white-to-yellow page background. */
+body{min-height:100vh;background:#fff6d8;background:-webkit-linear-gradient(left,#fff,#fff6d8);background:linear-gradient(to right,#fff,#fff6d8);background-attachment:fixed}
+.site-header,.hero-footer{background:transparent}
+.hero-copy h1{font-family:var(--serif);font-weight:400;letter-spacing:-4px}
+.hero-copy .hero-number{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-7px}
+.hero-copy .hero-cn{font-family:var(--serif);font-weight:400;letter-spacing:-6px}
+.hero-copy .hero-question{font-family:var(--serif);font-size:21px;line-height:1.6;letter-spacing:1px}
+.hero-copy .hero-caption{font-family:var(--serif)}
+.section-heading h1,.section-heading h2{font-family:var(--serif);font-weight:400}
+.section-heading .eyebrow{font-family:var(--serif)}
+/* Scale only the original Sankey title pixels by 92%; all plotted marks stay intact. */
+.sankey-title-crop{position:absolute;left:2.6041667%;top:4.1666667%;width:78.125%;height:5.6481481%;overflow:hidden;background:var(--paper);pointer-events:none}
+.figma-art .sankey-title-crop img{position:absolute;left:-2.9813333%;top:-67.2131148%;width:117.76%;height:auto;max-width:none}
+@media(max-width:760px){.hero-copy .hero-cn{letter-spacing:-4px}.hero-copy .hero-question{font-size:18px;letter-spacing:0}}
 </style>
-<meta name="atlas-source-sha256" content="d614d03ffb9f5df60cc8f267245d8511f1e41f73b75dde4eeaaf9296a5d572d4"></head>
+<meta name="atlas-source-sha256" content="233e32fbdf15b4e3f29ba04be79df93154cb845e3a1c7bce427d58bd66f72dde"></head>
 <body>
   <a class="skip-link" href="#main">跳到主要内容</a>
   <header class="site-header">
@@ -21771,7 +21786,8 @@ let figmaAssetCache;
 function figmaAsset(key){if(figmaAssetCache===undefined){const embedded=document.getElementById('figma-assets-data');figmaAssetCache=embedded?JSON.parse(embedded.textContent):null;}return figmaAssetCache?.[key]||'assets/figma/'+key+'-paper.png';}
 function figmaFigure(key){
  const c=figmaCharts.find(c=>c[0]===key);if(!c)return '';
- return `<figure class="figma-figure" data-figma="${key}"><div class="figma-art"><img src="${figmaAsset(key)}" width="${key==='age-living'?1140:c[3]}" height="${key==='age-living'?1024:c[4]}" loading="lazy" alt="${c[2]}，完整图表"></div><figcaption><strong>${c[2]}</strong><div class="figma-actions"><button type="button" data-art-open="${key}">放大查看 ↗</button></div></figcaption></figure>`;
+ const titleCrop=key==='baseline-sankey'?`<span class="sankey-title-crop" aria-hidden="true"><img src="${figmaAsset(key)}" alt=""></span>`:'';
+ return `<figure class="figma-figure" data-figma="${key}"><div class="figma-art"><img src="${figmaAsset(key)}" width="${key==='age-living'?1140:c[3]}" height="${key==='age-living'?1024:c[4]}" loading="lazy" alt="${c[2]}，完整图表">${titleCrop}</div><figcaption><strong>${c[2]}</strong><div class="figma-actions"><button type="button" data-art-open="${key}">放大查看 ↗</button></div></figcaption></figure>`;
 }
 function mountFigmaGallery(){
  const fill=(id,html)=>{const el=document.getElementById(id);if(el)el.innerHTML=html;};
