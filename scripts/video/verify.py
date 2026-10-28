@@ -8,7 +8,9 @@ def main():
     base=Path(__file__).resolve().parent
     manifest=json.loads((base/'data/provenance.json').read_text(encoding='utf8'))
     for name,expected in manifest['inputs'].items():
-        assert hashlib.sha256((f.REPO/name).read_bytes()).hexdigest()==expected, 'Input changed: '+name
+        payload=(f.REPO/name).read_bytes()
+        if Path(name).suffix in ['.json','.js']:payload=payload.replace(b'\r\n',b'\n')
+        assert hashlib.sha256(payload).hexdigest()==expected, 'Input changed: '+name
     people=f.PEOPLE
     expected=np.array([[np.nan if v is None else v for v in p['heat']] for p in people])
     np.testing.assert_allclose(f.HEAT,expected,atol=1e-5,equal_nan=True)

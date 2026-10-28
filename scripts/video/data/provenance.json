@@ -9,7 +9,7 @@
     "data/study.json": "68a67c5c77a6471c1d39f33ba069b65fd50fde96b670721249827226dab11ce8",
     "figma-model-data.js": "faa72fd0e89b1221fbf2dc960b8ec8678cc2efef39cabb40a6574758c62fd4d9",
     "scripts/video/data/video_data.npz": "a382edf26596fcf5130cb05f1997a975f7e1d5d40199714e1cf7631ed3b05c26",
-    "scripts/video/data/derived.json": "f4f68409825723c395c150f993e6c8340e8a0aa3363a60c05aaf5d8f0a7f3bd5"
+    "scripts/video/data/derived.json": "7c23747e27f9531183648d26a347b9b1c3d258ebd976e7ce3639de2b40f9c179"
   },
   "npzFields": [
     "heat",
@@ -17,5 +17,6 @@
     "sd"
   ],
   "composite": "(loneliness + left_out) / 2; both valid; duplicates averaged by source preparation",
-  "heightMeaning": "Positive original model code equals the contiguous positive-run length; checked for all 515 rows. Original model row numbers are not participant IDs."
+  "heightMeaning": "Positive original model code equals the contiguous positive-run length; checked for all 515 rows. Original model row numbers are not participant IDs.",
+  "hashConvention": "SHA-256; text JSON/JS inputs normalize CRLF to LF; binary NPZ uses raw bytes."
 }

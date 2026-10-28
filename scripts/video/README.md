@@ -10,7 +10,7 @@
 - `verify.py`：数据口径、桑基联合计数、圆图单题、完整 515 人矩阵、3D 几何和抽帧验证。
 - `data/video_data.npz`：仅保留电影所需的 `heat / mean / sd` 三个数组。
 - `data/derived.json`：原脚本十个双题均值分箱的摘要。
-- `data/provenance.json`：输入文件 SHA-256 与计数口径。
+- `data/provenance.json`：输入文件 SHA-256 与计数口径；JSON/JS 哈希先统一 LF 换行，兼容 Windows 和其他系统的 Git 检出。
 - 人物资料与八指标共用仓库 `data/study.json`；原稿模型共用 `figma-model-data.js`，不复制整份网页数据。
 - [180 秒分镜](../../docs/video/storyboard-180s.md)
 - [原片审阅与修改意见](../../docs/video/review-notes.md)
