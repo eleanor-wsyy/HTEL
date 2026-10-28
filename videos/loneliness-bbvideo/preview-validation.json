@@ -1,0 +1,21 @@
+{
+  "status": "preview-complete",
+  "engine": "BB-Video native renderer (core/promo/swiss)",
+  "frames": 5400,
+  "fps": 30,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "audio": false,
+  "containerDuration": "179.999023",
+  "bytes": 26175077,
+  "sha256": "b68f69eb73bf0ba35f472ef220066fd0178b513c48f9cbf2df4deae9afa06ba3",
+  "fullDecode": "passed",
+  "visualReview": "encoded contact sheet reviewed; population-first opening verified",
+  "dataAudit": "515x75x8 scores and 4120 summaries checked",
+  "layoutAudit": "30 samples, no text overflow or overlapping canvas text",
+  "nativeCheck": "0 errors; general promo warnings retained for deliberate silence and custom Canvas activity. Read review notes; not a claim of warning-free checks.",
+  "fileName": "看见孤独_BBVideo_从515人到个体_180秒.mp4",
+  "scope": "Local preview validation; MP4 and render cache are not included in Git."
+}

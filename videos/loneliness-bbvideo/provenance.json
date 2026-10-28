@@ -1,0 +1,11 @@
+{
+  "data": {
+    "data/study.json": "68a67c5c77a6471c1d39f33ba069b65fd50fde96b670721249827226dab11ce8",
+    "figma-model-data.js": "faa72fd0e89b1221fbf2dc960b8ec8678cc2efef39cabb40a6574758c62fd4d9"
+  },
+  "engine": "BB-Video core + promo + swiss runtime; data graphics authored as deterministic Canvas charts",
+  "format": "1920x1080 / 30fps / 180s / silent",
+  "narrative": "515 people -> background groups -> all daily tiles -> 3D recording groups -> low coverage -> one person -> eight single metrics -> two-person contrast -> end",
+  "note": "No person-ID mapping for original 3D model row ordinals; all daily scores from canonical study JSON.",
+  "hashConvention": "SHA-256 of repository inputs; JS text normalizes CRLF to LF."
+}
