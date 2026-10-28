@@ -1,0 +1,232 @@
+{
+  "date": "2026-10-28",
+  "desktop": [
+    {
+      "page": "home",
+      "title": "515个人，75天。",
+      "overflow": false
+    },
+    {
+      "page": "background",
+      "title": "背景画像",
+      "overflow": false
+    },
+    {
+      "page": "archives",
+      "title": "人物档案",
+      "overflow": false
+    },
+    {
+      "page": "compare",
+      "title": "日常对照",
+      "overflow": false
+    },
+    {
+      "page": "participation",
+      "title": "填写与缺失",
+      "overflow": false
+    },
+    {
+      "page": "outsiders",
+      "title": "局外人 低覆盖的日常",
+      "overflow": false
+    },
+    {
+      "page": "method",
+      "title": "数据与读图说明",
+      "overflow": false
+    }
+  ],
+  "mobile": [
+    {
+      "documentWidth": 375,
+      "hasLeftSidebar": false,
+      "overflow": false,
+      "page": "home",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "documentWidth": 375,
+      "hasLeftSidebar": false,
+      "overflow": false,
+      "page": "background",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "documentWidth": 375,
+      "hasLeftSidebar": false,
+      "overflow": false,
+      "page": "overview",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "documentWidth": 375,
+      "hasLeftSidebar": false,
+      "overflow": false,
+      "page": "archives",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "documentWidth": 375,
+      "hasLeftSidebar": false,
+      "overflow": false,
+      "page": "compare",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "documentWidth": 375,
+      "hasLeftSidebar": false,
+      "overflow": false,
+      "page": "participation",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "documentWidth": 375,
+      "hasLeftSidebar": false,
+      "overflow": false,
+      "page": "outsiders",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "documentWidth": 375,
+      "hasLeftSidebar": false,
+      "overflow": false,
+      "page": "method",
+      "viewport": [
+        390,
+        844
+      ]
+    }
+  ],
+  "overviewBefore": {
+    "header": {
+      "background": "rgb(247, 246, 239) none repeat scroll 0% 0% / auto padding-box border-box",
+      "color": "rgb(28, 41, 75)",
+      "font": "",
+      "gap": "24px",
+      "grid": "none",
+      "height": 90,
+      "width": 1424.666748046875
+    },
+    "legend": {
+      "background": "rgba(0, 0, 0, 0) linear-gradient(90deg, rgb(255, 245, 186) 0%, rgb(255, 224, 102) 16%, rgb(247, 187, 56) 32%, rgb(114, 199, 207) 41%, rgb(22, 134, 189) 53%, rgb(23, 76, 148) 67%, rgb(16, 35, 63) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+      "color": "rgb(102, 113, 111)",
+      "font": "",
+      "gap": "normal",
+      "grid": "none",
+      "height": 7,
+      "width": 1111.6771240234375
+    },
+    "mosaic": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "color": "rgb(28, 41, 75)",
+      "font": "",
+      "gap": "2px",
+      "grid": "26.9062px 26.9167px 26.9062px 26.9167px 26.9167px 26.9062px 26.9167px 26.9167px 26.9062px 26.9167px 26.9167px 26.9062px 26.9167px 26.9167px 26.9062px 26.9167px 26.9167px 26.9062px 26.9167px 26.9167px 26.9062px 26.9167px 26.9062px",
+      "height": 663.0833740234375,
+      "width": 663
+    },
+    "scroller": {
+      "background": "rgb(252, 251, 247) none repeat scroll 0% 0% / auto padding-box border-box",
+      "color": "rgb(28, 41, 75)",
+      "font": "",
+      "gap": "normal",
+      "grid": "none",
+      "height": 696.3125,
+      "width": 1253.7083740234375
+    },
+    "tile": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "color": "rgb(28, 41, 75)",
+      "font": "",
+      "gap": "normal",
+      "grid": "none",
+      "height": 26.90625,
+      "width": 26.90625
+    },
+    "viewport": [
+      1440,
+      1024
+    ],
+    "markupSha256": "f11a696c9a55bfb77fdd6331fe4a0409063c9a574719d1294dd612805edf305b"
+  },
+  "overviewAfter": {
+    "legend": {
+      "background": "rgba(0, 0, 0, 0) linear-gradient(90deg, rgb(255, 245, 186) 0%, rgb(255, 224, 102) 16%, rgb(247, 187, 56) 32%, rgb(114, 199, 207) 41%, rgb(22, 134, 189) 53%, rgb(23, 76, 148) 67%, rgb(16, 35, 63) 100%) repeat scroll 0% 0% / auto padding-box border-box",
+      "color": "rgb(102, 113, 111)",
+      "gap": "normal",
+      "grid": "none",
+      "height": 7,
+      "width": 1111.6771240234375
+    },
+    "mosaic": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "color": "rgb(28, 41, 75)",
+      "gap": "2px",
+      "grid": "26.9062px 26.9167px 26.9062px 26.9167px 26.9167px 26.9062px 26.9167px 26.9167px 26.9062px 26.9167px 26.9167px 26.9062px 26.9167px 26.9167px 26.9062px 26.9167px 26.9167px 26.9062px 26.9167px 26.9167px 26.9062px 26.9167px 26.9062px",
+      "height": 663.0833740234375,
+      "width": 663
+    },
+    "scroller": {
+      "background": "rgb(252, 251, 247) none repeat scroll 0% 0% / auto padding-box border-box",
+      "color": "rgb(28, 41, 75)",
+      "gap": "normal",
+      "grid": "none",
+      "height": 696.3125,
+      "width": 1253.7083740234375
+    },
+    "tile": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "color": "rgb(28, 41, 75)",
+      "gap": "normal",
+      "grid": "none",
+      "height": 26.90625,
+      "width": 26.90625
+    },
+    "viewport": [
+      1440,
+      1024
+    ]
+  },
+  "overviewMarkupIdentical": true,
+  "interactions": {
+    "sankeyLivingFilter104": true,
+    "chartZoomDialog": true,
+    "matrix515Rows": true,
+    "mosaic515Tiles": true,
+    "profileOpenAndFlip": true,
+    "fiveModels": true,
+    "modelTopViewAndZoom125": true,
+    "coverage7Days32People": true,
+    "mobileSettingsAndDailyTab": true
+  },
+  "consoleErrors": [],
+  "preservation": {
+    "headerMarkupIdentical": true,
+    "allAssetsAndDataUnchanged": true,
+    "chartGeometryAndDataModulesUnchanged": true,
+    "overviewGeometryColorAndMarkupIdentical": true,
+    "offlineCopiesIdentical": true
+  }
+}

@@ -274,3 +274,132 @@ body:has(dialog[open]){overflow:hidden}dialog{color:var(--ink);background:var(--
 .sankey-results-head>div{flex:1;min-width:0}.sankey-results-head p{font-size:14px;line-height:1.8;color:var(--muted);margin-bottom:14px}.sankey-results-head>button,.sankey-pagination button{padding:10px 16px;border:1px solid var(--line);white-space:nowrap}.sankey-results-head>button{background:var(--ink);color:#fff;margin-bottom:16px}.sankey-person [data-select][aria-pressed="true"]{background:var(--ink);color:#fff}
 
 .inline-model-panel,.inline-model-canvas{background:var(--paper)}
+
+/* Page typography and controls only. Chart assets, SVGs, canvases and mosaic
+   geometry deliberately keep their existing rules and inherited chart fonts. */
+:root{--ui-font:"Microsoft YaHei UI","Microsoft YaHei","PingFang SC","Noto Sans SC",sans-serif;--ui-text:#24334c;--ui-secondary:#626d79;--ui-rule:#d9dedb}
+.section-wrap{padding-top:48px;padding-bottom:64px}
+.section-heading{align-items:center;gap:24px;margin-bottom:28px;font-family:var(--ui-font)}
+.section-heading .eyebrow{margin-bottom:10px;font-size:12px;letter-spacing:.06em;color:var(--ui-secondary)}
+.section-heading h1,.section-heading h2{font:600 clamp(28px,3vw,38px)/1.4 var(--ui-font);letter-spacing:0;color:var(--ui-text)}
+.section-heading h2 span{font-size:.68em;font-weight:400;margin-left:14px;color:var(--ui-secondary)}
+.section-heading .section-intro{font:14px/1.8 var(--ui-font);color:var(--ui-secondary);padding:0;max-width:410px}
+.figma-intro{font:15px/1.85 var(--ui-font);color:var(--ui-secondary);max-width:960px;margin:0 0 28px}
+.hero-copy{font-family:var(--ui-font)}
+.hero-copy h1{font-family:var(--ui-font);letter-spacing:-2px}
+.hero-copy .hero-number{font-family:var(--ui-font);font-style:normal;font-weight:600;letter-spacing:-3px}
+.hero-copy .hero-cn{font-family:var(--ui-font);font-weight:400;letter-spacing:-2px}
+.hero-copy .hero-question{font:400 clamp(18px,1.8vw,24px)/1.6 var(--ui-font);letter-spacing:0;margin-top:24px}
+.hero-copy .hero-caption{font:14px/1.85 var(--ui-font);color:var(--ui-secondary)}
+.hero-copy .eyebrow{font:12px/1.6 var(--ui-font);letter-spacing:.08em;margin-bottom:20px}
+.hero-copy .primary-link{font-family:var(--ui-font);font-size:14px;min-height:46px;margin-top:22px}
+.hero-margin{display:none}
+.hero-footer,.site-footer,.reading-strip,.comparison-reading{font-family:var(--ui-font)}
+.hero-footer{letter-spacing:0}
+.hero-footer>.hero-index{display:none}
+.site-footer p{font-size:12px;color:var(--ui-secondary)}
+.reading-strip{gap:20px;padding:20px 0}
+.reading-strip p,.reading-strip>a,.reading-index{font-size:13px;line-height:1.8;letter-spacing:0}
+.reading-strip>a{white-space:nowrap;text-decoration:underline;text-underline-offset:5px}
+.figma-chapter-nav,.rb-jumpbar{font:14px/1.7 var(--ui-font);gap:8px 24px;margin:0 0 24px;padding:0 0 12px;border-bottom:1px solid var(--ui-rule)}
+.figma-chapter-nav a,.rb-jumpbar button{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;border-bottom:1px solid transparent}
+.figma-chapter-nav a:hover,.rb-jumpbar button:hover{border-bottom-color:var(--ink)}
+.figma-chapter-nav a:focus-visible,.rb-jumpbar button:focus-visible{outline-offset:2px}
+.atlas-toolbar,.overview-sorting,.overview-instruction,.archive-tools,.compare-workbench,.coverage-controls,.sankey-toolbar,.inline-model-controls{font-family:var(--ui-font)}
+.atlas-toolbar{gap:12px 24px;padding-block:10px}
+.atlas-toolbar .segmented button,.atlas-toolbar .zoom-controls,.atlas-toolbar .zoom-controls button:last-child{font-size:13px}
+.overview-sorting{gap:12px 28px}
+.overview-sorting label,.overview-sorting select{font-size:14px}
+.overview-instruction{font-size:12px;color:var(--ui-secondary);line-height:1.7}
+.archive-tools{gap:16px;padding:16px 0}
+.archive-tools input,.archive-tools select{font-size:14px}
+.archive-tools output{font-size:13px;white-space:nowrap}
+.cohort-guide,.radial-guide{font-family:var(--ui-font);background:transparent;border:0;border-block:1px solid var(--ui-rule);margin:16px 0}
+.cohort-guide summary,.radial-guide summary{font-size:14px;min-height:48px;padding:12px 0}
+.archive-card-header,.archive-card-footer{font-family:var(--ui-font)}
+.archive-card-footer strong{font-family:var(--ui-font);font-size:15px}
+.comparison-presets{gap:0;margin-bottom:24px;border-block:1px solid var(--ui-rule)}
+.comparison-presets .preset{font-family:var(--ui-font);background:transparent;border:0;padding:18px 20px}
+.comparison-presets .preset+.preset{border-left:1px solid var(--ui-rule)}
+.comparison-presets .preset>span{font-size:12px;letter-spacing:0;color:var(--ui-secondary)}
+.comparison-presets .preset>strong{font:500 20px/1.6 var(--ui-font);margin-block:6px}
+.comparison-presets .preset>small{font-size:12px;line-height:1.8}
+.compare-workbench{border:0;border-block:1px solid var(--ui-rule);box-shadow:none;padding:16px 0 0}
+.compare-workbench .compare-controls>label,.compare-workbench select,.compare-workbench .quiet-button,.compare-view-tabs button{font-size:14px}
+.compare-workbench .compare-controls{gap:12px 20px}
+.compare-view-tabs{gap:24px;margin-top:16px}
+.compare-view-tabs button{padding:12px 0;min-height:48px}
+.coverage-controls{gap:12px 20px;padding:14px 0;margin:0;border-top:1px solid var(--ui-rule)}
+.coverage-controls label,.coverage-controls select{font-size:14px}
+.coverage-controls #coverage-jump{margin-left:auto;font-size:13px;min-height:44px}
+.coverage-controls p{font-size:13px;line-height:1.8}
+.coverage-page>.rb-jumpbar{margin:0;padding-block:4px 12px}
+.coverage-method{grid-template-columns:1fr 1fr;gap:40px;padding:22px 0;margin-bottom:28px;border-top:0;font-family:var(--ui-font)}
+.coverage-method h3{font:500 19px/1.6 var(--ui-font);margin:0 0 10px}
+.coverage-method p{font:14px/1.85 var(--ui-font);color:var(--ui-secondary)}
+.coverage-page .section-heading .coverage-backlink{margin:0;font:13px/1.8 var(--ui-font);white-space:nowrap}
+.coverage-stats{background:transparent;padding:22px 0;border:0;border-bottom:1px solid var(--ui-rule)}
+.coverage-stats strong{font:500 36px/1.35 var(--ui-font)}
+.coverage-stats strong small,.coverage-stats span{font-family:var(--ui-font)}
+.coverage-section-head,.coverage-insights,.coverage-caveat,.coverage-sensitivity{font-family:var(--ui-font)}
+.coverage-section-head h3{font:500 24px/1.5 var(--ui-font);letter-spacing:0}
+.coverage-insights h3{font:500 19px/1.6 var(--ui-font)}
+.coverage-insights article>span{letter-spacing:0;font-size:12px}
+.coverage-insights article{border-left:1px solid var(--ui-rule);padding-left:20px}
+.coverage-insights p{color:var(--ui-secondary);font-size:14px;line-height:1.85}
+.figma-section-intro>h2,#figma-trees>.section-heading h2{font:500 clamp(24px,2.5vw,30px)/1.5 var(--ui-font);letter-spacing:0}
+.figma-section-intro>p,.figma-figure figcaption,.figma-model-tools,.inline-model-heading>p,.inline-model-heading>h3{font-family:var(--ui-font)}
+.figma-section-intro>p{font-size:14px;line-height:1.85;color:var(--ui-secondary)}
+.figma-section-intro>.eyebrow{font-size:12px;letter-spacing:0;margin-bottom:10px}
+.figma-figure figcaption strong{font-weight:500}
+.figma-actions button,.figma-model-tools button,.figma-viewer-bar button{font-family:var(--ui-font)}
+.sankey-lead h3{font:500 clamp(22px,2.2vw,28px)/1.5 var(--ui-font)}
+.sankey-instruction,.sankey-hover{font-family:var(--ui-font);color:var(--ui-secondary)}
+.method-grid{gap:32px 48px;font-family:var(--ui-font)}
+.method-grid article{padding-top:22px;border-top:1px solid var(--ui-rule)}
+.method-grid article>span{font-size:12px;letter-spacing:0}
+.method-grid h3{font:500 23px/1.6 var(--ui-font);margin:10px 0 14px}
+.method-grid p{font:14px/1.9 var(--ui-font);color:var(--ui-secondary)}
+.method-grid a{font-size:13px;display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;text-underline-offset:5px}
+.method-credits{font:12px/1.9 var(--ui-font);color:var(--ui-secondary)}
+.sankey-lead .eyebrow,.rb-heading .eyebrow,.inline-model-heading>.eyebrow{display:none}
+.rb-heading h3,.inline-model-heading h3,.coverage-bridge h3,.tile-guide-heading h3{font-family:var(--ui-font);font-weight:500;letter-spacing:0}
+.rb-heading h3{font-size:26px;line-height:1.5}
+.rb-heading>p,.rb-controls,.rb-tabs,.rb-note,.panel-explanation,.micro-note,.coverage-bridge,.tile-guide-steps{font-family:var(--ui-font)}
+.rb-controls select,.rb-controls label,.rb-tabs button{font-size:13px}
+.sankey-toolbar{padding-top:20px}
+.sankey-toolbar .sankey-instruction{max-width:980px;font-size:13px}
+.sankey-toolbar .sankey-hover{font-size:12px}
+@media(max-width:1000px){.section-heading{align-items:flex-start}.coverage-controls p{flex-basis:100%}.section-heading .section-intro{max-width:320px}}
+@media(max-width:760px){
+ .section-wrap{padding-top:32px;padding-bottom:44px}
+ .section-heading{margin-bottom:22px}
+ .section-heading .section-intro{margin-top:12px;font-size:13px;max-width:none}
+ .section-heading h2 span{font-size:18px;margin:8px 0 0;display:block}
+ .hero-copy .hero-caption{font-size:12px}
+ .hero-copy .hero-question{font-size:18px}
+ .figma-chapter-nav,.rb-jumpbar{gap:4px 18px;font-size:13px}
+ .atlas-toolbar .zoom-controls{gap:2px;flex-wrap:wrap}
+ .atlas-toolbar .segmented button{font-size:12px}
+ .archive-tools{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+ .archive-tools .search-box{grid-column:1/-1;min-width:0;padding-bottom:10px}
+ .archive-tools label:not(.search-box){min-width:0}
+ .archive-tools select{width:100%;font-size:12px}
+ .archive-tools output{grid-column:1/-1;margin-left:0;font-size:12px}
+ .sort-note{font-size:12px;line-height:1.7;margin:12px 0}
+ .comparison-presets .preset+.preset{border-left:0;border-top:1px solid var(--ui-rule)}
+ .comparison-presets .preset{padding:14px 0}
+ .comparison-presets .preset>strong{font-size:18px}
+ .compare-workbench{padding-top:12px}
+ .compare-workbench .compare-controls{gap:12px}
+ .compare-workbench .compare-controls>label,.compare-workbench select,.compare-workbench .quiet-button,.compare-view-tabs button{font-size:13px}
+ .coverage-method{grid-template-columns:1fr;gap:20px;padding:18px 0;margin-bottom:20px}
+ .coverage-method h3{font-size:18px}
+ .coverage-controls #coverage-jump{margin-left:0}
+ .coverage-page .section-heading .coverage-backlink{margin-top:14px;display:inline-flex}
+ .coverage-stats strong{font-size:27px}
+ .coverage-section-head h3{font-size:22px}
+ .method-grid{gap:24px}
+ .method-grid h3{font-size:21px}
+ .reading-strip>a{white-space:normal}
+}

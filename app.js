@@ -40,7 +40,7 @@ function renderRoute(scroll=true){
  if(page==='outsiders'){const limit=coverageThreshold(route.params.get('threshold'));$('#coverage-threshold').value=String(limit);const panel=$('#coverage-content');if(panel.dataset.threshold!==String(limit)){panel.innerHTML=coverageMarkup(data.people,limit);panel.dataset.threshold=String(limit);}$('#coverage-status').textContent=`当前筛选：有效双题记录不超过 ${limit} 天，共 ${data.people.filter(p=>p.validDays<=limit).length} 人。`;}
  if(page==='outsiders')researchBoards?.coverage(coverageThreshold(route.params.get('threshold')));
  renderSelection();
- if(scroll){if(route.page==='overview')requestAnimationFrame(()=>$('#overview').scrollIntoView({behavior:'instant'}));else window.scrollTo({top:0,behavior:'instant'});}
+ if(scroll)window.scrollTo({top:0,behavior:'instant'});
  if(route.person){if(activePerson?.id!==route.person||!personDialog.open)showPerson(people.get(route.person));setFlip(route.flipped,false);}
  else if(personDialog.open){personDialog.close();activePerson=null;restoreFocus();}
  if(page==='home')requestAnimationFrame(renderHero);
