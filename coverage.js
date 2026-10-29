@@ -54,3 +54,10 @@ export function coverageEvidence(people,threshold=15){
  const noDiary=low.reduce((sum,p)=>sum+75-p.days,0);
  return {limit,low:describe(low),rest:describe(rest),missing,totalMissing,noDiary,incomplete:missing-noDiary,missingShare:totalMissing?missing/totalMissing:null};
 }
+
+// Film coverage matrix: one actual person per column, original D01–D75 vertically.
+export function coverageMatrixData(people,threshold=15){
+ const {limit,low}=coverageGroups(people,threshold),evidence=coverageEvidence(people,limit);
+ const columns=people.map(p=>({id:p.id,displayId:p.displayId,days:observedDays(p),valid:p.heat.map(finite)})).sort((a,b)=>a.days-b.days||a.id-b.id);
+ return {limit,columns,lowCount:low.length,missing:evidence.missing,totalMissing:evidence.totalMissing,missingShare:evidence.missingShare};
+}

@@ -1,11 +1,11 @@
-import {finite} from './data-utils.js';
+import {finite,escapeHTML} from './data-utils.js';
 export const sgSchema=[
  {key:'relationship',name:'婚恋状态',values:['单身','有伴侣','已婚','未报告'],expected:[152,142,219,2]},
  {key:'age',name:'年龄段',values:['18–24 岁','25–34 岁','35–44 岁','45–54 岁','55–64 岁','65 岁及以上','未报告'],expected:[69,170,101,80,48,45,2]},
  {key:'gender',name:'性别',values:['女性','男性','跨性别／非二元／其他性别','未报告'],expected:[360,116,36,3]},
  {key:'living',name:'居住状况',values:['独居','与朋友／室友同住','与家人／伴侣同住','未报告'],expected:[104,65,333,13]},
- {key:'income',name:'年收入（美元）',values:['低于 $9,999','$10,000 - $19,999','$20,000 - $39,999','$40,000 – $59,999','$60,000 – $79,000','$80,000 – $99,999','超过 $100,000','未报告'],expected:[62,37,69,61,91,51,136,8]},
- {key:'parent',name:'子女情况',values:['无子女','有子女但不同住','有子女且同住','未报告'],expected:[309,68,136,2]}
+ {key:'parent',name:'子女情况',values:['无子女','有子女但不同住','有子女且同住','未报告'],expected:[309,68,136,2]},
+ {key:'income',name:'年收入（美元）',values:['低于 $9,999','$10,000 - $19,999','$20,000 - $39,999','$40,000 – $59,999','$60,000 – $79,000','$80,000 – $99,999','超过 $100,000','未报告'],expected:[62,37,69,61,91,51,136,8]}
 ];
 export const sgColors={'独居':'#DD6248','与朋友／室友同住':'#D59B32','与家人／伴侣同住':'#0C8F7B','未报告':'#969B91'};
 export const sgLabel=value=>({'跨性别／非二元／其他性别':'跨性别／非二元／其他','与朋友／室友同住':'与朋友或室友同住','与家人／伴侣同住':'与家人或伴侣同住','有子女但不同住':'有子女不同住','有子女且同住':'有子女同住'}[value]||value);
@@ -22,3 +22,19 @@ export function buildSankeyModel(people){
 }
 export function sgRibbonPath(flow){const X=i=>(.035+i*.182)*3840,Y=y=>(1-y)*2160,w=.0058*3840,h=flow.height*2160;let d='M'+(X(0)+w)+' '+Y(flow.ys[0]);for(let i=1;i<6;i++){const a=X(i-1)+w,b=X(i),bend=(b-a)*.43;d+='C'+(a+bend)+' '+Y(flow.ys[i-1])+' '+(b-bend)+' '+Y(flow.ys[i])+' '+b+' '+Y(flow.ys[i]);if(i<5)d+='L'+(b+w)+' '+Y(flow.ys[i]);}d+='L'+X(5)+' '+(Y(flow.ys[5])+h);for(let i=4;i>=0;i--){const a=X(i)+w,b=X(i+1),bend=(b-a)*.43;d+='C'+(b-bend)+' '+(Y(flow.ys[i+1])+h)+' '+(a+bend)+' '+(Y(flow.ys[i])+h)+' '+a+' '+(Y(flow.ys[i])+h);if(i>0)d+='L'+X(i)+' '+(Y(flow.ys[i])+h);}return d+'Z';}
 export function sgNodeBoxes(node){const x=node.x*3840,w=.0058*3840,top=(1-node.top)*2160,h=(node.top-node.bottom)*2160;if(node.value==='未报告'){const labelW=350;return {bar:{x,y:top,width:w,height:Math.max(5,h)},label:{x:node.stage===5?x+w-labelW:x-12,y:(1-.133)*2160-18,width:labelW,height:62}};}const labelW=Math.max(250,Math.min(500,sgLabel(node.value).length*30));const anchor=node.stage===5?x-.004*3840:x+w+.004*3840;return {bar:{x:x-6,y:top,width:w+12,height:Math.max(6,h)},label:{x:node.stage===5?anchor-labelW:anchor-7,y:top+h/2-58,width:labelW+14,height:105}};}
+
+// Real vector artwork; the PNG remains an archival source, not the chart surface.
+export function sgVectorSvg(model){
+ const positions=new Map(),unit=550/model.total,used=new Map(),bar=18,X=j=>80+j*295;
+ sgSchema.forEach((field,j)=>{const ns=model.nodes.filter(n=>n.stage===j);let y=120;const gap=110/Math.max(1,ns.length-1);for(const n of ns){positions.set(n.key+'|'+n.value,{x:X(j),y,h:n.n*unit,n});used.set(n.key+'|'+n.value,0);y+=n.n*unit+gap;}});
+ const ribbons=model.flows.map(flow=>{const ys=flow.labels.map((v,j)=>{const key=sgSchema[j].key+'|'+v,p=positions.get(key),y=p.y+used.get(key)*unit;used.set(key,used.get(key)+flow.ids.length);return y;}),h=flow.ids.length*unit;let d=`M${X(0)+bar} ${ys[0]}`;for(let j=1;j<6;j++){const a=X(j-1)+bar,b=X(j),bend=(b-a)*.43;d+=`C${a+bend} ${ys[j-1]},${b-bend} ${ys[j]},${b} ${ys[j]}`;if(j<5)d+=`H${b+bar}`;}d+=`V${ys[5]+h}`;for(let j=4;j>=0;j--){const a=X(j)+bar,b=X(j+1),bend=(b-a)*.43;d+=`C${b-bend} ${ys[j+1]+h},${a+bend} ${ys[j]+h},${a} ${ys[j]+h}`;if(j>0)d+=`H${X(j)}`;}return {flow,d:d+'Z',ys,h};});
+ const base=ribbons.map(({flow,d})=>`<path data-sg-base-flow="${flow.index}" d="${d}" fill="${flow.color}" fill-opacity=".38"/>`).join('');
+ const hit=ribbons.map(({flow,d})=>`<path class="sankey-flow" data-sg-flow="${flow.index}" role="button" tabindex="-1" aria-label="筛选完整路径：${escapeHTML(flow.labels.map(sgLabel).join('、'))}，${flow.ids.length}人" d="${d}" fill="${flow.color}" fill-opacity="0"><title>${escapeHTML(flow.labels.map(sgLabel).join(' → '))} · ${flow.ids.length}人</title></path>`).join('');
+ const barSegments=ribbons.map(({flow,ys,h})=>ys.map((y,j)=>`<rect class="sankey-node-segment" data-sg-bar-flow="${flow.index}" x="${X(j)}" y="${y}" width="${bar}" height="${h}" fill="${flow.color}" fill-opacity="0"/>`).join('')).join('');
+ const headers=sgSchema.map((field,j)=>`<text x="${X(j)}" y="65" font-size="29" fill="#1c294b">${escapeHTML(field.name)}</text>`).join('');
+ const nodes=model.nodes.map((n,i)=>{const p=positions.get(n.key+'|'+n.value),color=n.key==='living'?sgColors[n.value]:'#1c294b',unknown=n.value==='未报告',short=(n.key==='income'?sgLabel(n.value).replace(/\$/g,'').replace(/,/g,'').replace(/\s*[–-]\s*/g,'—'):sgLabel(n.value).replace('跨性别／非二元／其他','跨性别／非二元等')),wrap=short.length>12?[short.slice(0,9),short.slice(9)+' · '+n.n]:[short+' · '+n.n],top=p.y+p.h/2-(wrap.length-1)*15;
+ const label=unknown?`<text class="sankey-node-label" x="${p.x}" y="825" font-size="25" fill="#66716f">未报告 ${n.n} 人</text>`:`<rect class="sankey-node-label-box" x="${p.x+bar+6}" y="${top-26}" width="260" height="${wrap.length*31+4}" fill="#fcfbf7" fill-opacity=".94"/>`+wrap.map((s,j)=>`<text class="sankey-node-label" x="${p.x+bar+12}" y="${top+j*31}" font-size="25" fill="#1c294b">${escapeHTML(s)}</text>`).join('');
+ return `<g class="sankey-node" role="button" tabindex="0" data-sg-node="${i}" aria-pressed="false" aria-label="筛选${escapeHTML(n.field)}：${escapeHTML(short)}，${n.n}人"><rect class="sankey-node-bar" x="${p.x}" y="${p.y}" width="${bar}" height="${p.h}" fill="${color}"/>${label}<title>${escapeHTML(n.field+'：'+short)} · ${n.n} / ${model.total}人</title></g>`;}).join('');
+ const legend=Object.entries(sgColors).map(([name,color],i)=>`<rect x="${80+i*435}" y="865" width="17" height="17" fill="${color}"/><text x="${108+i*435}" y="881" font-size="24" fill="#66716f">${escapeHTML(sgLabel(name))}</text>`).join('');
+ return `<svg class="sankey-layer sankey-vector" viewBox="0 0 1920 925" role="group" aria-label="六维桑基图，原生矢量文字与可选择流带" xmlns="http://www.w3.org/2000/svg"><g class="sankey-base">${base}</g><rect class="sankey-veil" x="60" y="110" width="1820" height="685" fill="#fcfbf7" opacity="0"/><g>${hit}</g>${headers}${nodes}<g class="sankey-bar-highlights" aria-hidden="true">${barSegments}</g>${legend}</svg>`;
+}

@@ -16,8 +16,8 @@ test('category filters use intersection, handle missing reports and reject inval
  assert.equal(sgFilter(people,{}).length,515);assert.equal(sgFilter(people,{gender:'男性'}).length,116);
  const chosen=sgFilter(people,{gender:'女性',living:'独居'});assert.ok(chosen.length>0&&chosen.length<104);assert.ok(chosen.every(p=>p.profile.gender==='女性'&&p.profile.living==='独居'));
  assert.equal(sgFilter(people,{gender:'未报告'}).length,3);assert.deepEqual(sgClean({gender:'错误',invalid:'任意'}),{});
- const zero=model.flows.find(f=>sgFilter(people,{gender:'未报告',relationship:f.labels[0],income:f.labels[4]}).length===0);assert.ok(zero);
- assert.equal(sgFilter(people,{gender:'未报告',relationship:zero.labels[0],income:zero.labels[4]}).length,0);
+ const zero=model.flows.find(f=>sgFilter(people,{gender:'未报告',relationship:f.labels[0],income:f.labels[sgSchema.findIndex(f=>f.key==='income')]}).length===0);assert.ok(zero);
+ assert.equal(sgFilter(people,{gender:'未报告',relationship:zero.labels[0],income:zero.labels[sgSchema.findIndex(f=>f.key==='income')]}).length,0);
  for(const p of people)assert.ok(sgSchema.find(f=>f.key==='age').values.includes(sgValue(p,'age')));
 });
 test('mismatched data cannot silently receive the original image click overlay',()=>{assert.equal(buildSankeyModel(people.slice(1)).aligned,false);});

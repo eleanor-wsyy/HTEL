@@ -29,11 +29,11 @@ export function mountFigmaGallery(){
  const fill=(id,html)=>{const el=document.getElementById(id);if(el)el.innerHTML=html;};
  fill('figma-background',figmaFigure('baseline-sankey')+'<section class="demographics-section" aria-labelledby="age-distributions-title"><div class="figma-section-intro"><p class="eyebrow">AGE DISTRIBUTIONS</p><h2 id="age-distributions-title">不同背景中的年龄分布</h2></div><div class="figma-demographics">'+['age-living','age-gender','age-other','age-third'].map(key=>figmaFigure(key)).join('')+'</div></section>');
  fill('figma-trees','<div class="section-heading"><div><p class="eyebrow">BACKGROUND & LONELINESS</p><h2>不同背景组合下，孤独感有什么差异？</h2></div></div>'+figmaFigure('ten-splits'));
- fill('figma-retention-top',figmaFigure('daily-participation')+figmaFigure('longest-streak'));
- fill('figma-patterns',figmaModels.map((m,i)=>`<section class="figma-pattern" data-model-group="${i}">${figmaFigure('pattern-'+(i+1))}<div class="figma-model-tools"><button data-model-open="${i}" type="button">放大并旋转模型 ↗</button><span>拖动查看不同角度，柱高、位置和颜色保持一致。</span></div></section>`).join(''));
+ fill('figma-retention-top','');
+ fill('figma-patterns','');
  fill('figma-retention-end',figmaFigure('attrition-mean')+figmaFigure('first-week'));
  document.addEventListener('click',e=>{const a=e.target.closest('[data-chapter]');if(a){e.preventDefault();document.getElementById(a.dataset.chapter)?.scrollIntoView({block:'start'});}});
- mountInlineFigmaModels();
+ // Replaced by the real person-level 2D participation timeline.
  const dialog=document.createElement('dialog');dialog.id='figma-viewer';dialog.className='figma-viewer';dialog.innerHTML='<div class="figma-viewer-bar"><h2></h2><div><button data-view-action="out" aria-label="缩小">−</button><output>100%</output><button data-view-action="in" aria-label="放大">＋</button><button data-view-action="reset">复位</button><button data-view-action="close" aria-label="关闭图表查看器">关闭 ×</button></div></div><p class="figma-viewer-help"></p><div class="figma-viewer-stage" tabindex="0"></div>';document.body.append(dialog);
  let scale=1,model=null,trigger=null,cleanup=null;
  const stage=dialog.querySelector('.figma-viewer-stage');
